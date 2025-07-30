@@ -1,4 +1,3 @@
-
 import React, { useState, useCallback, useEffect } from 'react';
 import { PlayerData } from './types';
 import { gameService } from './services/gameService';
@@ -39,11 +38,7 @@ function App() {
     if (data) {
       setPlayerData(data);
     } else {
-      const adminName = gameService.ADMIN_USER.name;
-      const errorMsg = name.toUpperCase() === adminName.toUpperCase()
-        ? 'Senha do Mestre incorreta.'
-        : 'Guerreiro não encontrado ou senha incorreta. Peça ao Mestre para criar sua conta.';
-      setLoginError(errorMsg);
+      setLoginError('Guerreiro não encontrado, senha incorreta ou acesso revogado.');
     }
     setIsLoading(false);
   }, []);

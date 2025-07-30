@@ -1,4 +1,5 @@
 import { PlayerData } from '../types';
+import { REVOKED_USERS } from '../constants';
 
 const USERS_KEY = 'rpg_soft_skills_users';
 const PLAYER_DATA_PREFIX = 'playerData_';
@@ -40,6 +41,12 @@ const login = async (name: string, password: string): Promise<PlayerData | null>
         loggedInData = createInitialPlayerData(TESTER_USER.name, true);
     }
   } else {
+    // Check against the Master's Edict (Revoked Users List)
+    if (REVOKED_USERS.map(u => u.toUpperCase()).includes(name.toUpperCase())) {
+      console.warn(`Acesso negado para o usuário revogado: ${name}`);
+      return null; // Access denied by the Master
+    }
+
     // Regular User Login
     const usersString = localStorage.getItem(USERS_KEY);
     const users = usersString ? JSON.parse(usersString) : {};
@@ -224,6 +231,59 @@ const getAllPlayersData = (): PlayerData[] => {
   return players.sort((a, b) => a.name.localeCompare(b.name));
 };
 
+const exportUserData = (name: string): string => {
+    const usersString = localStorage.getItem(USERS_KEY);
+    const users = usersString ? JSON.parse(usersString) : {};
+    const password = users[name];
+
+    const playerDataKey = `${PLAYER_DATA_PREFIX}${name}`;
+    const dataString = localStorage.getItem(playerDataKey);
+
+    if (password && dataString) {
+        const payload = {
+            user: { name, password },
+            data: JSON.parse(dataString)
+        };
+        // Encode to Base64 to make it a clean, single string for copy-pasting
+        return btoa(JSON.stringify(payload));
+    }
+    // Return a specific error string if data is missing, so the UI can handle it.
+    return "ERRO: Não foi possível encontrar todos os dados para este guerreiro. Sincronize e tente novamente.";
+};
+
+const importUserData = (encodedString: string): { success: boolean, message: string } => {
+    try {
+        const decoded = atob(encodedString);
+        const payload = JSON.parse(decoded);
+
+        if (!payload.user || !payload.user.name || !payload.user.password || !payload.data) {
+            throw new Error("Formato de código inválido.");
+        }
+
+        const { name, password } = payload.user;
+
+        const usersString = localStorage.getItem(USERS_KEY);
+        const users = usersString ? JSON.parse(usersString) : {};
+
+        if (users[name]) {
+            return { success: false, message: `Guerreiro '${name}' já existe neste computador.` };
+        }
+
+        // Add user to users list
+        users[name] = password;
+        localStorage.setItem(USERS_KEY, JSON.stringify(users));
+
+        // Save player data
+        const playerDataKey = `${PLAYER_DATA_PREFIX}${name}`;
+        localStorage.setItem(playerDataKey, JSON.stringify(payload.data));
+
+        return { success: true, message: `Guerreiro '${name}' invocado com sucesso! Você já pode fazer o login.` };
+
+    } catch (error: any) {
+        console.error("Falha ao importar dados:", error);
+        return { success: false, message: `Código de invocação inválido ou corrompido. (${error.message})` };
+    }
+};
 
 export const gameService = {
   login,
@@ -235,5 +295,7 @@ export const gameService = {
   getUsersWithPasswords,
   savePlayerData,
   getAllPlayersData,
+  exportUserData,
+  importUserData,
   ADMIN_USER
 };
