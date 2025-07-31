@@ -1,4 +1,4 @@
-import { ISLANDS, TOTAL_POINTS_TO_CONQUER, MANDALA_PETAL_THRESHOLDS, MAIN_BACKGROUND_URL, WELCOME_BACKGROUND_URL } from '../constants';
+import { ISLANDS, TOTAL_POINTS_TO_CONQUER, MANDALA_PETAL_THRESHOLDS, MAIN_BACKGROUND_URL, WELCOME_BACKGROUND_URL, STORYTELLING_URL } from '../constants';
 import { Island } from '../types';
 
 // O serviço de conteúdo agora atua como um leitor direto do arquivo de constantes.
@@ -11,8 +11,7 @@ const getIslands = (): Island[] => {
 
 export const contentService = {
   getIslands,
-  // O link do Storytelling é fixo, mas pode ser movido para constants.ts no futuro se necessário.
-  getStorytellingUrl: () => '#',
+  getStorytellingUrl: () => STORYTELLING_URL,
   getMainBackgroundUrl: () => MAIN_BACKGROUND_URL,
   getWelcomeBackgroundUrl: () => WELCOME_BACKGROUND_URL,
   TOTAL_POINTS_TO_CONQUER,

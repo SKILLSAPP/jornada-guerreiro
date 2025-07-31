@@ -8,7 +8,7 @@ const CodeModal = ({ code, onClose }: { code: string; onClose: () => void }) => 
         <div className="bg-gray-800 rounded-lg shadow-2xl p-6 w-full max-w-2xl border border-yellow-500/50">
             <h3 className="text-xl font-cinzel text-yellow-400 mb-4">Decreto Mágico de Conteúdo</h3>
             <p className="text-gray-300 mb-2 text-sm">1. Copie o código abaixo.</p>
-            <p className="text-gray-300 mb-4 text-sm">2. Envie este código para seu assistente de IA para que ele possa forjar a nova versão do arquivo <code className="bg-black/50 text-yellow-300 px-1 rounded">src/constants.ts</code>.</p>
+            <p className="text-gray-300 mb-4 text-sm">2. Envie este código para seu assistente de IA para que ele possa forjar as novas constantes no arquivo <code className="bg-black/50 text-yellow-300 px-1 rounded">src/constants.ts</code>.</p>
             <textarea
                 readOnly
                 value={code}
@@ -71,15 +71,13 @@ export default function ContentManagement() {
     };
     
     const handleGenerateCode = () => {
-        const contentObject = {
-            MAIN_BACKGROUND_URL: mainBgUrl,
-            WELCOME_BACKGROUND_URL: welcomeBgUrl,
-            ISLANDS: islands
-        };
-        const codeString = `// Copie e cole este conteúdo para substituir as variáveis correspondentes em 'src/constants.ts'\n\n` +
-                           `export const MAIN_BACKGROUND_URL = '${contentObject.MAIN_BACKGROUND_URL}';\n` +
-                           `export const WELCOME_BACKGROUND_URL = '${contentObject.WELCOME_BACKGROUND_URL}';\n\n` +
-                           `export const ISLANDS: Island[] = ${JSON.stringify(contentObject.ISLANDS, null, 2)};`;
+        const islandStr = JSON.stringify(islands, null, 2);
+
+        const codeString = `// Copie este trecho e peça ao seu assistente de IA para usá-lo para atualizar o arquivo 'src/constants.ts'\n\n` +
+                           `export const MAIN_BACKGROUND_URL = '${mainBgUrl}';\n` +
+                           `export const WELCOME_BACKGROUND_URL = '${welcomeBgUrl}';\n` +
+                           `export const STORYTELLING_URL = '${storytellingUrl}';\n\n` +
+                           `export const ISLANDS: Island[] = ${islandStr};`;
                            
         setGeneratedCode(codeString);
     };

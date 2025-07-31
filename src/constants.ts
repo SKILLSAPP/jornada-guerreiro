@@ -2,7 +2,7 @@ import { Island } from './types';
 
 export const MAIN_BACKGROUND_URL = 'https://i.imgur.com/0XH0wzI_d.png?maxwidth=520&shape=thumb&fidelity=high';
 export const WELCOME_BACKGROUND_URL = 'https://i.imgur.com/rGAEiCz_d.jpeg?maxwidth=520&shape=thumb&fidelity=high';
-export const STORYTELLING_URL = 'https://docs.google.com/document/d/1BdaByu4JgIq6f68zY2q0b-wXm6d4N2R2/edit?usp=sharing&ouid=102837373849494484938493&rtpof=true&sd=true';
+export const STORYTELLING_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSdwY8SXcMGaSTvQ50zh2_gudQEnDmCWGBwKnL3-ZhHTrzNFDQ/viewform';
 
 /**
  * O ÉDITO DO MESTRE: A LISTA DE GUERREIROS BANIDOS
@@ -32,17 +32,17 @@ export const ISLANDS: Island[] = [
           {
             "type": "article",
             "label": "Artigo Técnico (Leitura)",
-            "url": "#"
+            "url": "https://drive.google.com/file/d/1qFtfUwxCz2m6rrOSnDiBHh99YahquB6t/view?usp=sharing"
           },
           {
             "type": "audio",
             "label": "Artigo Técnico (Áudio)",
-            "url": "#"
+            "url": "https://drive.google.com/file/d/1xo8zgjM_gSAB8OlTt9GLGrZT92lf0vi6/view?usp=sharing"
           },
           {
             "type": "podcast",
             "label": "Podcast de Análise",
-            "url": "#"
+            "url": "https://drive.google.com/file/d/1bTNHkEHaXmXEo_DNYuXhctUcNY31wR4_/view?usp=sharing"
           }
         ],
         "quizUrl": "https://forms.google.com/"
