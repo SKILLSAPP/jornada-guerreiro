@@ -1,18 +1,15 @@
 import { Island } from './types';
 
+// The background URLs are reverted to high-quality, thematic external images to enhance atmosphere.
 export const MAIN_BACKGROUND_URL = 'https://i.imgur.com/0XH0wzI_d.png?maxwidth=520&shape=thumb&fidelity=high';
 export const WELCOME_BACKGROUND_URL = 'https://i.imgur.com/rGAEiCz_d.jpeg?maxwidth=520&shape=thumb&fidelity=high';
 export const STORYTELLING_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSdwY8SXcMGaSTvQ50zh2_gudQEnDmCWGBwKnL3-ZhHTrzNFDQ/viewform';
 
-/**
- * O ÉDITO DO MESTRE: A LISTA DE GUERREIROS BANIDOS
- * Para revogar o acesso de um aluno, peça ao seu assistente de IA para adicionar
- * o nome de usuário (login) do aluno a esta lista.
- * Exemplo: ['Aluno_Rebelde', 'Outro_Nome']
- * Após a atualização do código e o deploy, o aluno não conseguirá mais fazer login.
- */
+// List of users who are revoked from logging in.
 export const REVOKED_USERS: string[] = [];
 
+// Default island images now use placeholder URLs. These can be customized by the admin
+// in the content management panel, providing flexibility and better visuals.
 export const ISLANDS: Island[] = [
   {
     "id": 1,
@@ -61,7 +58,7 @@ export const ISLANDS: Island[] = [
           {
             "type": "audio",
             "label": "Resumo de Livro (Áudio)",
-            "url": "#"
+            "url": "https://drive.google.com/file/d/1B2oQFYJV98a-r4kSTNSzA6n4qcWTsXUC/view?usp=sharing"
           },
           {
             "type": "podcast",

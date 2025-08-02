@@ -1,5 +1,4 @@
 
-
 import React from 'react';
 import { PlayerData, Island } from '../types';
 import { contentService } from '../services/contentService';
@@ -17,9 +16,9 @@ const IslandView = ({ island, playerData, onUpdateProgress, onBackToMap }: Islan
   const islandProgress = playerData.progress[island.id] || { score: 0, completedChallenges: [], pendingSubmissions: {} };
   const isConquered = islandProgress.score >= contentService.TOTAL_POINTS_TO_CONQUER;
 
-  const handleSubmitForReview = (challengeId: number, submissionText: string) => {
-    const newProgress = JSON.parse(JSON.stringify(playerData.progress)); // Deep copy
-    const currentIslandProgress = newProgress[island.id] || { score: 0, completedChallenges: [], pendingSubmissions: {} };
+  const handleSubmitForReview = (challengeId: number, submission: string | number[], submissionType: 'quiz' | 'submission' | 'presentation') => {
+    const newProgress = JSON.parse(JSON.stringify(playerData)); // Deep copy
+    const currentIslandProgress = newProgress.progress[island.id] || { score: 0, completedChallenges: [], pendingSubmissions: {} };
     
     if (!currentIslandProgress.pendingSubmissions) {
       currentIslandProgress.pendingSubmissions = {};
@@ -27,15 +26,29 @@ const IslandView = ({ island, playerData, onUpdateProgress, onBackToMap }: Islan
 
     if (currentIslandProgress.pendingSubmissions[challengeId]) return;
 
-    currentIslandProgress.pendingSubmissions[challengeId] = {
-      submission: submissionText,
-      submittedAt: new Date().toISOString(),
-    };
+    if (submissionType === 'quiz' && Array.isArray(submission)) {
+       currentIslandProgress.pendingSubmissions[challengeId] = {
+        submissionType: 'quiz',
+        answers: submission,
+        submittedAt: new Date().toISOString(),
+      };
+    } else if (submissionType === 'submission' && typeof submission === 'string') {
+      currentIslandProgress.pendingSubmissions[challengeId] = {
+        submissionType: 'submission',
+        submission: submission,
+        submittedAt: new Date().toISOString(),
+      };
+    } else if (submissionType === 'presentation') {
+       currentIslandProgress.pendingSubmissions[challengeId] = {
+        submissionType: 'presentation',
+        submittedAt: new Date().toISOString(),
+      };
+    }
     
-    newProgress[island.id] = currentIslandProgress;
-    onUpdateProgress({ ...playerData, progress: newProgress });
+    newProgress.progress[island.id] = currentIslandProgress;
+    onUpdateProgress({ ...newProgress });
   };
-
+  
   return (
     <div className="bg-gray-800/50 p-6 rounded-lg border border-yellow-500/20">
       <button onClick={onBackToMap} className="mb-4 text-yellow-400 hover:text-yellow-300 font-semibold">
@@ -69,8 +82,10 @@ const IslandView = ({ island, playerData, onUpdateProgress, onBackToMap }: Islan
           <div className="space-y-4">
             {island.challenges.map((challenge, index) => {
               const isCompleted = islandProgress.completedChallenges.includes(challenge.id);
-              const isPending = !!islandProgress.pendingSubmissions?.[challenge.id];
+              const pendingSubmission = islandProgress.pendingSubmissions?.[challenge.id];
+              const isPending = !!pendingSubmission;
               const isLocked = !playerData.isTester && index > 0 && !islandProgress.completedChallenges.includes(island.challenges[index - 1].id);
+
               return (
                 <ChallengeCard 
                   key={challenge.id}
@@ -79,6 +94,7 @@ const IslandView = ({ island, playerData, onUpdateProgress, onBackToMap }: Islan
                   isCompleted={isCompleted}
                   isLocked={isLocked}
                   isPending={isPending}
+                  pendingSubmission={pendingSubmission}
                   onSubmitForReview={handleSubmitForReview}
                 />
               );

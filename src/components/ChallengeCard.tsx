@@ -1,6 +1,7 @@
+
 import React, { useState } from 'react';
-import { Island, Challenge } from '../types';
-import GuardianChallenge from './GuardianChallenge';
+import { Island, Challenge, PendingSubmission } from '../types';
+import QuizModal from './quiz/QuizModal';
 
 interface ChallengeCardProps {
   island: Island;
@@ -8,7 +9,8 @@ interface ChallengeCardProps {
   isCompleted: boolean;
   isLocked: boolean;
   isPending: boolean;
-  onSubmitForReview: (challengeId: number, submissionText: string) => void;
+  pendingSubmission?: PendingSubmission;
+  onSubmitForReview: (challengeId: number, submission: string | number[], submissionType: 'quiz' | 'submission' | 'presentation') => void;
 }
 
 interface ResourceLinkProps {
@@ -31,12 +33,9 @@ function ResourceLink({ resource }: ResourceLinkProps) {
   );
 }
 
-const ChallengeCard = ({ island, challenge, isCompleted, isLocked, isPending, onSubmitForReview }: ChallengeCardProps) => {
-  const [showGuardianChallenge, setShowGuardianChallenge] = useState(false);
-
-  const handleSubmitQuizForReview = () => {
-    onSubmitForReview(challenge.id, "Quiz concluído. Aguardando avaliação do Mestre.");
-  };
+const ChallengeCard = ({ island, challenge, isCompleted, isLocked, isPending, pendingSubmission, onSubmitForReview }: ChallengeCardProps) => {
+  const [isQuizModalOpen, setQuizModalOpen] = useState(false);
+  const isRedemptionQuizOffered = isPending && !!pendingSubmission?.redemptionQuizOffered;
 
   const cardClasses = `p-5 rounded-lg border transition-all duration-300 ${
     isCompleted ? 'bg-green-900/40 border-green-500/50' : 
@@ -45,77 +44,110 @@ const ChallengeCard = ({ island, challenge, isCompleted, isLocked, isPending, on
     'bg-gray-700/70 border-gray-600 hover:border-yellow-400'
   }`;
 
+  const handleQuizSubmit = (challengeId: number, answers: number[]) => {
+      onSubmitForReview(challengeId, answers, 'quiz');
+  };
+  
+  const renderActionButtons = () => {
+    // 1. Guardian Challenge - Redemption Quiz Offered
+    if (challenge.id === 4 && isRedemptionQuizOffered) {
+       return (
+        <button onClick={() => setQuizModalOpen(true)} className="w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded transition-colors animate-pulse">
+          Fazer Quiz de Redenção
+        </button>
+      );
+    }
+    // 2. Guardian Challenge - Initial submission
+    if (challenge.id === 4) {
+      return (
+        <button
+          onClick={() => onSubmitForReview(challenge.id, '', 'presentation')}
+          className="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded transition-colors"
+        >
+          Enfrente o Guardião (Sinalizar Prontidão)
+        </button>
+      );
+    }
+    // 3. Internal Quiz
+    if (challenge.quizId) {
+      return (
+        <button onClick={() => setQuizModalOpen(true)} className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition-colors">
+          Fazer Quiz
+        </button>
+      );
+    }
+    // 4. External Quiz (Legacy)
+    if (challenge.quizUrl) {
+      return (
+        <div className="flex flex-col sm:flex-row gap-2">
+          <a href={challenge.quizUrl} target="_blank" rel="noopener noreferrer" className="flex-1 text-center bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition-colors">
+            Fazer Quiz (Externo)
+          </a>
+          <button onClick={() => onSubmitForReview(challenge.id, "Quiz externo concluído.", 'submission')} className="flex-1 bg-yellow-500 hover:bg-yellow-600 text-gray-900 font-bold py-2 px-4 rounded transition-colors">
+            Concluí o Quiz
+          </button>
+        </div>
+      );
+    }
+    return null;
+  };
+  
   return (
-    <div className={cardClasses}>
-      <div className="flex justify-between items-start">
-        <div>
-          <h4 className="text-xl font-bold font-cinzel text-gray-100">{challenge.title}</h4>
-          <p className="text-sm text-yellow-400 mb-2">{challenge.points} Moedas de Ouro</p>
-          <p className="text-gray-300">{challenge.description}</p>
+     <>
+      <div className={cardClasses}>
+        <div className="flex justify-between items-start">
+          <div>
+            <h4 className="text-xl font-bold font-cinzel text-gray-100">{challenge.title}</h4>
+            <p className="text-sm text-yellow-400 mb-2">{challenge.points} Moedas de Ouro</p>
+            <p className="text-gray-300">{challenge.description}</p>
+          </div>
+          <div className="text-right ml-4 flex-shrink-0">
+            {isCompleted ? (
+              <span className="px-3 py-1 text-sm font-semibold text-green-200 bg-green-800 rounded-full">Concluído</span>
+            ) : isPending ? (
+               <span className="px-3 py-1 text-sm font-semibold text-yellow-200 bg-yellow-800 rounded-full">Pendente</span>
+            ) : isLocked ? (
+              <span className="px-3 py-1 text-sm font-semibold text-gray-400 bg-gray-800 rounded-full">Bloqueado</span>
+            ) : (
+              <span className="px-3 py-1 text-sm font-semibold text-teal-200 bg-teal-800 rounded-full">Disponível</span>
+            )}
+          </div>
         </div>
-        <div className="text-right ml-4 flex-shrink-0">
-          {isCompleted ? (
-            <span className="px-3 py-1 text-sm font-semibold text-green-200 bg-green-800 rounded-full">Concluído</span>
-          ) : isPending ? (
-             <span className="px-3 py-1 text-sm font-semibold text-yellow-200 bg-yellow-800 rounded-full">Pendente</span>
-          ) : isLocked ? (
-            <span className="px-3 py-1 text-sm font-semibold text-gray-400 bg-gray-800 rounded-full">Bloqueado</span>
-          ) : (
-            <span className="px-3 py-1 text-sm font-semibold text-teal-200 bg-teal-800 rounded-full">Disponível</span>
-          )}
-        </div>
-      </div>
-      
-      {!isLocked && !isCompleted && !isPending && (
-        <div className="mt-4 pt-4 border-t border-gray-600/50 space-y-4">
-           {challenge.resources.length > 0 && (
-            <div>
-              <h5 className="text-gray-300 font-semibold mb-2">Materiais de Estudo:</h5>
-              <div className="flex flex-wrap gap-2">
-                {challenge.resources.map((resource, index) => (
-                  <ResourceLink key={index} resource={resource} />
-                ))}
+        
+        {!isLocked && !isCompleted && !isPending && (
+          <div className="mt-4 pt-4 border-t border-gray-600/50 space-y-4">
+             {challenge.resources.length > 0 && (
+              <div>
+                <h5 className="text-gray-300 font-semibold mb-2">Materiais de Estudo:</h5>
+                <div className="flex flex-wrap gap-2">
+                  {challenge.resources.map((resource, index) => (
+                    <ResourceLink key={index} resource={resource} />
+                  ))}
+                </div>
               </div>
-            </div>
-          )}
+            )}
+            {renderActionButtons()}
+          </div>
+        )}
+        
+         {isPending && (
+           <div className="mt-4 pt-4 border-t border-gray-600/50">
+              <p className="text-center text-yellow-300 italic">
+                {isRedemptionQuizOffered ? "O Mestre lhe concedeu uma nova chance! Faça o Quiz de Redenção." : "Sua tarefa foi enviada ao Mestre. Aguarde o seu julgamento."}
+              </p>
+           </div>
+         )}
+      </div>
 
-          {challenge.id === 4 ? (
-            <div>
-              <button
-                onClick={() => setShowGuardianChallenge(true)}
-                className="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded transition-colors"
-              >
-                Enfrente o Guardião
-              </button>
-              {showGuardianChallenge && (
-                <GuardianChallenge
-                  challenge={challenge}
-                  softSkill={island.softSkill}
-                  onSubmitForReview={onSubmitForReview}
-                  onClose={() => setShowGuardianChallenge(false)}
-                />
-              )}
-            </div>
-          ) : (
-            <div className="flex flex-col sm:flex-row gap-2">
-              {challenge.quizUrl && (
-                <a href={challenge.quizUrl} target="_blank" rel="noopener noreferrer" className="flex-1 text-center bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition-colors">
-                  Fazer Quiz
-                </a>
-              )}
-              <button onClick={handleSubmitQuizForReview} className="flex-1 bg-yellow-500 hover:bg-yellow-600 text-gray-900 font-bold py-2 px-4 rounded transition-colors">
-                Concluí o Quiz
-              </button>
-            </div>
-          )}
-        </div>
+      {isQuizModalOpen && challenge.quizId && (
+        <QuizModal
+          quizId={challenge.quizId}
+          challengeId={challenge.id}
+          onClose={() => setQuizModalOpen(false)}
+          onSubmit={handleQuizSubmit}
+        />
       )}
-       {isPending && (
-         <div className="mt-4 pt-4 border-t border-gray-600/50">
-            <p className="text-center text-yellow-300 italic">Sua tarefa foi enviada ao Mestre. Aguarde o seu julgamento.</p>
-         </div>
-       )}
-    </div>
+    </>
   );
 };
 

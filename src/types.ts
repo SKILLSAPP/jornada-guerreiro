@@ -1,8 +1,29 @@
 
+export type Difficulty = 'Fácil' | 'Médio' | 'Difícil';
+
+export interface QuizQuestion {
+  questionText: string;
+  difficulty: Difficulty;
+  points: number;
+  options: {
+    text: string;
+    isCorrect: boolean;
+  }[];
+  rationale: string;
+}
+
+export interface Quiz {
+  id: string; // Composite key like `island-1-challenge-1` or `island-1-challenge-4-redemption`
+  name: string;
+  islandId: number;
+  challengeId: number;
+  questions: QuizQuestion[];
+}
+
 export interface Challenge {
   id: number;
   title: string;
-  description: string;
+  description:string;
   points: number;
   resources: {
     type: 'article' | 'book' | 'video' | 'podcast' | 'case_study' | 'audio';
@@ -10,6 +31,7 @@ export interface Challenge {
     url: string;
   }[];
   quizUrl?: string;
+  quizId?: string; // ID for internal, AI-generated quizzes
 }
 
 export interface Island {
@@ -23,18 +45,39 @@ export interface Island {
   challenges: Challenge[];
 }
 
+export interface PendingSubmission {
+  submissionType: 'submission' | 'quiz' | 'presentation';
+  submittedAt: string;
+  submission?: string; // For text submissions
+  answers?: number[];   // For internal quizzes
+  redemptionQuizOffered?: boolean; // For Challenge 4
+  presentationScore?: number; // Temp score for Challenge 4 presentation
+}
+
 export interface PlayerProgress {
   [islandId: number]: {
     score: number;
     completedChallenges: number[];
     pendingSubmissions?: {
-      [challengeId: number]: {
-        submission: string;
-        submittedAt: string;
-      };
+      [challengeId: number]: PendingSubmission;
     };
   };
 }
+
+export interface GradedQuestion {
+  questionText: string;
+  options: { text: string }[];
+  studentAnswerIndex: number;
+  correctAnswerIndex: number;
+  feedback: string; // Epic + technical feedback per question
+  difficulty: Difficulty;
+  points: number;
+}
+
+export interface GradedQuiz {
+  questions: GradedQuestion[];
+}
+
 
 export interface PlayerData {
   name: string;
@@ -42,5 +85,13 @@ export interface PlayerData {
   storySeen?: boolean;
   isAdmin?: boolean;
   isTester?: boolean;
-  mentorFeedback?: string;
+  mentorFeedback?: string; // General feedback
+  taskFeedback?: {
+    [challengeId_islandId: string]: {
+      challengeTitle: string;
+      feedback: string; // Final master's feedback
+      score: number; // Final score
+      gradedQuiz?: GradedQuiz;
+    };
+  };
 }

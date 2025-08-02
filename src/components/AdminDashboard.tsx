@@ -1,8 +1,10 @@
+
 import React, { useState } from 'react';
 
 import TaskGrading from './admin/TaskGrading';
 import UserManagement from './admin/UserManagement';
 import ContentManagement from './admin/ContentManagement';
+import QuizManager from './admin/QuizManager';
 
 interface AdminDashboardProps {
   onLogout: () => void;
@@ -14,6 +16,7 @@ const AdminDashboard = ({ onLogout }: AdminDashboardProps) => {
   const tabs = {
       tasks: { label: 'Avaliar Tarefas', Component: TaskGrading },
       users: { label: 'Gerenciar Alunos', Component: UserManagement },
+      quizzes: { label: 'Gerenciar Quizzes', Component: QuizManager },
       content: { label: 'Gerenciar Conteúdo', Component: ContentManagement },
   };
 
