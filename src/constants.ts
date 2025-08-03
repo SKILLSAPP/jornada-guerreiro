@@ -42,7 +42,8 @@ export const ISLANDS: Island[] = [
             "url": "https://drive.google.com/file/d/1bTNHkEHaXmXEo_DNYuXhctUcNY31wR4_/view?usp=sharing"
           }
         ],
-        "quizUrl": "https://forms.google.com/"
+        "quizUrl": "https://forms.google.com/",
+        "quizId": "island-1-challenge-1"
       },
       {
         "id": 2,
@@ -53,17 +54,17 @@ export const ISLANDS: Island[] = [
           {
             "type": "book",
             "label": "Resumo de Livro (Leitura)",
-            "url": "#"
+            "url": "https://drive.google.com/file/d/1Zb3H9wRGALly5DfuSUT-v4Cahwry165G/view?usp=sharing"
           },
           {
             "type": "audio",
             "label": "Resumo de Livro (Áudio)",
-            "url": "https://drive.google.com/file/d/1B2oQFYJV98a-r4kSTNSzA6n4qcWTsXUC/view?usp=sharing"
+            "url": ""
           },
           {
             "type": "podcast",
             "label": "Podcast de Análise",
-            "url": "#"
+            "url": "https://drive.google.com/file/d/1Ag6h9Zowz7_0B23abHOuey14kG7rMEsa/view?usp=sharing"
           }
         ],
         "quizUrl": "https://forms.google.com/"
