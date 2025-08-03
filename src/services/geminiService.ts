@@ -1,6 +1,14 @@
 
 import { GoogleGenAI, Type } from "@google/genai";
-import { QuizQuestion, Quiz, GradedQuiz, Difficulty, GradedQuestion } from '../types';
+import { QuizQuestion, Quiz, GradedQuiz, Island, PlayerData, PlayerProgress } from '../types';
+
+// Declaração para informar ao TypeScript sobre o objeto 'process' injetado pelo Vite,
+// resolvendo o erro "Cannot find name 'process'".
+declare const process: {
+  env: {
+    API_KEY?: string;
+  };
+};
 
 // --- Bloco de Inicialização da API ---
 let ai: GoogleGenAI | null = null;
@@ -38,8 +46,13 @@ const generateQuizBase = async (context: string, challengeTitle: string, totalPo
           temperature: 0.5,
         },
       });
+      
+      const text = response.text;
+      if (!text) {
+        throw new Error("A IA retornou uma resposta JSON vazia.");
+      }
+      const jsonResponse = JSON.parse(text);
 
-      const jsonResponse = JSON.parse(response.text);
       if (!jsonResponse.questions || !jsonResponse.questions.length) {
           throw new Error("A IA não retornou o número esperado de perguntas.");
       }
@@ -127,7 +140,8 @@ export const geminiService = {
         },
       });
 
-      return response.text;
+      const responseText = response.text;
+      return responseText || "Os ventos da magia estão turbulentos. Não consegui avaliar seu plano neste momento. Descanse e tente novamente quando a conexão com os espíritos estiver mais clara.";
     } catch (error) {
       console.error("Erro ao avaliar o plano com a API Gemini:", error);
       return "Os ventos da magia estão turbulentos. Não consegui avaliar seu plano neste momento. Descanse e tente novamente quando a conexão com os espíritos estiver mais clara.";
@@ -135,19 +149,47 @@ export const geminiService = {
   },
 
   generateQuiz: async (context: string, challengeTitle: string, totalPoints: number): Promise<QuizQuestion[] | string> => {
-    const systemInstruction = `Você é um especialista em criar quizzes educacionais para um jogo de RPG sobre soft skills.
-      Seu objetivo é criar um quiz de 10 perguntas com base EXCLUSIVAMENTE no texto fornecido.
-      As perguntas devem ser inteligentes, não triviais e testar a compreensão e aplicação do material, não apenas a memorização de frases.
+    const systemInstruction = `Você é um especialista em criar quizzes para um jogo de RPG sobre soft skills. Sua finalidade é avaliar de forma justa, rigorosa e técnica a compreensão, aplicação e análise dos conceitos abordados no material, respeitando a curva de dificuldade.
 
-      REGRAS ESTRITAS:
-      1.  Crie EXATAMENTE 10 perguntas.
-      2.  A distribuição de dificuldade DEVE SER: 5 perguntas 'Fácil', 4 'Médio', e 1 'Difícil'.
-      3.  Cada pergunta deve ter EXATAMENTE 3 opções de resposta. Apenas UMA opção é a correta.
-      4.  Para cada pergunta, forneça uma 'rationale' (justificativa) curta e clara.
-      5.  **IMPORTANTE**: Mantenha um padrão de texto (tamanho, complexidade) similar entre as respostas corretas e incorretas para que a resposta certa não seja óbvia.
-      6.  **PONTUAÇÃO**: Distribua um total de ${totalPoints} pontos entre as 10 questões, seguindo a proporção de dificuldade. A soma dos pontos de todas as 10 questões DEVE ser exatamente ${totalPoints}. Use uma proporção como: Difícil vale ~9x uma Fácil, e Médio vale ~4x uma Fácil. Calcule e atribua o valor em pontos para CADA questão.
-      7.  NÃO use nenhuma informação externa. Baseie-se apenas no texto fornecido.
-      8.  O resultado deve estar em JSON, seguindo o esquema fornecido.`;
+REGRAS GERAIS ESTRITAS:
+1.  **Foco no Material:** Baseie-se ESTRITAMENTE no material de estudo fornecido. Não invente conceitos.
+2.  **Formato do Quiz:**
+    *   Crie EXATAMENTE 10 perguntas.
+    *   Cada pergunta deve ter EXATAMENTE 3 alternativas de resposta, com apenas UMA correta.
+    *   Para cada pergunta, forneça uma 'rationale' (justificativa) curta e clara para a resposta correta.
+3.  **Balanceamento e Qualidade:**
+    *   **CRÍTICO - BALANCEAMENTO DE RESPOSTAS:** As 3 alternativas de resposta (correta e incorretas) DEVEM ter tamanho, estrutura e nível de detalhe muito semelhantes. A resposta correta NUNCA deve ser visivelmente mais longa ou mais detalhada. Este é um requisito fundamental para evitar dicas.
+    *   Todas as questões devem exigir raciocínio, não apenas memorização.
+    *   Todas as alternativas, mesmo as incorretas, devem ser verossímeis e plausíveis dentro do contexto. Evite respostas absurdas.
+    *   Evite palavras-chave como "sempre", "nunca" que entreguem a resposta.
+4.  **Distribuição e Pontuação:**
+    *   **Dificuldade:** A distribuição DEVE SER: 5 'Fácil', 4 'Médio', e 1 'Difícil'.
+    *   **Pontuação Fixa por Desafio:** Você DEVE atribuir pontos fixos para cada questão com base na sua dificuldade e no desafio correspondente. A soma total dos pontos DEVE corresponder exatamente ao valor total do desafio (informado no prompt). Siga ESTAS regras ESTRITAMENTE, que foram validadas pelo Mestre do Jogo:
+        *   **Desafio 1 (vale 150 pontos):** Questões 'Fácil' valem 5 pontos, 'Médio' valem 20 pontos, e 'Difícil' vale 45 pontos.
+        *   **Desafio 2 (vale 200 pontos):** Questões 'Fácil' valem 8 pontos, 'Médio' valem 25 pontos, e 'Difícil' vale 60 pontos.
+        *   **Desafio 3 (vale 250 pontos):** Questões 'Fácil' valem 10 pontos, 'Médio' valem 30 pontos, e 'Difícil' vale 80 pontos.
+5.  **JSON Output:** O resultado DEVE ser um objeto JSON que segue o schema fornecido.
+
+---
+
+### PADRÕES DETALHADOS POR NÍVEL DE DIFICULDADE
+
+#### 1. NÍVEL FÁCIL (5 perguntas)
+*   **Objetivo:** Avaliar a compreensão de conceitos básicos.
+*   **Formato:** Perguntas curtas e diretas (conceituais, de definição ou aplicação simples).
+*   **Diretriz:** Exigir raciocínio básico. As três respostas devem ser verossímeis, forçando o aluno a pensar em vez de apenas excluir opções obviamente erradas.
+
+#### 2. NÍVEL MÉDIO (4 perguntas)
+*   **Objetivo:** Avaliar a aplicação de conceitos em situações práticas.
+*   **Formato:** Apresente um mini-caso ou uma situação do cotidiano corporativo em 3 a 4 linhas.
+*   **Diretriz:** A pergunta deve explorar um dilema ou decisão. As alternativas devem ser elaboradas (1 a 2 linhas cada), com argumentos lógicos, exigindo análise para escolher a correta.
+
+#### 3. NÍVEL DIFÍCIL (1 pergunta)
+*   **Objetivo:** Avaliar a análise crítica de um cenário complexo.
+*   **Formato:** Elabore um pequeno storytelling (6 a 8 linhas) descrevendo um problema corporativo realista e desafiador. A pergunta deve derivar desse cenário.
+*   **Diretriz:** O problema deve ter contexto e detalhes. As alternativas devem ser plausíveis e bem argumentadas, forçando o raciocínio crítico para encontrar a melhor solução baseada no material.
+*   **ATENÇÃO MÁXIMA A ESTA REGRA CRÍTICA:** Para a pergunta difícil, as três alternativas de resposta (a correta e as duas incorretas) DEVEM ser meticulosamente elaboradas para serem quase IDÊNTICAS em tamanho (contagem de palavras/linhas), estrutura e profundidade de argumentação. O guerreiro não pode, de forma alguma, deduzir a resposta correta porque ela é mais completa ou detalhada. As respostas incorretas devem ser igualmente detalhadas e plausíveis, representando caminhos de raciocínio lógicos, porém equivocados, dentro do cenário apresentado. Sem dicas!
+`;
       
     return generateQuizBase(context, challengeTitle, totalPoints, systemInstruction, baseQuizSchema);
   },
@@ -161,8 +203,10 @@ export const geminiService = {
     2.  A distribuição de dificuldade DEVE SER: 5 perguntas 'Médio', e 5 'Difícil'.
     3.  Cada pergunta deve ter EXATAMENTE 3 opções de resposta. Apenas UMA opção é a correta.
     4.  Para cada pergunta, forneça uma 'rationale' (justificativa) curta e clara.
-    5.  **IMPORTANTE**: Mantenha um padrão de texto (tamanho, complexidade) similar entre as respostas corretas e incorretas. As respostas erradas devem ser plausíveis e exigir raciocínio para serem descartadas.
-    6.  **PONTUAÇÃO**: Distribua um total de ${totalPoints} pontos entre as 10 questões, seguindo a proporção de dificuldade. A soma dos pontos de todas as 10 questões DEVE ser exatamente ${totalPoints}. Calcule e atribua o valor em pontos para CADA questão.
+    5.  **CRÍTICO - BALANCEAMENTO DE RESPOSTAS:** Mantenha um padrão de texto (tamanho, estrutura, complexidade) similar entre as respostas corretas e incorretas. As respostas erradas devem ser plausíveis e exigir raciocínio para serem descartadas. A resposta correta não deve se destacar.
+    6.  **PONTUAÇÃO**: Atribua pontos FIXOS com base na dificuldade. As pontuações DEVEM ser:
+        *   **Médio:** 20 pontos.
+        *   **Difícil:** 45 pontos.
     7.  NÃO use nenhuma informação externa. Baseie-se apenas no texto fornecido.
     8.  O resultado deve estar em JSON, seguindo o esquema fornecido.`;
       
@@ -189,7 +233,8 @@ export const geminiService = {
           temperature: 0.8,
         },
       });
-      return response.text;
+      const responseText = response.text;
+      return responseText || "Os espíritos estão confusos. Não foi possível gerar um conselho neste momento.";
     } catch (error) {
       console.error("Erro ao gerar feedback final:", error);
       return "Os espíritos estão confusos. Não foi possível gerar um conselho neste momento.";
@@ -208,103 +253,125 @@ O quiz já contém os pontos de cada questão. Sua tarefa é:
 REGRAS ESTRITAS:
 1.  **Calcular Nota Final:** A nota final do aluno ('suggestedScore') é a SOMA dos pontos APENAS das questões que ele acertou.
 2.  **Gerar Feedback Geral:** Escreva um parágrafo como o Mestre Jin, resumindo o desempenho do aluno de forma encorajadora e sábia.
-3.  **Gerar Feedback por Questão:** Para CADA questão, crie um feedback individual no formato "Frase épica e lúdica. Justificativa técnica."
-4.  O resultado DEVE ser um objeto JSON que segue o schema, contendo a nota final, o feedback geral, e a lista de questões com seus pontos, dificuldade e feedbacks.`;
+3.  **Gerar Feedback por Questão:** Para o campo \`feedback\` de CADA questão, use o seguinte formato de duas partes:
+    *   **Parte 1 (Lúdica):** Uma frase curta, épica e sábia no tom do Mestre Jin. Use termos como "Jovem Guerreiro", "Aprendiz", "Guerreiro". Use um tom de humor inteligente. Exemplo: "Ah, Jovem Guerreiro, aqui o caminho ficou um pouco turvo." ou "Excelente, sua lâmina de raciocínio cortou o âmago da questão!".
+    *   **Parte 2 (Técnica):** Uma explicação técnica e clara, baseada na 'rationale' da pergunta, explicando por que a resposta do aluno está certa ou errada.
+4.  **JSON Output:** O resultado DEVE ser um objeto JSON que segue o schema fornecido.`;
     
-    const schema = {
-        type: Type.OBJECT,
-        properties: {
-            suggestedScore: { type: Type.INTEGER, description: 'A nota final do aluno (soma dos pontos das questões corretas).' },
-            suggestedGeneralFeedback: { type: Type.STRING, description: 'O feedback geral para o aluno, no tom do Mestre Jin.' },
-            gradedQuiz: {
-                type: Type.OBJECT,
-                properties: {
-                    questions: {
-                        type: Type.ARRAY,
-                        description: 'A lista de todas as questões do quiz, agora com o feedback.',
-                        items: {
-                            type: Type.OBJECT,
-                            properties: {
-                                questionText: { type: Type.STRING },
-                                options: { type: Type.ARRAY, items: { type: Type.OBJECT, properties: { text: { type: Type.STRING } } } },
-                                studentAnswerIndex: { type: Type.INTEGER },
-                                correctAnswerIndex: { type: Type.INTEGER },
-                                feedback: { type: Type.STRING, description: 'O feedback individual no formato "Épico. Técnico."' },
-                                difficulty: { type: Type.STRING, enum: ['Fácil', 'Médio', 'Difícil'] },
-                                points: { type: Type.INTEGER, description: 'Os pontos que esta questão vale.' }
-                            },
-                            required: ['questionText', 'options', 'studentAnswerIndex', 'correctAnswerIndex', 'feedback', 'difficulty', 'points']
-                        }
-                    }
-                },
-                required: ['questions']
-            }
-        },
-        required: ['suggestedScore', 'suggestedGeneralFeedback', 'gradedQuiz']
+    const promptPayload = {
+      quiz,
+      studentAnswers: answers,
     };
 
-    const promptData = {
-        quiz,
-        studentAnswers: answers,
+    const schema = {
+      type: Type.OBJECT,
+      properties: {
+        suggestedScore: { type: Type.INTEGER, description: 'A pontuação total calculada para o aluno.' },
+        suggestedGeneralFeedback: { type: Type.STRING, description: 'Um parágrafo de feedback geral sobre o desempenho.' },
+        gradedQuiz: {
+          type: Type.OBJECT,
+          properties: {
+            questions: {
+              type: Type.ARRAY,
+              items: {
+                type: Type.OBJECT,
+                properties: {
+                  questionText: { type: Type.STRING },
+                  options: { type: Type.ARRAY, items: { type: Type.OBJECT, properties: { text: { type: Type.STRING } } } },
+                  studentAnswerIndex: { type: Type.INTEGER },
+                  correctAnswerIndex: { type: Type.INTEGER },
+                  feedback: { type: Type.STRING, description: 'O feedback combinado (épico + técnico) para a questão.' },
+                  difficulty: { type: Type.STRING, enum: ['Fácil', 'Médio', 'Difícil'] },
+                  points: { type: Type.INTEGER },
+                },
+                required: ['questionText', 'options', 'studentAnswerIndex', 'correctAnswerIndex', 'feedback', 'difficulty', 'points']
+              }
+            }
+          },
+          required: ['questions'],
+        },
+      },
+      required: ['suggestedScore', 'suggestedGeneralFeedback', 'gradedQuiz'],
     };
 
     try {
-        const response = await ai.models.generateContent({
-            model: "gemini-2.5-flash",
-            contents: `Corrija este quiz: ${JSON.stringify(promptData)}`,
-            config: {
-                systemInstruction,
-                responseMimeType: 'application/json',
-                responseSchema: schema,
-                temperature: 0.7
-            }
-        });
+      const response = await ai.models.generateContent({
+        model: 'gemini-2.5-flash',
+        contents: `Corrija este quiz para mim. Aqui estão os dados em JSON:\n\n${JSON.stringify(promptPayload, null, 2)}`,
+        config: {
+          systemInstruction,
+          responseMimeType: 'application/json',
+          responseSchema: schema,
+          temperature: 0.4,
+        },
+      });
 
-        const jsonResponse = JSON.parse(response.text);
-        
-        if (!jsonResponse.gradedQuiz || !jsonResponse.gradedQuiz.questions || !jsonResponse.suggestedGeneralFeedback) {
-            throw new Error("A resposta da IA não contém os campos esperados.");
-        }
-        
-        let calculatedScore = 0;
-        jsonResponse.gradedQuiz.questions.forEach((q: GradedQuestion) => {
-            if(q.studentAnswerIndex === q.correctAnswerIndex){
-                calculatedScore += q.points;
-            }
-        });
+      const text = response.text;
+      if (!text) {
+        throw new Error("A IA retornou uma resposta JSON vazia.");
+      }
 
-        jsonResponse.suggestedScore = jsonResponse.suggestedScore === calculatedScore ? jsonResponse.suggestedScore : calculatedScore;
+      const gradedResult = JSON.parse(text);
 
-        return {
-            suggestedScore: jsonResponse.suggestedScore,
-            suggestedGeneralFeedback: jsonResponse.suggestedGeneralFeedback,
-            gradedQuiz: jsonResponse.gradedQuiz
-        };
+      if (gradedResult.suggestedScore === undefined || !gradedResult.suggestedGeneralFeedback || !gradedResult.gradedQuiz?.questions) {
+        throw new Error("A resposta da IA não contém todos os campos esperados.");
+      }
+
+      return gradedResult;
 
     } catch (error) {
-        console.error("Erro ao gerar feedback do quiz:", error);
-        let score = 0;
-        const gradedQuestions = quiz.questions.map((q, i) => {
-            const correctAnswerIndex = q.options.findIndex(opt => opt.isCorrect);
-            if (answers[i] === correctAnswerIndex) {
-                score += q.points;
-            }
-            return {
-                questionText: q.questionText,
-                options: q.options.map(opt => ({ text: opt.text })),
-                studentAnswerIndex: answers[i],
-                correctAnswerIndex: correctAnswerIndex,
-                feedback: "A sabedoria dos espíritos ancestrais está turva. A correção automática não pôde gerar um feedback detalhado.",
-                difficulty: q.difficulty,
-                points: q.points
-            };
-        });
+      console.error("Erro ao avaliar o quiz com a IA:", error);
+      if (error instanceof Error) {
+        throw new Error(`O Mestre Jin está meditando e não pôde avaliar o quiz agora. Erro: ${error.message}`);
+      }
+      throw new Error("O Mestre Jin está meditando e não pôde avaliar o quiz agora.");
+    }
+  },
 
-        return {
-            suggestedScore: score,
-            suggestedGeneralFeedback: `O guerreiro completou o desafio, mas a sabedoria dos espíritos ancestrais está turva e a correção automática não pôde ser concluída. A avaliação deverá ser manual.`,
-            gradedQuiz: { questions: gradedQuestions }
-        };
+  getStudentProgressAnalysis: async (
+    playerName: string,
+    currentIsland: Island,
+    progress: PlayerProgress,
+    taskFeedback?: PlayerData['taskFeedback']
+  ): Promise<string> => {
+    if (!ai) {
+        return initializationError || "Os espíritos estão confusos devido a uma falha de conexão (API).";
+    }
+    const islandProgress = progress[currentIsland.id] || { score: 0, completedChallenges: [] };
+    
+    const islandFeedbacks = taskFeedback ? Object.entries(taskFeedback)
+      .filter(([key]) => key.endsWith(`-${currentIsland.id}`))
+      .map(([_, value]) => `Desafio: "${value.challengeTitle}", Nota: ${value.score}, Feedback: "${value.feedback}"`)
+      .join('\n') : "Nenhum feedback recebido ainda.";
+
+    const prompt = `Você é um Mentor IA para um jogo de RPG de soft skills. Sua tarefa é fornecer uma análise técnica e crítica sobre a evolução do guerreiro ${playerName} na ilha "${currentIsland.name}", que foca na soft skill "${currentIsland.softSkill}".
+
+Dados do Guerreiro:
+- Pontuação na Ilha: ${islandProgress.score}
+- Desafios Completados na Ilha: ${islandProgress.completedChallenges.length} de ${currentIsland.challenges.length}
+- Feedbacks Recebidos nesta Ilha:
+${islandFeedbacks}
+
+Com base nesses dados, escreva uma análise concisa (2-3 parágrafos) que aborde:
+1.  **Pontos Fortes:** Destaque o bom desempenho, como notas altas ou progresso rápido.
+2.  **Pontos de Melhoria:** Identifique áreas onde o guerreiro pode melhorar com base nos feedbacks ou em desafios ainda não concluídos.
+3.  **Próximo Passo Sugerido:** Ofereça um conselho tático para o próximo desafio ou para a conclusão da ilha.
+
+Mantenha um tom de mentor, sendo técnico, mas encorajador. Não mencione que você é uma IA.`;
+
+    try {
+      const response = await ai.models.generateContent({
+        model: "gemini-2.5-flash",
+        contents: prompt,
+        config: {
+          temperature: 0.6,
+        },
+      });
+      const responseText = response.text;
+      return responseText || "Os espíritos ancestrais permaneceram em silêncio. Nenhuma análise foi retornada.";
+    } catch (error) {
+      console.error("Erro ao gerar análise de progresso:", error);
+      return "Os espíritos estão confusos. Não foi possível gerar uma análise neste momento.";
     }
   },
 };
