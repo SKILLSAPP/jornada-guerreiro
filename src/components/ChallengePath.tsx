@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import { useMemo } from 'react';
 import { PlayerData, Island } from '../types';
 import { contentService } from '../services/contentService';
 
@@ -9,7 +9,7 @@ interface ChallengePathProps {
 }
 
 const CoinIcon = ({ isDimmed }: { isDimmed: boolean }) => (
-    <div className={`relative w-16 h-16 transition-opacity duration-500 ${isDimmed ? 'opacity-40' : 'opacity-100'}`}>
+    <div className={`relative w-12 h-12 sm:w-16 sm:h-16 transition-opacity duration-500 ${isDimmed ? 'opacity-40' : 'opacity-100'}`}>
         <svg className="w-full h-full text-yellow-400 drop-shadow-lg" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
             <defs>
                 <radialGradient id="gold-gradient" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
@@ -27,7 +27,7 @@ const CoinIcon = ({ isDimmed }: { isDimmed: boolean }) => (
 
 
 const CheckmarkIcon = () => (
-    <svg className="w-12 h-12 text-green-400 drop-shadow-[0_2px_4px_rgba(0,255,0,0.5)]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+    <svg className="w-10 h-10 sm:w-12 sm:h-12 text-green-400 drop-shadow-[0_2px_4px_rgba(0,255,0,0.5)]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
         <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
     </svg>
 );
@@ -42,52 +42,63 @@ const ChallengePath = ({ island, playerData, onBackToMap }: ChallengePathProps) 
     const allIslands = useMemo(() => contentService.getIslands(), []);
 
     return (
-        <div className="relative text-white" style={{ background: 'black' }}>
+        <div className="relative min-h-screen flex flex-col" style={{ background: 'black' }}>
+            {/* Background and Gradient Layers */}
             <div
                 className="absolute inset-0 bg-cover bg-center"
                 style={{ backgroundImage: `url('${contentService.getChallengePathBackgroundUrl()}')` }}
             ></div>
-            <div className="absolute inset-0 bg-gradient-to-t from-black via-black/70 to-transparent"></div>
+            <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/50 to-black"></div>
 
-            <div className="relative h-screen">
-                <div className="absolute top-8 left-8">
+            {/* Main Content Area */}
+            <div className="relative flex-grow flex flex-col p-4 sm:p-6 lg:p-8">
+                {/* Back Button - always top-left */}
+                <div className="absolute top-4 left-4 sm:top-6 sm:left-6 z-20">
                     <button onClick={onBackToMap} className="text-yellow-400 hover:text-yellow-300 font-semibold text-lg bg-black/50 px-4 py-2 rounded-lg backdrop-blur-sm">
                         &larr; Voltar
                     </button>
                 </div>
+                
+                {/* Main content wrapper */}
+                <div className="w-full flex-grow flex flex-col md:flex-row items-center justify-center md:justify-end">
+                    <div className="w-full md:w-auto mt-24 md:mt-0 text-center md:text-right">
+                        {/* Title and Island Info */}
+                        <div className="mb-8">
+                             <h1 className="text-4xl sm:text-5xl font-bold font-cinzel text-white tracking-widest" style={{ textShadow: '0 0 15px rgba(0,0,0,0.7)' }}>TRILHA MÁGICA</h1>
+                            <div className="mt-2 inline-block bg-black/40 p-3 rounded-lg backdrop-blur-sm border border-white/10">
+                                <h2 className="text-xl sm:text-2xl font-cinzel text-yellow-300">{island.name}</h2>
+                                <p className="text-base sm:text-lg text-gray-300">{island.softSkill}</p>
+                            </div>
+                        </div>
 
-                <div className="absolute top-8 right-8 text-right">
-                    <h1 className="text-5xl font-bold font-cinzel text-white tracking-widest" style={{ textShadow: '0 0 15px rgba(0,0,0,0.7)' }}>TRILHA MÁGICA</h1>
-                    <div className="mt-2 bg-black/40 p-3 rounded-lg backdrop-blur-sm border border-white/10">
-                        <h2 className="text-2xl font-cinzel text-yellow-300">{island.name}</h2>
-                        <p className="text-lg text-gray-300">{island.softSkill}</p>
-                    </div>
-                </div>
+                        {/* Challenges List */}
+                        <div className="space-y-4 md:space-y-5 flex flex-col items-center md:items-end">
+                            {island.challenges.map((challenge, index) => {
+                                const isCompleted = completedChallengeIds.includes(challenge.id);
+                                const isCurrent = index === currentChallengeIndex;
+                                const isLocked = index > currentChallengeIndex;
 
-
-                <div className="absolute top-1/3 right-8 md:right-16 lg:right-24 w-auto max-w-sm md:max-w-md">
-                    <div className="space-y-6">
-                        {island.challenges.map((challenge, index) => {
-                            const isCompleted = completedChallengeIds.includes(challenge.id);
-                            const isCurrent = index === currentChallengeIndex;
-                            const isLocked = index > currentChallengeIndex;
-
-                            return (
-                                <div key={challenge.id} className="flex items-center gap-4 animate-fade-in" style={{ animationDelay: `${index * 200}ms` }}>
-                                    <CoinIcon isDimmed={isLocked} />
-                                    <div className="text-white" style={{ textShadow: '1px 1px 3px rgba(0,0,0,0.8)'}}>
-                                        <p className={`font-bold transition-opacity duration-500 ${isLocked ? 'opacity-50' : 'opacity-100'}`}>{challenge.title.replace(/Desafio \d: /, '')}</p>
-                                        {isCurrent && <p className="text-yellow-300 font-semibold animate-pulse">"Você Está Aqui"</p>}
+                                return (
+                                    <div key={challenge.id} className="flex items-center gap-4 animate-fade-in w-auto" style={{ animationDelay: `${index * 200}ms` }}>
+                                        <CoinIcon isDimmed={isLocked} />
+                                        <div className="text-white text-left" style={{ textShadow: '1px 1px 3px rgba(0,0,0,0.8)'}}>
+                                            <p className={`font-bold transition-opacity duration-500 ${isLocked ? 'opacity-50' : 'opacity-100'}`}>{challenge.title.replace(/Desafio \d: /, '')}</p>
+                                            {isCurrent && <p className="text-yellow-300 font-semibold animate-pulse">"Você Está Aqui"</p>}
+                                        </div>
+                                        {/* Using min-w to reserve space for the checkmark to avoid layout shifts */}
+                                        <div className="min-w-[40px] sm:min-w-[48px] flex justify-center">
+                                          {isCompleted && <CheckmarkIcon />}
+                                        </div>
                                     </div>
-                                    {isCompleted && <CheckmarkIcon />}
-                                </div>
-                            );
-                        })}
+                                );
+                            })}
+                        </div>
                     </div>
                 </div>
             </div>
-
-            <div className="relative w-full bg-black/80 p-6 backdrop-blur-sm">
+            
+            {/* Bottom Summary Section */}
+            <div className="relative w-full bg-black/80 p-6 backdrop-blur-sm mt-auto">
                 <div className="flex flex-col sm:flex-row justify-between items-center mb-4 pb-2 border-b border-yellow-500/20">
                     <h2 className="text-3xl font-cinzel text-yellow-300">Resumo da Jornada</h2>
                     <p className="text-xl font-bold text-gray-200">
