@@ -1,5 +1,4 @@
-
-import { ISLANDS, TOTAL_POINTS_TO_CONQUER, MANDALA_PETAL_THRESHOLDS, MAIN_BACKGROUND_URL, WELCOME_BACKGROUND_URL, STORYTELLING_URL } from '../constants';
+import { ISLANDS, TOTAL_POINTS_TO_CONQUER, MANDALA_PETAL_THRESHOLDS, MAIN_BACKGROUND_URL, WELCOME_BACKGROUND_URL, STORYTELLING_URL, CHALLENGE_PATH_BACKGROUND_URL } from '../constants';
 import { Island } from '../types';
 import { gameService } from './gameService';
 
@@ -36,6 +35,7 @@ export const contentService = {
   getStorytellingUrl: (): string => STORYTELLING_URL,
   getMainBackgroundUrl: (): string => MAIN_BACKGROUND_URL,
   getWelcomeBackgroundUrl: (): string => WELCOME_BACKGROUND_URL,
+  getChallengePathBackgroundUrl: (): string => CHALLENGE_PATH_BACKGROUND_URL,
   TOTAL_POINTS_TO_CONQUER,
   MANDALA_PETAL_THRESHOLDS,
 };

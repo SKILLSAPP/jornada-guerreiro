@@ -1,15 +1,15 @@
+// Copie este trecho e peça ao seu assistente de IA para usá-lo para atualizar o arquivo 'src/constants.ts'
 import { Island } from './types';
 
-// The background URLs are reverted to high-quality, thematic external images to enhance atmosphere.
 export const MAIN_BACKGROUND_URL = 'https://i.imgur.com/0XH0wzI_d.png?maxwidth=520&shape=thumb&fidelity=high';
 export const WELCOME_BACKGROUND_URL = 'https://i.imgur.com/rGAEiCz_d.jpeg?maxwidth=520&shape=thumb&fidelity=high';
+export const CHALLENGE_PATH_BACKGROUND_URL = 'https://i.imgur.com/goUCezZ.jpeg';
 export const STORYTELLING_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSdwY8SXcMGaSTvQ50zh2_gudQEnDmCWGBwKnL3-ZhHTrzNFDQ/viewform';
 
 // List of users who are revoked from logging in.
 export const REVOKED_USERS: string[] = [];
 
-// Default island images now use placeholder URLs. These can be customized by the admin
-// in the content management panel, providing flexibility and better visuals.
+
 export const ISLANDS: Island[] = [
   {
     "id": 1,
@@ -401,7 +401,7 @@ export const ISLANDS: Island[] = [
     "pinyinName": "CHUANG’XIN",
     "name": "Ilha dos Sonhos Cristalizados",
     "softSkill": "Criatividade & Inovação",
-    "story": "Nesta ilha, a imaginação ganha forma, e ideias brilhantes flutuam no ar como lanternas. Para conquistá-la, você deve libertar sua mente e ousar construir o que nunca existiu.",
+    "story": "Nesta ilha, a imaginação ganha forma, e ideias brilhantes flutuam no ar como lanternas. Para conquistá-la, você must libertar sua mente e ousar construir o que nunca existiu.",
     "guardian": "Meng, o Guardião dos Sonhos",
     "imageUrl": "https://i.imgur.com/bcFpUs2_d.jpeg?maxwidth=520&shape=thumb&fidelity=high",
     "challenges": [
@@ -975,5 +975,4 @@ export const ISLANDS: Island[] = [
 ];
 
 export const TOTAL_POINTS_TO_CONQUER = 1000;
-
 export const MANDALA_PETAL_THRESHOLDS = [1600, 3200, 4800, 6400, 8000];

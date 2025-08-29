@@ -1,4 +1,3 @@
-
 import React, { useMemo, useState } from 'react';
 import { PlayerData, GradedQuiz } from '../types';
 import { contentService } from '../services/contentService';
@@ -96,15 +95,6 @@ const PlayerDashboard = ({ playerData, onBackToMap }: PlayerDashboardProps) => {
             {petalsEarned === 5 && (
                  <p className="font-bold text-yellow-300 text-center">A MANDALA ESTÁ COMPLETA!</p>
             )}
-
-            <div className="w-full mt-6 pt-6 border-t border-gray-600/50">
-                <h3 className="text-2xl font-cinzel text-yellow-300 mb-4 text-center">Palavras do Mestre</h3>
-                {playerData.mentorFeedback ? (
-                    <p className="text-gray-300 bg-black/30 p-4 rounded-lg italic whitespace-pre-wrap font-serif">{playerData.mentorFeedback}</p>
-                ) : (
-                    <p className="text-gray-500 italic text-center">O Mestre ainda não deixou sua sabedoria registrada aqui.</p>
-                )}
-            </div>
         </div>
 
         <div className="lg:col-span-2 lg:order-1 flex flex-col gap-8">
