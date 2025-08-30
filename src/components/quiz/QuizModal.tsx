@@ -1,7 +1,6 @@
-
 import React, { useState, useEffect, useMemo } from 'react';
 import { Quiz, Difficulty } from '../../types';
-import { gameService } from '../../services/gameService';
+import { contentService } from '../../services/contentService';
 
 interface QuizModalProps {
   quizId: string;
@@ -17,7 +16,7 @@ export default function QuizModal({ quizId, challengeId, onClose, onSubmit }: Qu
   const [view, setView] = useState<'questioning' | 'finished'>('questioning');
 
   useEffect(() => {
-    const loadedQuiz = gameService.getQuiz(quizId);
+    const loadedQuiz = contentService.getQuiz(quizId);
     setQuiz(loadedQuiz);
     if (loadedQuiz) {
       setAnswers(new Array(loadedQuiz.questions.length).fill(-1));

@@ -8,13 +8,13 @@ interface LoginScreenProps {
 }
 
 const LoginScreen = ({ onLogin, error, isLoading }: LoginScreenProps) => {
-  const [isImporting, setIsImporting] = useState(false);
+  const [view, setView] = useState<'login' | 'importUser'>('login');
   
   // Login State
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
 
-  // Import State
+  // User Import State
   const [importCode, setImportCode] = useState('');
   const [importMessage, setImportMessage] = useState<{type: 'success' | 'error', text: string} | null>(null);
 
@@ -25,7 +25,7 @@ const LoginScreen = ({ onLogin, error, isLoading }: LoginScreenProps) => {
     }
   };
   
-  const handleImportSubmit = (e: React.FormEvent) => {
+  const handleImportUserSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setImportMessage(null);
     if (!importCode) return;
@@ -35,7 +35,7 @@ const LoginScreen = ({ onLogin, error, isLoading }: LoginScreenProps) => {
     if (result.success) {
       setImportCode('');
        setTimeout(() => {
-        setIsImporting(false);
+        setView('login');
         setImportMessage(null);
       }, 2500);
     }
@@ -88,18 +88,20 @@ const LoginScreen = ({ onLogin, error, isLoading }: LoginScreenProps) => {
         </div>
       </form>
        {error && <p className="mt-4 text-center text-sm text-red-400">{error}</p>}
-       <p className="pt-4 text-center text-sm text-gray-400">
-          Primeiro acesso?{' '}
-          <button onClick={() => setIsImporting(true)} className="font-medium text-yellow-400 hover:text-yellow-300">
-            Insira seu Código de Invocação
-          </button>
-        </p>
+       <div className="pt-4 text-center text-sm text-gray-400">
+          <p>
+            Primeiro acesso ou novo dispositivo?{' '}
+            <button onClick={() => setView('importUser')} className="font-medium text-yellow-400 hover:text-yellow-300">
+              Insira seu Código de Invocação
+            </button>
+          </p>
+        </div>
     </>
   );
   
-  const renderImport = () => (
+  const renderImportUser = () => (
     <>
-      <form className="mt-8 space-y-4" onSubmit={handleImportSubmit}>
+      <form className="mt-8 space-y-4" onSubmit={handleImportUserSubmit}>
           <textarea
             value={importCode}
             onChange={(e) => setImportCode(e.target.value)}
@@ -117,25 +119,40 @@ const LoginScreen = ({ onLogin, error, isLoading }: LoginScreenProps) => {
       </form>
       {importMessage && <p className={`mt-4 text-center text-sm ${importMessage.type === 'success' ? 'text-green-400' : 'text-red-400'}`}>{importMessage.text}</p>}
       <p className="pt-4 text-center text-sm text-gray-400">
-        <button onClick={() => setIsImporting(false)} className="font-medium text-yellow-400 hover:text-yellow-300">
+        <button onClick={() => setView('login')} className="font-medium text-yellow-400 hover:text-yellow-300">
           &larr; Voltar para o Login
         </button>
       </p>
     </>
   );
 
+  const getTitle = () => {
+    switch(view) {
+      case 'importUser': return 'Ritual de Invocação';
+      default: return 'As Dez Ilhas Sagradas';
+    }
+  };
+  
+  const getSubtitle = () => {
+    switch(view) {
+      case 'importUser': return 'Insira o código secreto para materializar seu guerreiro.';
+      default: return 'A Jornada de um Guerreiro Começa';
+    }
+  };
+
   return (
     <div className="flex items-center justify-center min-h-screen">
       <div className="w-full max-w-md p-8 space-y-8 bg-gray-800 bg-opacity-80 rounded-2xl shadow-2xl border border-yellow-500/30">
         <div className="text-center">
           <h1 className="text-4xl font-bold font-cinzel text-yellow-400 tracking-wider">
-            {isImporting ? 'Ritual de Invocação' : 'As Dez Ilhas Sagradas'}
+            {getTitle()}
           </h1>
           <p className="mt-2 text-gray-300">
-            {isImporting ? 'Insira o código secreto para iniciar sua jornada.' : 'A Jornada de um Guerreiro Começa'}
+            {getSubtitle()}
           </p>
         </div>
-        {isImporting ? renderImport() : renderLogin()}
+        {view === 'login' && renderLogin()}
+        {view === 'importUser' && renderImportUser()}
       </div>
     </div>
   );

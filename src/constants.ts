@@ -1,14 +1,9 @@
-// Copie este trecho e peça ao seu assistente de IA para usá-lo para atualizar o arquivo 'src/constants.ts'
 import { Island } from './types';
 
 export const MAIN_BACKGROUND_URL = 'https://i.imgur.com/0XH0wzI_d.png?maxwidth=520&shape=thumb&fidelity=high';
 export const WELCOME_BACKGROUND_URL = 'https://i.imgur.com/rGAEiCz_d.jpeg?maxwidth=520&shape=thumb&fidelity=high';
 export const CHALLENGE_PATH_BACKGROUND_URL = 'https://i.imgur.com/goUCezZ.jpeg';
 export const STORYTELLING_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSdwY8SXcMGaSTvQ50zh2_gudQEnDmCWGBwKnL3-ZhHTrzNFDQ/viewform';
-
-// List of users who are revoked from logging in.
-export const REVOKED_USERS: string[] = [];
-
 
 export const ISLANDS: Island[] = [
   {
@@ -42,7 +37,6 @@ export const ISLANDS: Island[] = [
             "url": "https://drive.google.com/file/d/1bTNHkEHaXmXEo_DNYuXhctUcNY31wR4_/view?usp=sharing"
           }
         ],
-        "quizUrl": "https://forms.google.com/",
         "quizId": "island-1-challenge-1"
       },
       {
@@ -66,8 +60,7 @@ export const ISLANDS: Island[] = [
             "label": "Podcast de Análise",
             "url": "https://drive.google.com/file/d/1Ag6h9Zowz7_0B23abHOuey14kG7rMEsa/view?usp=sharing"
           }
-        ],
-        "quizUrl": "https://forms.google.com/"
+        ]
       },
       {
         "id": 3,
@@ -90,8 +83,7 @@ export const ISLANDS: Island[] = [
             "label": "Estudo de Caso",
             "url": "#"
           }
-        ],
-        "quizUrl": "https://forms.google.com/"
+        ]
       },
       {
         "id": 4,
@@ -138,8 +130,7 @@ export const ISLANDS: Island[] = [
             "label": "Podcast de Análise",
             "url": "#"
           }
-        ],
-        "quizUrl": "https://forms.google.com/"
+        ]
       },
       {
         "id": 2,
@@ -162,8 +153,7 @@ export const ISLANDS: Island[] = [
             "label": "Podcast de Análise",
             "url": "#"
           }
-        ],
-        "quizUrl": "https://forms.google.com/"
+        ]
       },
       {
         "id": 3,
@@ -186,8 +176,7 @@ export const ISLANDS: Island[] = [
             "label": "Estudo de Caso",
             "url": "#"
           }
-        ],
-        "quizUrl": "https://forms.google.com/"
+        ]
       },
       {
         "id": 4,
@@ -234,8 +223,7 @@ export const ISLANDS: Island[] = [
             "label": "Podcast de Análise",
             "url": "#"
           }
-        ],
-        "quizUrl": "https://forms.google.com/"
+        ]
       },
       {
         "id": 2,
@@ -258,8 +246,7 @@ export const ISLANDS: Island[] = [
             "label": "Podcast de Análise",
             "url": "#"
           }
-        ],
-        "quizUrl": "https://forms.google.com/"
+        ]
       },
       {
         "id": 3,
@@ -282,8 +269,7 @@ export const ISLANDS: Island[] = [
             "label": "Estudo de Caso",
             "url": "#"
           }
-        ],
-        "quizUrl": "https://forms.google.com/"
+        ]
       },
       {
         "id": 4,
@@ -330,8 +316,7 @@ export const ISLANDS: Island[] = [
             "label": "Podcast de Análise",
             "url": "#"
           }
-        ],
-        "quizUrl": "https://forms.google.com/"
+        ]
       },
       {
         "id": 2,
@@ -354,8 +339,7 @@ export const ISLANDS: Island[] = [
             "label": "Podcast de Análise",
             "url": "#"
           }
-        ],
-        "quizUrl": "https://forms.google.com/"
+        ]
       },
       {
         "id": 3,
@@ -378,8 +362,7 @@ export const ISLANDS: Island[] = [
             "label": "Estudo de Caso",
             "url": "#"
           }
-        ],
-        "quizUrl": "https://forms.google.com/"
+        ]
       },
       {
         "id": 4,
@@ -426,8 +409,7 @@ export const ISLANDS: Island[] = [
             "label": "Podcast de Análise",
             "url": "#"
           }
-        ],
-        "quizUrl": "https://forms.google.com/"
+        ]
       },
       {
         "id": 2,
@@ -450,8 +432,7 @@ export const ISLANDS: Island[] = [
             "label": "Podcast de Análise",
             "url": "#"
           }
-        ],
-        "quizUrl": "https://forms.google.com/"
+        ]
       },
       {
         "id": 3,
@@ -474,8 +455,7 @@ export const ISLANDS: Island[] = [
             "label": "Estudo de Caso",
             "url": "#"
           }
-        ],
-        "quizUrl": "https://forms.google.com/"
+        ]
       },
       {
         "id": 4,
@@ -522,8 +502,7 @@ export const ISLANDS: Island[] = [
             "label": "Podcast de Análise",
             "url": "#"
           }
-        ],
-        "quizUrl": "https://forms.google.com/"
+        ]
       },
       {
         "id": 2,
@@ -546,8 +525,7 @@ export const ISLANDS: Island[] = [
             "label": "Podcast de Análise",
             "url": "#"
           }
-        ],
-        "quizUrl": "https://forms.google.com/"
+        ]
       },
       {
         "id": 3,
@@ -570,8 +548,7 @@ export const ISLANDS: Island[] = [
             "label": "Estudo de Caso",
             "url": "#"
           }
-        ],
-        "quizUrl": "https://forms.google.com/"
+        ]
       },
       {
         "id": 4,
@@ -618,8 +595,7 @@ export const ISLANDS: Island[] = [
             "label": "Podcast de Análise",
             "url": "#"
           }
-        ],
-        "quizUrl": "https://forms.google.com/"
+        ]
       },
       {
         "id": 2,
@@ -642,8 +618,7 @@ export const ISLANDS: Island[] = [
             "label": "Podcast de Análise",
             "url": "#"
           }
-        ],
-        "quizUrl": "https://forms.google.com/"
+        ]
       },
       {
         "id": 3,
@@ -666,8 +641,7 @@ export const ISLANDS: Island[] = [
             "label": "Estudo de Caso",
             "url": "#"
           }
-        ],
-        "quizUrl": "https://forms.google.com/"
+        ]
       },
       {
         "id": 4,
@@ -714,8 +688,7 @@ export const ISLANDS: Island[] = [
             "label": "Podcast de Análise",
             "url": "#"
           }
-        ],
-        "quizUrl": "https://forms.google.com/"
+        ]
       },
       {
         "id": 2,
@@ -738,8 +711,7 @@ export const ISLANDS: Island[] = [
             "label": "Podcast de Análise",
             "url": "#"
           }
-        ],
-        "quizUrl": "https://forms.google.com/"
+        ]
       },
       {
         "id": 3,
@@ -762,8 +734,7 @@ export const ISLANDS: Island[] = [
             "label": "Estudo de Caso",
             "url": "#"
           }
-        ],
-        "quizUrl": "https://forms.google.com/"
+        ]
       },
       {
         "id": 4,
@@ -810,8 +781,7 @@ export const ISLANDS: Island[] = [
             "label": "Podcast de Análise",
             "url": "#"
           }
-        ],
-        "quizUrl": "https://forms.google.com/"
+        ]
       },
       {
         "id": 2,
@@ -834,8 +804,7 @@ export const ISLANDS: Island[] = [
             "label": "Podcast de Análise",
             "url": "#"
           }
-        ],
-        "quizUrl": "https://forms.google.com/"
+        ]
       },
       {
         "id": 3,
@@ -858,8 +827,7 @@ export const ISLANDS: Island[] = [
             "label": "Estudo de Caso",
             "url": "#"
           }
-        ],
-        "quizUrl": "https://forms.google.com/"
+        ]
       },
       {
         "id": 4,
@@ -906,8 +874,7 @@ export const ISLANDS: Island[] = [
             "label": "Podcast de Análise",
             "url": "#"
           }
-        ],
-        "quizUrl": "https://forms.google.com/"
+        ]
       },
       {
         "id": 2,
@@ -930,8 +897,7 @@ export const ISLANDS: Island[] = [
             "label": "Podcast de Análise",
             "url": "#"
           }
-        ],
-        "quizUrl": "https://forms.google.com/"
+        ]
       },
       {
         "id": 3,
@@ -954,8 +920,7 @@ export const ISLANDS: Island[] = [
             "label": "Estudo de Caso",
             "url": "#"
           }
-        ],
-        "quizUrl": "https://forms.google.com/"
+        ]
       },
       {
         "id": 4,

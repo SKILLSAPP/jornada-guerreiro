@@ -52,9 +52,17 @@ export default function ContentManagement() {
     };
     
     const handleGenerateCode = () => {
-        const islandsString = JSON.stringify(islands, null, 2);
+        const islandsData = JSON.parse(JSON.stringify(islands));
+        // Remove quizId from challenges before generating code
+        islandsData.forEach((island: Island) => {
+            island.challenges.forEach(challenge => {
+                delete challenge.quizId;
+            });
+        });
 
-        const codeString = `// Copie este trecho e peça ao seu assistente de IA para usá-lo para atualizar o arquivo 'src/constants.ts'
+        const islandsString = JSON.stringify(islandsData, null, 2);
+
+        const codeString = `import { Island } from './types';
 
 export const MAIN_BACKGROUND_URL = '${mainBgUrl}';
 export const WELCOME_BACKGROUND_URL = '${welcomeBgUrl}';

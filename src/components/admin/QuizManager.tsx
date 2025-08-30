@@ -1,18 +1,45 @@
-
 import React, { useState, useEffect, useMemo } from 'react';
 import { Island, Quiz, QuizQuestion } from '../../types';
 import { contentService } from '../../services/contentService';
 import { geminiService } from '../../services/geminiService';
-import { gameService } from '../../services/gameService';
 
-const QuizCreator = ({ title, availableChallenges, generationFn, onUpdate, isRedemption = false }: any) => {
+const LibraryCodeModal = ({ code, onClose }: { code: string; onClose: () => void }) => (
+    <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 p-4">
+        <div className="bg-gray-800 rounded-lg shadow-2xl p-6 w-full max-w-2xl border border-teal-500/50">
+            <h3 className="text-xl font-cinzel text-teal-400 mb-4">Código da Biblioteca de Quizzes</h3>
+            <p className="text-gray-300 mb-4 text-sm">Copie este código e peça ao seu Engenheiro de IA para usá-lo para substituir o conteúdo do arquivo <code className="bg-black/50 px-1 rounded">src/quizzes.ts</code>.</p>
+            <textarea
+                readOnly
+                value={code}
+                className="w-full h-48 p-3 bg-gray-900 border border-gray-600 rounded-md text-gray-200 font-mono text-xs"
+            />
+            <div className="mt-4 flex gap-4">
+                <button 
+                    onClick={() => {
+                        navigator.clipboard.writeText(code);
+                        alert('Código copiado para a área de transferência!');
+                    }}
+                    className="flex-1 bg-teal-500 hover:bg-teal-600 text-white font-bold py-2 px-4 rounded transition-colors"
+                >
+                    Copiar Código
+                </button>
+                <button 
+                    onClick={onClose} 
+                    className="flex-1 bg-gray-600 hover:bg-gray-500 text-white font-bold py-2 px-4 rounded transition-colors"
+                >
+                    Fechar
+                </button>
+            </div>
+        </div>
+    </div>
+);
+
+const QuizCreator = ({ title, availableChallenges, generationFn, onQuizCreated, isRedemption = false }: any) => {
     const [isLoading, setIsLoading] = useState(false);
     const [status, setStatus] = useState<{ type: 'success' | 'error' | 'info'; text: string } | null>(null);
-
     const [quizName, setQuizName] = useState('');
     const [selectedChallengeKey, setSelectedChallengeKey] = useState('');
     const [context, setContext] = useState('');
-    
     const [generatedQuestions, setGeneratedQuestions] = useState<QuizQuestion[] | null>(null);
 
     const resetForm = () => {
@@ -53,22 +80,20 @@ const QuizCreator = ({ title, availableChallenges, generationFn, onUpdate, isRed
     };
 
     const handleSaveQuiz = () => {
-        if (!generatedQuestions || !selectedChallengeKey || !quizName) {
-            return;
-        }
+        if (!generatedQuestions || !selectedChallengeKey || !quizName) return;
         
         const [islandId, challengeId] = selectedChallengeKey.split('-').map(Number);
-        const quizId = `island-${islandId}-challenge-${challengeId}`;
+        
+        let quizId = `island-${islandId}-challenge-${challengeId}`;
+        if (isRedemption) {
+            quizId += `-redemption`;
+        }
 
         const newQuiz: Quiz = { id: quizId, name: quizName, islandId, challengeId, questions: generatedQuestions };
 
-        const result = gameService.saveQuiz(newQuiz);
-        setStatus({ type: result.success ? 'success' : 'error', text: result.message });
-        
-        if (result.success) {
-            onUpdate();
-            resetForm();
-        }
+        onQuizCreated(newQuiz);
+        setStatus({ type: 'success', text: `Quiz "${quizName}" adicionado à biblioteca local! Gere o código final para salvar permanentemente.` });
+        resetForm();
     };
 
     return (
@@ -112,7 +137,7 @@ const QuizCreator = ({ title, availableChallenges, generationFn, onUpdate, isRed
               </div>
               <div className="flex gap-4">
                    <button onClick={() => { setGeneratedQuestions(null); setStatus(null); }} className="w-full py-2 px-4 bg-gray-600 hover:bg-gray-500 text-white font-bold rounded-lg">Descartar</button>
-                  <button onClick={handleSaveQuiz} className="w-full py-2 px-4 bg-green-600 hover:bg-green-700 text-white font-bold rounded-lg">Aprovar e Salvar</button>
+                  <button onClick={handleSaveQuiz} className="w-full py-2 px-4 bg-green-600 hover:bg-green-700 text-white font-bold rounded-lg">Aprovar e Adicionar à Biblioteca</button>
               </div>
           </div>
         )}
@@ -123,28 +148,36 @@ const QuizCreator = ({ title, availableChallenges, generationFn, onUpdate, isRed
 export default function QuizManager() {
     const [islands, setIslands] = useState<Island[]>([]);
     const [allQuizzes, setAllQuizzes] = useState<Quiz[]>([]);
-    const [status, setStatus] = useState<{ type: 'success' | 'error' | 'info'; text: string } | null>(null);
-
-    const updateQuizzes = () => {
-        setAllQuizzes(gameService.getAllQuizzes());
-    };
+    const [libraryCode, setLibraryCode] = useState<string | null>(null);
 
     useEffect(() => {
         setIslands(contentService.getIslands());
-        updateQuizzes();
+        setAllQuizzes(contentService.getQuizzes());
     }, []);
+    
+    const handleQuizCreated = (newQuiz: Quiz) => {
+        setAllQuizzes(prevQuizzes => {
+            const existingIndex = prevQuizzes.findIndex(q => q.id === newQuiz.id);
+            if (existingIndex > -1) {
+                const updated = [...prevQuizzes];
+                updated[existingIndex] = newQuiz;
+                return updated;
+            } else {
+                return [...prevQuizzes, newQuiz];
+            }
+        });
+    };
 
     const { regularChallenges, redemptionChallenges, challengeMap } = useMemo(() => {
-        const existingQuizKeys = new Set(allQuizzes.map(q => `${q.islandId}-${q.challengeId}`));
+        const existingQuizIds = new Set(allQuizzes.map(q => q.id));
         const challengeMap = new Map();
         
         const regular = islands.flatMap(island => 
             island.challenges
-                .filter(challenge => challenge.id < 4)
+                .filter(challenge => challenge.quizId && challenge.id < 4)
                 .map(challenge => {
-                    const key = `${island.id}-${challenge.id}`;
-                    const item = { key, label: `${island.name} > ${challenge.title}`, points: challenge.points, isLinked: existingQuizKeys.has(key) };
-                    challengeMap.set(key, item);
+                    const item = { key: `${island.id}-${challenge.id}`, label: `${island.name} > ${challenge.title}`, points: challenge.points, isLinked: existingQuizIds.has(challenge.quizId!) };
+                    challengeMap.set(challenge.quizId!, item);
                     return item;
                 })
         );
@@ -152,9 +185,9 @@ export default function QuizManager() {
             island.challenges
                 .filter(challenge => challenge.id === 4)
                 .map(challenge => {
-                    const key = `${island.id}-${challenge.id}`;
-                    const item = { key, label: `${island.name} > Quiz de Redenção`, points: challenge.points, isLinked: existingQuizKeys.has(key) };
-                    challengeMap.set(key, item);
+                    const quizId = `island-${island.id}-challenge-4-redemption`;
+                    const item = { key: `${island.id}-${challenge.id}`, label: `${island.name} > Quiz de Redenção`, points: challenge.points, isLinked: existingQuizIds.has(quizId) };
+                    challengeMap.set(quizId, item);
                     return item;
                 })
         );
@@ -162,36 +195,43 @@ export default function QuizManager() {
     }, [islands, allQuizzes]);
     
     const handleDeleteQuiz = (quizId: string) => {
-        if (window.confirm("Tem certeza que deseja excluir este quiz?")) {
-            const result = gameService.deleteQuiz(quizId);
-            setStatus({ type: result.success ? 'success' : 'error', text: result.message });
-            if (result.success) {
-                updateQuizzes();
-            }
+        if (window.confirm("Tem certeza que deseja remover este quiz da biblioteca local?")) {
+            setAllQuizzes(prev => prev.filter(q => q.id !== quizId));
         }
     }
 
+    const handleGenerateLibraryCode = () => {
+        const codeString = `import { Quiz } from './types';
+
+export const ALL_QUIZZES: Quiz[] = ${JSON.stringify(allQuizzes, null, 2)};
+`;
+        setLibraryCode(codeString);
+    };
+
     return (
         <div className="space-y-8">
+            {libraryCode && <LibraryCodeModal code={libraryCode} onClose={() => setLibraryCode(null)} />}
             <QuizCreator
                 title="Novo Quiz Padrão"
                 availableChallenges={regularChallenges}
                 generationFn={geminiService.generateQuiz}
-                onUpdate={updateQuizzes}
+                onQuizCreated={handleQuizCreated}
             />
             <QuizCreator
                 title="Novo Quiz de Redenção"
                 availableChallenges={redemptionChallenges}
                 generationFn={geminiService.generateRedemptionQuiz}
-                onUpdate={updateQuizzes}
+                onQuizCreated={handleQuizCreated}
                 isRedemption={true}
             />
             <div className="bg-gray-800/50 p-6 rounded-lg border border-gray-700">
-                <h2 className="text-xl font-cinzel text-yellow-400 mb-4">Quizzes Existentes</h2>
-                 {status && !status.text.includes("salvo") && <p className={`mb-4 text-center text-sm p-3 rounded-md bg-red-900/50 text-red-400`}>{status.text}</p>}
+                <div className="flex flex-col sm:flex-row justify-between items-start gap-4 mb-4">
+                    <h2 className="text-xl font-cinzel text-yellow-400">Biblioteca de Quizzes (Local)</h2>
+                    <button onClick={handleGenerateLibraryCode} className="w-full sm:w-auto py-2 px-4 bg-teal-600 hover:bg-teal-700 text-white font-bold rounded-lg">Gerar Código da Biblioteca</button>
+                </div>
                 <div className="space-y-2 max-h-[40vh] overflow-y-auto pr-2">
                     {allQuizzes.length > 0 ? allQuizzes.map(quiz => {
-                       const challengeInfo = challengeMap.get(`${quiz.islandId}-${quiz.challengeId}`);
+                       const challengeInfo = challengeMap.get(quiz.id);
                        return (
                         <div key={quiz.id} className="flex justify-between items-center bg-gray-900/50 p-3 rounded-md">
                             <div>
@@ -201,7 +241,7 @@ export default function QuizManager() {
                             <button onClick={() => handleDeleteQuiz(quiz.id)} className="px-3 py-1 bg-red-800 hover:bg-red-700 text-white text-xs font-semibold rounded-md">Excluir</button>
                         </div>
                        )
-                    }) : <p className="text-gray-500 italic text-center">Nenhum quiz foi criado ainda.</p>}
+                    }) : <p className="text-gray-500 italic text-center">Nenhum quiz na biblioteca local.</p>}
                 </div>
             </div>
         </div>

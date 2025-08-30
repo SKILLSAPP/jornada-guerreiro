@@ -1,11 +1,9 @@
-
-import { PlayerData, Quiz } from '../types';
-import { REVOKED_USERS } from '../constants';
+import { PlayerData } from '../types';
 
 const USERS_KEY = 'rpg_soft_skills_users';
 const PLAYER_DATA_PREFIX = 'playerData_';
 const LOGGED_IN_USER_KEY = 'rpg_soft_skills_logged_in_user';
-const QUIZZES_KEY = 'rpg_soft_skills_quizzes';
+const REVOKED_USERS: string[] = []; // Not currently used, but kept for potential future use.
 
 const ADMIN_USER = {
   name: 'MENTOR',
@@ -287,7 +285,7 @@ const importUserData = (encodedString: string): { success: boolean, message: str
     }
 };
 
-const gameServiceBase = {
+export const gameService = {
   login,
   logout,
   getLoggedInUser,
@@ -300,57 +298,4 @@ const gameServiceBase = {
   exportUserData,
   importUserData,
   ADMIN_USER,
-};
-
-const quizService = {
-  getAllQuizzes: (): Quiz[] => {
-    const quizzesString = localStorage.getItem(QUIZZES_KEY);
-    return quizzesString ? JSON.parse(quizzesString) : [];
-  },
-
-  getQuiz: (quizId: string): Quiz | null => {
-    const quizzes = quizService.getAllQuizzes();
-    return quizzes.find(q => q.id === quizId) || null;
-  },
-
-  saveQuiz: (quizToSave: Quiz): { success: boolean; message: string } => {
-    try {
-        let quizzes = quizService.getAllQuizzes();
-        const existingIndex = quizzes.findIndex(q => q.id === quizToSave.id);
-        
-        if (existingIndex > -1) {
-            quizzes[existingIndex] = quizToSave; // Update existing
-        } else {
-            quizzes.push(quizToSave); // Add new
-        }
-        
-        localStorage.setItem(QUIZZES_KEY, JSON.stringify(quizzes));
-        return { success: true, message: "Quiz salvo com sucesso!" };
-    } catch (error) {
-        console.error("Erro ao salvar quiz:", error);
-        return { success: false, message: "Falha ao salvar o quiz." };
-    }
-  },
-
-  deleteQuiz: (quizId: string): { success: boolean; message: string } => {
-    try {
-        let quizzes = quizService.getAllQuizzes();
-        const updatedQuizzes = quizzes.filter(q => q.id !== quizId);
-        
-        if (quizzes.length === updatedQuizzes.length) {
-            return { success: false, message: "Quiz não encontrado para exclusão." };
-        }
-
-        localStorage.setItem(QUIZZES_KEY, JSON.stringify(updatedQuizzes));
-        return { success: true, message: "Quiz excluído com sucesso!" };
-    } catch (error) {
-        console.error("Erro ao excluir quiz:", error);
-        return { success: false, message: "Falha ao excluir o quiz." };
-    }
-  },
-};
-
-export const gameService = {
-    ...gameServiceBase,
-    ...quizService,
 };

@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useCallback } from 'react';
 import { PlayerData, Island, Challenge, Quiz, GradedQuiz, PendingSubmission, PlayerProgress } from '../../types';
 import { gameService } from '../../services/gameService';
@@ -37,7 +36,7 @@ export default function TaskGrading() {
         const key = `${player.name}-${islandId}-${challenge.id}`;
         setGradingState({ ...gradingState, key, isLoading: true });
 
-        const quiz = gameService.getQuiz(challenge.quizId!);
+        const quiz = contentService.getQuiz(challenge.quizId!);
         if (!quiz || !submission.answers) {
             setGradingState({ ...gradingState, key, isLoading: false, feedback: 'Erro: Quiz/respostas não encontrados.' });
             return;
