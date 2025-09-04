@@ -1,42 +1,45 @@
-
 import { GoogleGenAI, Type } from "@google/genai";
 import { QuizQuestion, Quiz, GradedQuiz, Island, PlayerData, PlayerProgress } from '../types';
 
-// Declaração para informar ao TypeScript sobre o objeto 'process' injetado pelo Vite,
-// resolvendo o erro "Cannot find name 'process'".
-declare const process: {
-  env: {
-    API_KEY?: string;
-  };
-};
+let geminiAiClient: GoogleGenAI | null = null;
+export let geminiInitializationError: string | null = null;
 
-// --- Bloco de Inicialização da API ---
-let ai: GoogleGenAI | null = null;
-let initializationError: string | null = null;
-
-try {
-  const apiKey = process.env.API_KEY;
-  if (!apiKey) {
-    throw new Error("A chave para o reino dos espíritos (API_KEY) não foi encontrada nos pergaminhos de configuração do ambiente. O Mestre deve verificar se a chave foi configurada corretamente para o teste local.");
-  }
-  ai = new GoogleGenAI({ apiKey });
-} catch (error) {
-  if (error instanceof Error) {
-    initializationError = error.message;
-  } else {
-    initializationError = "Ocorreu um erro desconhecido ao tentar estabelecer conexão com os espíritos ancestrais (API).";
-  }
-  console.error("Falha na inicialização da API Gemini:", initializationError);
-}
-// --- Fim do Bloco de Inicialização ---
-
-
-const generateQuizBase = async (context: string, challengeTitle: string, totalPoints: number, systemInstruction: string, schema: any): Promise<QuizQuestion[] | string> => {
-    if (!ai) {
-      return initializationError || "A conexão com os espíritos ancestrais (API) não foi estabelecida.";
+// Self-invoking function to initialize on module load without throwing
+(() => {
+    const apiKey = process.env.API_KEY;
+    if (!apiKey) {
+        geminiInitializationError = "A chave para o reino dos espíritos (API_KEY) não foi encontrada nos pergaminhos de configuração do ambiente.";
+        console.error(geminiInitializationError);
+        return;
     }
     try {
-      const response = await ai.models.generateContent({
+        geminiAiClient = new GoogleGenAI({ apiKey });
+    } catch (e) {
+        const message = e instanceof Error ? e.message : 'Erro desconhecido ao inicializar o Gemini AI.';
+        geminiInitializationError = `A chave para o reino dos espíritos (API_KEY) foi rejeitada ou é inválida. Detalhes: ${message}`;
+        console.error(geminiInitializationError, e);
+    }
+})();
+
+
+// --- Centralized Error Handler ---
+const handleApiError = (error: unknown, context: string): string => {
+    console.error(`Erro na API Gemini durante ${context}:`, error);
+    if (error instanceof Error) {
+        if (error.message.includes('API key not valid')) {
+            return `A chave para o reino dos espíritos (API_KEY) foi rejeitada. Verifique se a chave é válida e possui as permissões necessárias.`;
+        }
+        return `Os ventos da magia estão turbulentos. Não foi possível completar a ação (${context}). Erro: ${error.message}`;
+    }
+    return `Os ventos da magia estão turbulentos. Ocorreu um erro desconhecido durante ${context}.`;
+};
+
+const generateQuizBase = async (context: string, challengeTitle: string, totalPoints: number, systemInstruction: string, schema: any): Promise<QuizQuestion[] | string> => {
+    if (geminiInitializationError) return geminiInitializationError;
+    if (!geminiAiClient) return "Cliente Gemini AI não inicializado.";
+
+    try {
+      const response = await geminiAiClient.models.generateContent({
         model: 'gemini-2.5-flash',
         contents: `Aqui está o material de estudo para o desafio "${challengeTitle}". A pontuação total para o quiz é ${totalPoints}. Crie um quiz a partir dele:\n\n---\n${context}\n---`,
         config: {
@@ -64,14 +67,7 @@ const generateQuizBase = async (context: string, challengeTitle: string, totalPo
       return jsonResponse.questions;
 
     } catch (error: unknown) {
-      console.error("Erro ao gerar quiz com a API Gemini:", error);
-      if (error instanceof Error && error.message.includes('API key not valid')) {
-        return `A chave para o reino dos espíritos (API_KEY) foi rejeitada. Verifique se a chave é válida e possui as permissões necessárias.`;
-      }
-      if (error instanceof Error) {
-        return `Os ventos da magia estão turbulentos. Não foi possível gerar o quiz. Erro: ${error.message}`;
-      }
-      return "Os ventos da magia estão turbulentos. Não foi possível gerar o quiz.";
+      return handleApiError(error, `geração do quiz "${challengeTitle}"`);
     }
 }
 
@@ -115,9 +111,8 @@ const baseQuizSchema = {
 
 export const geminiService = {
   evaluatePlan: async (plan: string, softSkill: string): Promise<string> => {
-    if (!ai) {
-        return initializationError || "A conexão com os espíritos ancestrais (API) não foi estabelecida. Verifique a configuração do Mestre.";
-    }
+    if (geminiInitializationError) return geminiInitializationError;
+    if (!geminiAiClient) return "Cliente Gemini AI não inicializado.";
     try {
       const systemInstruction = `Você é um mentor sábio e encorajador chamado Mestre Jin, avaliando o plano estratégico de um jovem guerreiro. Seu feedback deve ser construtivo e focado na soft skill de "${softSkill}".
       Avalie o plano com base em:
@@ -131,7 +126,7 @@ export const geminiService = {
       
       Seu tom deve ser o de um mestre antigo e paciente, guiando um aluno promissor. Comece sua resposta com uma saudação apropriada como "Jovem guerreiro, analisei sua estratégia..." e termine com um encerramento encorajador. Não mencione que você é uma IA.`;
 
-      const response = await ai.models.generateContent({
+      const response = await geminiAiClient.models.generateContent({
         model: "gemini-2.5-flash",
         contents: plan,
         config: {
@@ -140,11 +135,9 @@ export const geminiService = {
         },
       });
 
-      const responseText = response.text;
-      return responseText || "Os ventos da magia estão turbulentos. Não consegui avaliar seu plano neste momento. Descanse e tente novamente quando a conexão com os espíritos estiver mais clara.";
+      return response.text || "Os ventos da magia estão turbulentos. Não consegui avaliar seu plano neste momento.";
     } catch (error) {
-      console.error("Erro ao avaliar o plano com a API Gemini:", error);
-      return "Os ventos da magia estão turbulentos. Não consegui avaliar seu plano neste momento. Descanse e tente novamente quando a conexão com os espíritos estiver mais clara.";
+      return handleApiError(error, "avaliação de plano");
     }
   },
 
@@ -184,7 +177,7 @@ REGRAS GERAIS ESTRITAS:
 *   **Formato:** Apresente um mini-caso ou uma situação do cotidiano corporativo em 3 a 4 linhas.
 *   **Diretriz:** A pergunta deve explorar um dilema ou decisão. As alternativas devem ser elaboradas (1 a 2 linhas cada), com argumentos lógicos, exigindo análise para escolher a correta.
 
-#### 3. NÍVEL DIFÍCIL (1 pergunta)
+#### 3. NÍVEL DIFÍCIO (1 pergunta)
 *   **Objetivo:** Avaliar a análise crítica de um cenário complexo.
 *   **Formato:** Elabore um pequeno storytelling (6 a 8 linhas) descrevendo um problema corporativo realista e desafiador. A pergunta deve derivar desse cenário.
 *   **Diretriz:** O problema deve ter contexto e detalhes. As alternativas devem ser plausíveis e bem argumentadas, forçando o raciocínio crítico para encontrar a melhor solução baseada no material.
@@ -214,9 +207,8 @@ REGRAS GERAIS ESTRITAS:
   },
 
   getFinalResultFeedback: async (playerName: string, finalScore: number, requiredScore: number): Promise<string> => {
-     if (!ai) {
-        return initializationError || "Os espíritos estão confusos devido a uma falha de conexão (API).";
-    }
+    if (geminiInitializationError) return geminiInitializationError;
+    if (!geminiAiClient) return "Cliente Gemini AI não inicializado.";
     const didPass = finalScore >= requiredScore;
     const prompt = `O guerreiro ${playerName} completou o desafio final da ilha e alcançou ${finalScore} moedas de ouro. A meta para conquistar a ilha era de ${requiredScore} moedas. Com base nisso, escreva um pequeno parágrafo de feedback para o Mestre do Jogo.
     
@@ -226,37 +218,22 @@ REGRAS GERAIS ESTRITAS:
     Seja direto e use uma linguagem que se encaixe num universo de RPG. Não mencione que você é uma IA.`;
 
      try {
-      const response = await ai.models.generateContent({
+      const response = await geminiAiClient.models.generateContent({
         model: "gemini-2.5-flash",
         contents: prompt,
         config: {
           temperature: 0.8,
         },
       });
-      const responseText = response.text;
-      return responseText || "Os espíritos estão confusos. Não foi possível gerar um conselho neste momento.";
+      return response.text || "Os espíritos estão confusos. Não foi possível gerar um conselho neste momento.";
     } catch (error) {
-      console.error("Erro ao gerar feedback final:", error);
-      return "Os espíritos estão confusos. Não foi possível gerar um conselho neste momento.";
+      return handleApiError(error, "geração de feedback final");
     }
   },
   
   gradeQuiz: async (quiz: Quiz, answers: number[]): Promise<{ suggestedScore: number; suggestedGeneralFeedback: string; gradedQuiz: GradedQuiz }> => {
-    if (!ai) {
-        const errorMsg = initializationError || "A conexão com os espíritos da IA não foi estabelecida.";
-        throw new Error(errorMsg);
-    }
-
-    const systemInstruction = `Você é um mentor de um jogo de RPG, o Mestre Jin. Sua tarefa é corrigir o quiz de um aluno, fornecer feedback e uma nota.
-O quiz já contém os pontos de cada questão. Sua tarefa é:
-
-REGRAS ESTRITAS:
-1.  **Calcular Nota Final:** A nota final do aluno ('suggestedScore') é a SOMA dos pontos APENAS das questões que ele acertou.
-2.  **Gerar Feedback Geral:** Escreva um parágrafo como o Mestre Jin, resumindo o desempenho do aluno de forma encorajadora e sábia.
-3.  **Gerar Feedback por Questão:** Para o campo \`feedback\` de CADA questão, use o seguinte formato de duas partes:
-    *   **Parte 1 (Lúdica):** Uma frase curta, épica e sábia no tom do Mestre Jin. Use termos como "Jovem Guerreiro", "Aprendiz", "Guerreiro". Use um tom de humor inteligente. Exemplo: "Ah, Jovem Guerreiro, aqui o caminho ficou um pouco turvo." ou "Excelente, sua lâmina de raciocínio cortou o âmago da questão!".
-    *   **Parte 2 (Técnica):** Uma explicação técnica e clara, baseada na 'rationale' da pergunta, explicando por que a resposta do aluno está certa ou errada.
-4.  **JSON Output:** O resultado DEVE ser um objeto JSON que segue o schema fornecido.`;
+    if (geminiInitializationError) throw new Error(geminiInitializationError);
+    if (!geminiAiClient) throw new Error("Cliente Gemini AI não inicializado.");
     
     const promptPayload = {
       quiz,
@@ -295,7 +272,18 @@ REGRAS ESTRITAS:
     };
 
     try {
-      const response = await ai.models.generateContent({
+      const systemInstruction = `Você é um mentor de um jogo de RPG, o Mestre Jin. Sua tarefa é corrigir o quiz de um aluno, fornecer feedback e uma nota.
+O quiz já contém os pontos de cada questão. Sua tarefa é:
+
+REGRAS ESTRITAS:
+1.  **Calcular Nota Final:** A nota final do aluno ('suggestedScore') é a SOMA dos pontos APENAS das questões que ele acertou.
+2.  **Gerar Feedback Geral:** Escreva um parágrafo como o Mestre Jin, resumindo o desempenho do aluno de forma encorajadora e sábia.
+3.  **Gerar Feedback por Questão:** Para o campo \`feedback\` de CADA questão, use o seguinte formato de duas partes:
+    *   **Parte 1 (Lúdica):** Uma frase curta, épica e sábia no tom do Mestre Jin. Use termos como "Jovem Guerreiro", "Aprendiz", "Guerreiro". Use um tom de humor inteligente. Exemplo: "Ah, Jovem Guerreiro, aqui o caminho ficou um pouco turvo." ou "Excelente, sua lâmina de raciocínio cortou o âmago da questão!".
+    *   **Parte 2 (Técnica):** Uma explicação técnica e clara, baseada na 'rationale' da pergunta, explicando por que a resposta do aluno está certa ou errada.
+4.  **JSON Output:** O resultado DEVE ser um objeto JSON que segue o schema fornecido.`;
+
+      const response = await geminiAiClient.models.generateContent({
         model: 'gemini-2.5-flash',
         contents: `Corrija este quiz para mim. Aqui estão os dados em JSON:\n\n${JSON.stringify(promptPayload, null, 2)}`,
         config: {
@@ -320,11 +308,11 @@ REGRAS ESTRITAS:
       return gradedResult;
 
     } catch (error) {
-      console.error("Erro ao avaliar o quiz com a IA:", error);
-      if (error instanceof Error) {
-        throw new Error(`O Mestre Jin está meditando e não pôde avaliar o quiz agora. Erro: ${error.message}`);
-      }
-      throw new Error("O Mestre Jin está meditando e não pôde avaliar o quiz agora.");
+       console.error("Erro ao avaliar o quiz com a IA:", error);
+       if (error instanceof Error) {
+         throw new Error(`O Mestre Jin está meditando e não pôde avaliar o quiz agora. Erro: ${error.message}`);
+       }
+       throw new Error("O Mestre Jin está meditando e não pôde avaliar o quiz agora.");
     }
   },
 
@@ -334,9 +322,9 @@ REGRAS ESTRITAS:
     progress: PlayerProgress,
     taskFeedback?: PlayerData['taskFeedback']
   ): Promise<string> => {
-    if (!ai) {
-        return initializationError || "Os espíritos estão confusos devido a uma falha de conexão (API).";
-    }
+    if (geminiInitializationError) return geminiInitializationError;
+    if (!geminiAiClient) return "Cliente Gemini AI não inicializado.";
+
     const islandProgress = progress[currentIsland.id] || { score: 0, completedChallenges: [] };
     
     const islandFeedbacks = taskFeedback ? Object.entries(taskFeedback)
@@ -360,18 +348,16 @@ Com base nesses dados, escreva uma análise concisa (2-3 parágrafos) que aborde
 Mantenha um tom de mentor, sendo técnico, mas encorajador. Não mencione que você é uma IA.`;
 
     try {
-      const response = await ai.models.generateContent({
+      const response = await geminiAiClient.models.generateContent({
         model: "gemini-2.5-flash",
         contents: prompt,
         config: {
           temperature: 0.6,
         },
       });
-      const responseText = response.text;
-      return responseText || "Os espíritos ancestrais permaneceram em silêncio. Nenhuma análise foi retornada.";
+      return response.text || "Os espíritos ancestrais permaneceram em silêncio. Nenhuma análise foi retornada.";
     } catch (error) {
-      console.error("Erro ao gerar análise de progresso:", error);
-      return "Os espíritos estão confusos. Não foi possível gerar uma análise neste momento.";
+      return handleApiError(error, `análise de progresso de ${playerName}`);
     }
   },
 };

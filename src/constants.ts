@@ -4,6 +4,7 @@ export const MAIN_BACKGROUND_URL = 'https://i.imgur.com/0XH0wzI_d.png?maxwidth=5
 export const WELCOME_BACKGROUND_URL = 'https://i.imgur.com/rGAEiCz_d.jpeg?maxwidth=520&shape=thumb&fidelity=high';
 export const CHALLENGE_PATH_BACKGROUND_URL = 'https://i.imgur.com/goUCezZ.jpeg';
 export const STORYTELLING_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSdwY8SXcMGaSTvQ50zh2_gudQEnDmCWGBwKnL3-ZhHTrzNFDQ/viewform';
+export const MENTOR_EMAIL = 'seu-email-aqui@exemplo.com'; // IMPORTANTE: Substituir pelo e-mail real do mentor
 
 export const ISLANDS: Island[] = [
   {
@@ -53,14 +54,15 @@ export const ISLANDS: Island[] = [
           {
             "type": "audio",
             "label": "Resumo de Livro (Áudio)",
-            "url": ""
+            "url": "https://drive.google.com/file/d/1Fwq4tweCmPdRfkEtA5Pjz-aqwMrWonlU/view?usp=sharing"
           },
           {
             "type": "podcast",
             "label": "Podcast de Análise",
             "url": "https://drive.google.com/file/d/1Ag6h9Zowz7_0B23abHOuey14kG7rMEsa/view?usp=sharing"
           }
-        ]
+        ],
+        "quizId": "island-1-challenge-2"
       },
       {
         "id": 3,

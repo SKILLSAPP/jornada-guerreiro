@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { PlayerData, Island, Challenge } from '../../types';
 import { gameService } from '../../services/gameService';
 import { contentService } from '../../services/contentService';
@@ -95,11 +95,22 @@ const PlayerProgressCard = ({ player, islands }: { player: PlayerData, islands: 
 export default function ProgressMonitor() {
     const [players, setPlayers] = useState<PlayerData[]>([]);
     const [islands, setIslands] = useState<Island[]>([]);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        setPlayers(gameService.getAllPlayersData());
-        setIslands(contentService.getIslands());
+        const fetchData = async () => {
+            setLoading(true);
+            const playersData = await gameService.getAllPlayersData();
+            setPlayers(playersData);
+            setIslands(contentService.getIslands());
+            setLoading(false);
+        };
+        fetchData();
     }, []);
+
+    if (loading) {
+        return <p className="text-center text-gray-400 italic p-8">Buscando progresso dos guerreiros...</p>;
+    }
 
     if (players.length === 0) {
         return <p className="text-center text-gray-400 italic p-8">Nenhum guerreiro ativo para monitorar.</p>

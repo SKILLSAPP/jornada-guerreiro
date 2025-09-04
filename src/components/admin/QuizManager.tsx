@@ -174,10 +174,16 @@ export default function QuizManager() {
         
         const regular = islands.flatMap(island => 
             island.challenges
-                .filter(challenge => challenge.quizId && challenge.id < 4)
+                .filter(challenge => challenge.id < 4) // Show all challenges 1, 2, 3
                 .map(challenge => {
-                    const item = { key: `${island.id}-${challenge.id}`, label: `${island.name} > ${challenge.title}`, points: challenge.points, isLinked: existingQuizIds.has(challenge.quizId!) };
-                    challengeMap.set(challenge.quizId!, item);
+                    const potentialQuizId = `island-${island.id}-challenge-${challenge.id}`;
+                    const item = { 
+                        key: `${island.id}-${challenge.id}`, 
+                        label: `${island.name} > ${challenge.title}`, 
+                        points: challenge.points, 
+                        isLinked: existingQuizIds.has(potentialQuizId) 
+                    };
+                    challengeMap.set(potentialQuizId, item);
                     return item;
                 })
         );

@@ -15,17 +15,20 @@ interface GradingState {
     finalFeedback?: string;
 }
 
-const PASSING_SCORE_THRESHOLD = 700;
+const PASSING_SCORE_THRESHOLD = 1000;
 
 export default function TaskGrading() {
     const [players, setPlayers] = useState<PlayerData[]>([]);
     const [islands, setIslands] = useState<Island[]>([]);
     const [gradingState, setGradingState] = useState<Partial<GradingState>>({});
+    const [loading, setLoading] = useState(true);
 
-    const loadData = useCallback(() => {
-        setPlayers(gameService.getAllPlayersData());
+    const loadData = useCallback(async () => {
+        setLoading(true);
+        setPlayers(await gameService.getAllPlayersData());
         setIslands(contentService.getIslands());
         setGradingState({});
+        setLoading(false);
     }, []);
 
     useEffect(() => {
@@ -68,7 +71,7 @@ export default function TaskGrading() {
         setGradingState({ ...gradingState, key, isLoading: false, finalFeedback: feedback, presentationScore: score.toString() });
     };
 
-    const handleGuardianDecision = (player: PlayerData, islandId: number, challengeId: number, approve: boolean) => {
+    const handleGuardianDecision = async (player: PlayerData, islandId: number, challengeId: number, approve: boolean) => {
         const scoreValue = parseInt(gradingState.presentationScore || '0', 10);
         
         const updatedPlayer = JSON.parse(JSON.stringify(player));
@@ -93,13 +96,13 @@ export default function TaskGrading() {
              }
             
             updatedPlayer.progress[islandId] = progress;
-            gameService.savePlayerData(updatedPlayer);
-            loadData();
+            await gameService.savePlayerData(updatedPlayer);
+            await loadData();
         }
     };
 
 
-    const handleConfirmGrade = (player: PlayerData, islandId: number, challenge: Challenge) => {
+    const handleConfirmGrade = async (player: PlayerData, islandId: number, challenge: Challenge) => {
         if (!gradingState.key || !gradingState.gradedQuiz) return;
 
         const scoreValue = parseInt(gradingState.score || '0', 10);
@@ -127,8 +130,8 @@ export default function TaskGrading() {
             };
 
             updatedPlayer.progress[islandId] = progress;
-            gameService.savePlayerData(updatedPlayer);
-            loadData();
+            await gameService.savePlayerData(updatedPlayer);
+            await loadData();
         }
     };
 
@@ -148,6 +151,10 @@ export default function TaskGrading() {
             }).filter(item => item && item.challenge);
         })
     ).filter(Boolean);
+
+    if (loading) {
+         return <p className="text-center text-gray-400 italic p-8">Buscando tarefas na fortaleza de dados...</p>
+    }
 
     if (pendingSubmissions.length === 0) {
         return <p className="text-center text-gray-400 italic p-8">Nenhuma tarefa pendente de avaliação no momento.</p>
