@@ -13,11 +13,11 @@ export default defineConfig(({ mode }) => {
     plugins: [react()],
     // Define as variáveis de ambiente para o código do cliente.
     // O Vite substitui `import.meta.env` automaticamente.
-    // No entanto, para compatibilidade com bibliotecas que ainda usam `process.env` (como o @google/genai SDK),
-    // mantemos a definição explícita para `process.env.API_KEY`.
-    // As variáveis do Supabase usarão o padrão do Vite `import.meta.env` diretamente no código.
+    // Para o SDK @google/genai, que pode usar `process.env`,
+    // definimos explicitamente a chave para garantir compatibilidade.
+    // A origem agora é VITE_API_KEY, padronizando com o Supabase.
     define: {
-      'process.env.API_KEY': JSON.stringify(env.API_KEY),
+      'process.env.API_KEY': JSON.stringify(env.VITE_API_KEY),
     },
   };
 });

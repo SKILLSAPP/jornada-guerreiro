@@ -6,7 +6,9 @@ export let geminiInitializationError: string | null = null;
 
 // Self-invoking function to initialize on module load without throwing
 (() => {
-    const apiKey = process.env.API_KEY;
+    // Vite expõe as variáveis de ambiente com prefixo VITE_ em import.meta.env
+    // A configuração em vite.config.ts também popula process.env para compatibilidade.
+    const apiKey = process.env.API_KEY; 
     if (!apiKey) {
         geminiInitializationError = "A chave para o reino dos espíritos (API_KEY) não foi encontrada nos pergaminhos de configuração do ambiente.";
         console.error(geminiInitializationError);
