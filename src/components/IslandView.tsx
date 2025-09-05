@@ -1,9 +1,9 @@
-
 import React from 'react';
 import { PlayerData, Island } from '../types';
 import { contentService } from '../services/contentService';
 import ChallengeCard from './ChallengeCard';
 import ProgressBar from './ProgressBar';
+import ExtraordinaryChallenge from './ExtraordinaryChallenge';
 
 interface IslandViewProps {
   island: Island;
@@ -15,6 +15,12 @@ interface IslandViewProps {
 const IslandView = ({ island, playerData, onUpdateProgress, onBackToMap }: IslandViewProps) => {
   const islandProgress = playerData.progress[island.id] || { score: 0, completedChallenges: [], pendingSubmissions: {} };
   const isConquered = islandProgress.score >= contentService.TOTAL_POINTS_TO_CONQUER;
+
+  const conqueredIslands = Object.keys(playerData.progress)
+    .filter(id => playerData.progress[Number(id)].score >= contentService.TOTAL_POINTS_TO_CONQUER)
+    .map(Number);
+  const currentIslandId = conqueredIslands.length + 1;
+  const isCurrentIsland = island.id === currentIslandId;
 
   const handleSubmitForReview = (challengeId: number, submission: string | number[], submissionType: 'quiz' | 'submission' | 'presentation') => {
     const newProgress = JSON.parse(JSON.stringify(playerData)); // Deep copy
@@ -47,9 +53,13 @@ const IslandView = ({ island, playerData, onUpdateProgress, onBackToMap }: Islan
     
     newProgress.progress[island.id] = currentIslandProgress;
     onUpdateProgress({ ...newProgress });
+
+    // A mágica agora acontece nos bastidores! O progresso é salvo no banco.
+    alert("Sua tarefa foi enviada ao Mestre para avaliação!");
   };
   
   return (
+    <>
     <div className="bg-gray-800/50 p-6 rounded-lg border border-yellow-500/20">
       <button onClick={onBackToMap} className="mb-4 text-yellow-400 hover:text-yellow-300 font-semibold">
         &larr; Voltar ao Mapa-Múndi
@@ -78,8 +88,8 @@ const IslandView = ({ island, playerData, onUpdateProgress, onBackToMap }: Islan
         </div>
 
         <div className="lg:w-2/3">
-          <h3 className="font-cinzel text-2xl text-gray-200 mb-4 border-b border-gray-600 pb-2">A Trilha Mágica</h3>
           <div className="space-y-4">
+            <h3 className="font-cinzel text-2xl text-gray-200 mb-4 border-b border-gray-600 pb-2">Desafios da Ilha</h3>
             {island.challenges.map((challenge, index) => {
               const isCompleted = islandProgress.completedChallenges.includes(challenge.id);
               const pendingSubmission = islandProgress.pendingSubmissions?.[challenge.id];
@@ -100,9 +110,20 @@ const IslandView = ({ island, playerData, onUpdateProgress, onBackToMap }: Islan
               );
             })}
           </div>
+          
+           {isCurrentIsland && !isConquered && (
+            <div className="mt-8">
+              <ExtraordinaryChallenge 
+                island={island}
+                playerData={playerData}
+                onUpdateProgress={onUpdateProgress}
+              />
+            </div>
+          )}
         </div>
       </div>
     </div>
+    </>
   );
 };
 

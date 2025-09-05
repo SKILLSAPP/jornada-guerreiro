@@ -35,6 +35,18 @@ export default function TaskGrading() {
         loadData();
     }, [loadData]);
 
+    const handleApproveSummary = async (player: PlayerData, islandId: number) => {
+        const updatedPlayer = JSON.parse(JSON.stringify(player));
+        const progress: PlayerProgress[number] = updatedPlayer.progress[islandId];
+        
+        if (progress?.extraordinaryChallenge) {
+            progress.extraordinaryChallenge.summaryApproved = true;
+            updatedPlayer.progress[islandId] = progress;
+            await gameService.savePlayerData(updatedPlayer);
+            await loadData(); // Refresh the list
+        }
+    };
+
     const handleGradeWithAI = async (player: PlayerData, islandId: number, challenge: Challenge, submission: PendingSubmission) => {
         const key = `${player.name}-${islandId}-${challenge.id}`;
         setGradingState({ ...gradingState, key, isLoading: true });
@@ -135,6 +147,19 @@ export default function TaskGrading() {
         }
     };
 
+    const pendingSummaries = players.flatMap(player =>
+        Object.entries(player.progress).map(([islandIdStr, islandProgress]) => {
+            const islandId = Number(islandIdStr);
+            const island = islands.find(i => i.id === islandId);
+            const ecState = islandProgress.extraordinaryChallenge;
+            if (island && ecState?.summarySubmitted && !ecState.summaryApproved) {
+                return { player, island, summaryText: ecState.summaryText };
+            }
+            return null;
+        })
+    ).filter(Boolean);
+
+
     const pendingSubmissions = players.flatMap(player =>
         Object.entries(player.progress).flatMap(([islandIdStr, islandProgress]) => {
             const islandId = Number(islandIdStr);
@@ -156,85 +181,118 @@ export default function TaskGrading() {
          return <p className="text-center text-gray-400 italic p-8">Buscando tarefas na fortaleza de dados...</p>
     }
 
-    if (pendingSubmissions.length === 0) {
+    const hasPendingTasks = pendingSummaries.length > 0 || pendingSubmissions.length > 0;
+
+    if (!hasPendingTasks) {
         return <p className="text-center text-gray-400 italic p-8">Nenhuma tarefa pendente de avaliação no momento.</p>
     }
 
     return (
-        <div className="space-y-4">
-            {pendingSubmissions.map(({ player, island, challenge, submission }) => {
-                if (!challenge) return null;
-                const key = `${player.name}-${island.id}-${challenge.id}`;
-                const isGradingThis = gradingState?.key === key;
-                const submissionType = submission.submissionType || (submission.answers ? 'quiz' : 'submission');
+        <div className="space-y-6">
+            {pendingSummaries.length > 0 && (
+                <div className="space-y-4">
+                    <h2 className="text-xl font-cinzel text-yellow-400 border-b-2 border-yellow-500/30 pb-2">Pergaminhos da Luz Aguardando Aprovação</h2>
+                    {pendingSummaries.map(({ player, island, summaryText }) => (
+                         <div key={`${player.name}-${island.id}-summary`} className="bg-gray-800/50 p-4 rounded-lg border border-yellow-700/50">
+                             <div className="flex flex-col sm:flex-row justify-between items-start gap-4 mb-3">
+                                 <div>
+                                    <h3 className="font-bold text-lg text-yellow-300">{player.name}</h3>
+                                    <p className="text-gray-400">{island.name}</p>
+                                </div>
+                                <button
+                                    onClick={() => handleApproveSummary(player, island.id)}
+                                    className="w-full sm:w-auto py-2 px-4 bg-yellow-500 hover:bg-yellow-600 text-gray-900 font-bold rounded-lg transition-colors"
+                                >
+                                    Liberar Sorteio Divino
+                                </button>
+                             </div>
+                             <div className="mt-3 pt-3 border-t border-gray-600">
+                                 <p className="text-gray-300 whitespace-pre-wrap">{summaryText}</p>
+                             </div>
+                         </div>
+                    ))}
+                </div>
+            )}
 
-                return (
-                    <div key={key} className="bg-gray-800/50 p-4 rounded-lg border border-gray-700">
-                        <div className="flex flex-col sm:flex-row justify-between items-start gap-4 mb-3">
-                            <div>
-                                <h3 className="font-bold text-lg text-yellow-300">{player.name}</h3>
-                                <p className="text-gray-400">{island.name} &rarr; {challenge.title}</p>
-                                <p className="text-sm text-gray-500 mt-1">Enviado em: {new Date(submission.submittedAt).toLocaleString()}</p>
-                            </div>
-                            <div className="flex-shrink-0 text-right">
-                                <p className="text-sm text-gray-400">Pontos do Desafio</p>
-                                <p className="font-bold text-lg text-yellow-400">{challenge.points}</p>
-                            </div>
-                        </div>
 
-                        <div className="mt-3 pt-3 border-t border-gray-600 space-y-4">
-                            {submissionType === 'quiz' && (
-                                 <>
-                                    {!isGradingThis && (
-                                        <button onClick={() => handleGradeWithAI(player, island.id, challenge, submission)} className="w-full py-2 px-4 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-lg">Corrigir com IA</button>
-                                    )}
-                                    {isGradingThis && gradingState.isLoading && <p className="text-center text-yellow-300 animate-pulse">A IA está avaliando o quiz...</p>}
-                                    {isGradingThis && !gradingState.isLoading && gradingState.gradedQuiz && (
-                                        <div className="space-y-4">
-                                            <div className="max-h-[50vh] overflow-y-auto pr-2 bg-black/30 p-4 rounded-lg"><GradedQuizView gradedQuiz={gradingState.gradedQuiz} /></div>
-                                            <div>
-                                                <label className="block text-sm font-medium text-gray-300 mb-1">Feedback Geral do Mestre (editável)</label>
-                                                <textarea value={gradingState.feedback} onChange={(e) => setGradingState({ ...gradingState, feedback: e.target.value })} rows={4} className="w-full p-2 bg-gray-900 border border-gray-600 rounded text-gray-300"/>
-                                            </div>
-                                            <div className="flex items-center gap-4">
-                                                <label className="block text-sm font-medium text-gray-300">Nota Final (editável)</label>
-                                                <input type="number" value={gradingState.score} onChange={(e) => setGradingState({ ...gradingState, score: e.target.value })} className="w-24 px-2 py-2 bg-gray-900 border border-gray-600 rounded-md text-gray-200" />
-                                                <button onClick={() => handleConfirmGrade(player, island.id, challenge)} className="flex-1 px-4 py-2 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg">Confirmar Avaliação</button>
-                                            </div>
-                                        </div>
-                                    )}
-                                </>
-                            )}
-                             {submissionType === 'presentation' && (
-                                <div className="space-y-4">
-                                    <p className="text-center text-gray-300 italic">O guerreiro sinalizou que está pronto para a apresentação ao vivo.</p>
-                                    <div className="flex items-end gap-4 p-4 bg-black/30 rounded-lg">
-                                        <div className="flex-grow">
-                                            <label className="block text-sm font-medium text-gray-300 mb-1">Nota da Apresentação (0-{challenge.points})</label>
-                                            <input type="number" value={isGradingThis ? gradingState.presentationScore : ''} onChange={(e) => setGradingState({ key, presentationScore: e.target.value })} min="0" max={challenge.points} className="w-full p-2 bg-gray-900 border border-gray-600 rounded text-gray-200" />
-                                        </div>
-                                        <button onClick={() => handleCalculateFinalResult(player, island.id, challenge.id)} disabled={isGradingThis && gradingState.isLoading} className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg disabled:bg-gray-600">Calcular Resultado</button>
+            {pendingSubmissions.length > 0 && (
+                 <div className="space-y-4">
+                     <h2 className="text-xl font-cinzel text-teal-400 border-b-2 border-teal-500/30 pb-2">Desafios Padrão para Avaliação</h2>
+                     {pendingSubmissions.map(({ player, island, challenge, submission }) => {
+                        if (!challenge) return null;
+                        const key = `${player.name}-${island.id}-${challenge.id}`;
+                        const isGradingThis = gradingState?.key === key;
+                        const submissionType = submission.submissionType || (submission.answers ? 'quiz' : 'submission');
+
+                        return (
+                            <div key={key} className="bg-gray-800/50 p-4 rounded-lg border border-gray-700">
+                                <div className="flex flex-col sm:flex-row justify-between items-start gap-4 mb-3">
+                                    <div>
+                                        <h3 className="font-bold text-lg text-yellow-300">{player.name}</h3>
+                                        <p className="text-gray-400">{island.name} &rarr; {challenge.title}</p>
+                                        <p className="text-sm text-gray-500 mt-1">Enviado em: {new Date(submission.submittedAt).toLocaleString()}</p>
                                     </div>
+                                    <div className="flex-shrink-0 text-right">
+                                        <p className="text-sm text-gray-400">Pontos do Desafio</p>
+                                        <p className="font-bold text-lg text-yellow-400">{challenge.points}</p>
+                                    </div>
+                                </div>
 
-                                    {isGradingThis && gradingState.finalFeedback && (
-                                        <div className="p-4 bg-gray-900/50 border border-yellow-500/30 rounded-lg space-y-4">
-                                            <h4 className="font-cinzel text-yellow-300">Conselho do Oráculo IA</h4>
-                                            <p className="text-gray-300 italic">"{gradingState.finalFeedback}"</p>
-                                            <div className="flex gap-4">
-                                                <button onClick={() => handleGuardianDecision(player, island.id, challenge.id, false)} className="w-full px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white font-semibold rounded-lg">Oferecer Quiz de Redenção</button>
-                                                <button onClick={() => handleGuardianDecision(player, island.id, challenge.id, true)} className="w-full px-4 py-2 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg">Aprovar e Conquistar a Ilha</button>
+                                <div className="mt-3 pt-3 border-t border-gray-600 space-y-4">
+                                    {submissionType === 'quiz' && (
+                                        <>
+                                            {!isGradingThis && (
+                                                <button onClick={() => handleGradeWithAI(player, island.id, challenge, submission)} className="w-full py-2 px-4 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-lg">Corrigir com IA</button>
+                                            )}
+                                            {isGradingThis && gradingState.isLoading && <p className="text-center text-yellow-300 animate-pulse">A IA está avaliando o quiz...</p>}
+                                            {isGradingThis && !gradingState.isLoading && gradingState.gradedQuiz && (
+                                                <div className="space-y-4">
+                                                    <div className="max-h-[50vh] overflow-y-auto pr-2 bg-black/30 p-4 rounded-lg"><GradedQuizView gradedQuiz={gradingState.gradedQuiz} /></div>
+                                                    <div>
+                                                        <label className="block text-sm font-medium text-gray-300 mb-1">Feedback Geral do Mestre (editável)</label>
+                                                        <textarea value={gradingState.feedback} onChange={(e) => setGradingState({ ...gradingState, feedback: e.target.value })} rows={4} className="w-full p-2 bg-gray-900 border border-gray-600 rounded text-gray-300"/>
+                                                    </div>
+                                                    <div className="flex items-center gap-4">
+                                                        <label className="block text-sm font-medium text-gray-300">Nota Final (editável)</label>
+                                                        <input type="number" value={gradingState.score} onChange={(e) => setGradingState({ ...gradingState, score: e.target.value })} className="w-24 px-2 py-2 bg-gray-900 border border-gray-600 rounded-md text-gray-200" />
+                                                        <button onClick={() => handleConfirmGrade(player, island.id, challenge)} className="flex-1 px-4 py-2 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg">Confirmar Avaliação</button>
+                                                    </div>
+                                                </div>
+                                            )}
+                                        </>
+                                    )}
+                                    {submissionType === 'presentation' && (
+                                        <div className="space-y-4">
+                                            <p className="text-center text-gray-300 italic">O guerreiro sinalizou que está pronto para a apresentação ao vivo.</p>
+                                            <div className="flex items-end gap-4 p-4 bg-black/30 rounded-lg">
+                                                <div className="flex-grow">
+                                                    <label className="block text-sm font-medium text-gray-300 mb-1">Nota da Apresentação (0-{challenge.points})</label>
+                                                    <input type="number" value={isGradingThis ? gradingState.presentationScore : ''} onChange={(e) => setGradingState({ key, presentationScore: e.target.value })} min="0" max={challenge.points} className="w-full p-2 bg-gray-900 border border-gray-600 rounded text-gray-200" />
+                                                </div>
+                                                <button onClick={() => handleCalculateFinalResult(player, island.id, challenge.id)} disabled={isGradingThis && gradingState.isLoading} className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg disabled:bg-gray-600">Calcular Resultado</button>
                                             </div>
+
+                                            {isGradingThis && gradingState.finalFeedback && (
+                                                <div className="p-4 bg-gray-900/50 border border-yellow-500/30 rounded-lg space-y-4">
+                                                    <h4 className="font-cinzel text-yellow-300">Conselho do Oráculo IA</h4>
+                                                    <p className="text-gray-300 italic">"{gradingState.finalFeedback}"</p>
+                                                    <div className="flex gap-4">
+                                                        <button onClick={() => handleGuardianDecision(player, island.id, challenge.id, false)} className="w-full px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white font-semibold rounded-lg">Oferecer Quiz de Redenção</button>
+                                                        <button onClick={() => handleGuardianDecision(player, island.id, challenge.id, true)} className="w-full px-4 py-2 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg">Aprovar e Conquistar a Ilha</button>
+                                                    </div>
+                                                </div>
+                                            )}
                                         </div>
+                                    )}
+                                    {submissionType === 'submission' && (
+                                        <p className="whitespace-pre-wrap p-2 bg-black/30 rounded font-mono text-sm text-gray-300">{submission.submission || "N/A"}</p>
                                     )}
                                 </div>
-                            )}
-                            {submissionType === 'submission' && (
-                                 <p className="whitespace-pre-wrap p-2 bg-black/30 rounded font-mono text-sm text-gray-300">{submission.submission || "N/A"}</p>
-                            )}
-                        </div>
-                    </div>
-                );
-            })}
+                            </div>
+                        );
+                    })}
+                 </div>
+            )}
         </div>
     );
 }

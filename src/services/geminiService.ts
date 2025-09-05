@@ -1,5 +1,7 @@
 import { GoogleGenAI, Type } from "@google/genai";
 import { QuizQuestion, Quiz, GradedQuiz, Island, PlayerData, PlayerProgress } from '../types';
+import { EXTRAORDINARY_CHALLENGE_CHANCE, EXTRAORDINARY_CHALLENGE_POINTS } from '../constants';
+
 
 let geminiAiClient: GoogleGenAI | null = null;
 export let geminiInitializationError: string | null = null;
@@ -360,6 +362,64 @@ Mantenha um tom de mentor, sendo técnico, mas encorajador. Não mencione que vo
       return response.text || "Os espíritos ancestrais permaneceram em silêncio. Nenhuma análise foi retornada.";
     } catch (error) {
       return handleApiError(error, `análise de progresso de ${playerName}`);
+    }
+  },
+  
+  generateProphecy: async (summary: string, island: Island): Promise<{ question: string; isTrue: boolean; points: number; } | null> => {
+    if (geminiInitializationError) throw new Error(geminiInitializationError);
+    if (!geminiAiClient) throw new Error("Cliente Gemini AI não inicializado.");
+
+    // Implementa a chance aleatória de sucesso
+    if (Math.random() > EXTRAORDINARY_CHALLENGE_CHANCE) {
+      return null; // Os Deuses não se manifestaram desta vez.
+    }
+
+    const systemInstruction = `Você é um oráculo em um jogo de RPG, criando uma "Profecia Sagrada" para um guerreiro.
+    Sua tarefa é criar uma única declaração complexa e profunda sobre a soft skill de "${island.softSkill}".
+    A profecia deve ser uma afirmação que é sutilmente VERDADEIRA ou sutilmente FALSA, exigindo pensamento crítico para ser avaliada. Evite obviedades.
+    A resposta DEVE ser um objeto JSON seguindo o schema fornecido.`;
+    
+    const schema = {
+      type: Type.OBJECT,
+      properties: {
+        question: { type: Type.STRING, description: 'O texto da profecia sagrada. Deve ser uma única afirmação.' },
+        isTrue: { type: Type.BOOLEAN, description: 'Indica se a afirmação da profecia é verdadeira ou falsa.' },
+      },
+      required: ['question', 'isTrue'],
+    };
+
+    try {
+        const response = await geminiAiClient.models.generateContent({
+            model: 'gemini-2.5-flash',
+            contents: `O guerreiro apresentou um resumo de seus estudos sobre "${island.softSkill}" na ilha de "${island.name}". Crie uma profecia para testá-lo. O resumo do guerreiro (use-o apenas como contexto de engajamento, não para basear a profecia) foi: "${summary}"`,
+            config: {
+                systemInstruction,
+                responseMimeType: 'application/json',
+                responseSchema: schema,
+                temperature: 0.9,
+            },
+        });
+        
+        const text = response.text;
+        if (!text) {
+            throw new Error("A IA retornou uma resposta JSON vazia.");
+        }
+        
+        const prophecyData = JSON.parse(text);
+
+        if (typeof prophecyData.question !== 'string' || typeof prophecyData.isTrue !== 'boolean') {
+             throw new Error("A IA retornou um formato de profecia inválido.");
+        }
+
+        return {
+            ...prophecyData,
+            points: EXTRAORDINARY_CHALLENGE_POINTS,
+        };
+
+    } catch(error) {
+        console.error("Erro ao gerar profecia com Gemini:", error);
+        // Falha silenciosamente para não interromper a experiência do usuário.
+        return null;
     }
   },
 };

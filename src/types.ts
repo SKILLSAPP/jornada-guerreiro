@@ -1,4 +1,3 @@
-
 export type Difficulty = 'Fácil' | 'Médio' | 'Difícil';
 
 export interface QuizQuestion {
@@ -54,6 +53,20 @@ export interface PendingSubmission {
   presentationScore?: number; // Temp score for Challenge 4 presentation
 }
 
+export interface ExtraordinaryChallengeState {
+  summarySubmitted: boolean;
+  summaryText?: string;
+  summaryApproved?: boolean;
+  prophecyOffered?: boolean;
+  prophecy?: {
+    question: string;
+    isTrue: boolean;
+    points: number;
+  } | null;
+  prophecyAnswered?: boolean;
+  prophecyCorrect?: boolean | null;
+}
+
 export interface PlayerProgress {
   [islandId: number]: {
     score: number;
@@ -61,6 +74,7 @@ export interface PlayerProgress {
     pendingSubmissions?: {
       [challengeId: number]: PendingSubmission;
     };
+    extraordinaryChallenge?: ExtraordinaryChallengeState;
   };
 }
 
@@ -80,6 +94,8 @@ export interface GradedQuiz {
 
 
 export interface PlayerData {
+  id?: string; // Changed from number for Supabase UUID
+  created_at?: string;
   name: string;
   progress: PlayerProgress;
   storySeen?: boolean;
