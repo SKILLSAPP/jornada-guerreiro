@@ -25,9 +25,9 @@ const ManualModal = ({ onClose }: ManualModalProps) => {
                     <button onClick={onClose} className="text-gray-400 hover:text-white text-4xl leading-none">&times;</button>
                 </header>
                 
-                <div className="flex flex-col md:flex-row gap-6 flex-grow overflow-hidden">
+                <div className="flex flex-col md:flex-row gap-6 flex-grow min-h-0">
                     {/* Navegação Lateral */}
-                    <nav className="md:w-1/4 flex-shrink-0 overflow-y-auto pr-4 border-b md:border-b-0 md:border-r border-gray-700/50 pb-4 md:pb-0">
+                    <nav className="md:w-1/4 overflow-y-auto pr-4 border-b md:border-b-0 md:border-r border-gray-700/50 pb-4 md:pb-0">
                         <ul className="space-y-1">
                             <li><NavLink href="#introducao">Introdução</NavLink></li>
                             <li>
@@ -61,7 +61,7 @@ const ManualModal = ({ onClose }: ManualModalProps) => {
                     </nav>
 
                     {/* Conteúdo Principal */}
-                    <main className="flex-grow overflow-y-auto pr-2 space-y-8">
+                    <main className="flex-grow overflow-y-auto pr-2 space-y-8 min-h-0">
                         <div className="prose prose-invert prose-p:text-gray-300 prose-headings:font-cinzel prose-strong:text-yellow-200 prose-ul:list-disc prose-ol:list-decimal prose-a:text-blue-400 text-gray-300">
                             
                             <section id="introducao">
