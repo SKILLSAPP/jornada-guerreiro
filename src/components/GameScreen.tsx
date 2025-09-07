@@ -5,6 +5,7 @@ import IslandMap from './IslandMap';
 import IslandView from './IslandView';
 import PlayerDashboard from './PlayerDashboard';
 import ChallengePath from './ChallengePath';
+import ManualModal from './ManualModal';
 
 interface GameScreenProps {
   playerData: PlayerData;
@@ -15,6 +16,7 @@ interface GameScreenProps {
 const GameScreen = ({ playerData, onUpdateProgress, onLogout }: GameScreenProps) => {
   const [currentView, setCurrentView] = useState<'map' | 'island' | 'dashboard' | 'challengePath'>('map');
   const [selectedIsland, setSelectedIsland] = useState<Island | null>(null);
+  const [isManualOpen, setIsManualOpen] = useState(false);
 
   const handleSelectIsland = useCallback((island: Island) => {
     setSelectedIsland(island);
@@ -91,6 +93,7 @@ const GameScreen = ({ playerData, onUpdateProgress, onLogout }: GameScreenProps)
   };
 
   return (
+    <>
     <div className="p-4 sm:p-6 lg:p-8">
       <header className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 pb-4 border-b-2 border-yellow-500/30 gap-4">
         <div>
@@ -118,6 +121,12 @@ const GameScreen = ({ playerData, onUpdateProgress, onLogout }: GameScreenProps)
           >
             Storytelling
           </a>
+          <button
+            onClick={() => setIsManualOpen(true)}
+            className="px-3 py-2 text-sm sm:px-4 sm:py-2 bg-gray-600 hover:bg-gray-700 text-white font-semibold rounded-lg shadow-md transition-colors"
+          >
+            Manual
+          </button>
           <button 
             onClick={onLogout} 
             className="px-3 py-2 text-sm sm:px-4 sm:py-2 bg-red-600 hover:bg-red-700 text-white font-semibold rounded-lg shadow-md transition-colors"
@@ -130,6 +139,8 @@ const GameScreen = ({ playerData, onUpdateProgress, onLogout }: GameScreenProps)
         {renderCurrentView()}
       </main>
     </div>
+    {isManualOpen && <ManualModal onClose={() => setIsManualOpen(false)} />}
+    </>
   );
 };
 

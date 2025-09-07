@@ -941,7 +941,7 @@ export const ISLANDS: Island[] = [
   }
 ];
 
-export const TOTAL_POINTS_TO_CONQUER = 1000;
+export const TOTAL_POINTS_TO_CONQUER = 600;
 export const MANDALA_PETAL_THRESHOLDS = [1600, 3200, 4800, 6400, 8000];
 
 export const EXTRAORDINARY_CHALLENGE_POINTS = 50;
