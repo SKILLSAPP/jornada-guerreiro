@@ -7,6 +7,7 @@ import GradedQuizView from './quiz/GradedQuizView';
 interface PlayerDashboardProps {
     playerData: PlayerData;
     onBackToMap: () => void;
+    onUpdateProgress: (newProgress: PlayerData) => void;
 }
 
 interface TaskFeedback {
@@ -54,9 +55,11 @@ const FeedbackModal = ({ task, onClose }: { task: TaskFeedback, onClose: () => v
     </div>
 );
 
-const PlayerDashboard = ({ playerData, onBackToMap }: PlayerDashboardProps) => {
+const PlayerDashboard = ({ playerData, onBackToMap, onUpdateProgress }: PlayerDashboardProps) => {
   const islands = useMemo(() => contentService.getIslands(), []);
   const [selectedFeedback, setSelectedFeedback] = useState<TaskFeedback | null>(null);
+  const [trainingCode, setTrainingCode] = useState('');
+  const [rewardMessage, setRewardMessage] = useState<{ type: 'success' | 'error', text: string } | null>(null);
   
   const totalScore = Object.values(playerData.progress).reduce((acc, island: { score: number }) => acc + island.score, 0);
   
@@ -71,6 +74,73 @@ const PlayerDashboard = ({ playerData, onBackToMap }: PlayerDashboardProps) => {
   const currentIslandId = conqueredIslands.length + 1;
 
   const feedbacks: TaskFeedback[] = playerData.taskFeedback ? Object.values(playerData.taskFeedback) : [];
+
+  const handleRedeemCode = () => {
+    setRewardMessage(null);
+    if (!trainingCode.trim()) {
+        setRewardMessage({ type: 'error', text: 'Por favor, insira um código de mérito.' });
+        return;
+    }
+
+    try {
+        const decodedJson = atob(trainingCode);
+        const data = JSON.parse(decodedJson);
+
+        if (!data.date || data.duration === undefined || typeof data.duration !== 'number') {
+            throw new Error('Formato de código inválido.');
+        }
+        
+        if (playerData.claimedTrainingDates?.includes(data.date)) {
+            setRewardMessage({ type: 'error', text: 'A recompensa para esta data já foi resgatada.' });
+            return;
+        }
+
+        if (data.duration < 15) {
+            setRewardMessage({ type: 'error', text: "Jovem Guerreiro, você não tem direito à recompensa pois treinou suas habilidades por menos de 15 minutos." });
+            return;
+        }
+
+        // All checks passed, grant reward
+        const newPlayerData = JSON.parse(JSON.stringify(playerData));
+        const islandForPoints = currentIslandId <= islands.length ? currentIslandId : islands.length;
+        
+        if (!newPlayerData.progress[islandForPoints]) {
+            newPlayerData.progress[islandForPoints] = { score: 0, completedChallenges: [] };
+        }
+        newPlayerData.progress[islandForPoints].score += 5;
+
+        if (!newPlayerData.claimedTrainingDates) {
+            newPlayerData.claimedTrainingDates = [];
+        }
+        newPlayerData.claimedTrainingDates.push(data.date);
+
+        onUpdateProgress(newPlayerData);
+        setRewardMessage({ type: 'success', text: "Parabéns Jovem Guerreiro! Você fez um belo treinamento e por isso ganhou a sua recompensa em moedas de ouro!" });
+        setTrainingCode('');
+
+    } catch (error) {
+        setRewardMessage({ type: 'error', text: 'Código Inválido ou corrompido.' });
+        console.error("Erro ao resgatar código:", error);
+    }
+  };
+
+  const handleGoToTraining = () => {
+    const trainingAppUrl = "https://warriorskills.netlify.app/";
+
+    // 1. Criar o payload (o conteúdo do token)
+    const payload = {
+        name: playerData.name,
+        timestamp: Date.now() // Timestamp em milissegundos
+    };
+
+    // 2. Converter para JSON e depois para Base64
+    const token = btoa(JSON.stringify(payload));
+
+    // 3. Montar a URL final e abrir em uma nova aba
+    const finalUrl = `${trainingAppUrl}?token=${token}`;
+    window.open(finalUrl, '_blank');
+  };
+
 
   return (
     <>
@@ -141,6 +211,44 @@ const PlayerDashboard = ({ playerData, onBackToMap }: PlayerDashboardProps) => {
                         <p className="text-gray-500 italic text-center p-4">Nenhum feedback de desafio recebido ainda.</p>
                     )}
                 </div>
+            </div>
+
+            <div className="bg-gray-900/40 p-6 rounded-xl border border-gray-700/50">
+              <h3 className="text-2xl font-cinzel text-green-300 mb-4">Treinamento e Recompensas</h3>
+              <p className="text-gray-400 mb-4 text-center max-w-md mx-auto">Use o tabuleiro para refinar suas táticas e fortalecer seu espírito.</p>
+              <div className="text-center mb-6">
+                <button
+                    onClick={handleGoToTraining}
+                    className="inline-block px-8 py-4 bg-green-600 hover:bg-green-700 text-white font-bold rounded-lg shadow-lg transition-transform transform hover:scale-105 font-cinzel tracking-wider"
+                >
+                    TREINAMENTO DO GUERREIRO
+                </button>
+              </div>
+              
+              <div className="mt-6 pt-6 border-t border-green-500/20">
+                <h4 className="text-xl font-cinzel text-yellow-300 text-center mb-2">Resgatar Recompensa de Treino</h4>
+                <p className="text-xs text-center text-gray-400 mb-4">Treinou por 15 minutos ou mais? Cole seu código aqui para ganhar 5 moedas de ouro (recompensa diária).</p>
+                <div className="flex flex-col sm:flex-row gap-2 max-w-lg mx-auto">
+                    <input 
+                        type="text"
+                        value={trainingCode}
+                        onChange={(e) => setTrainingCode(e.target.value)}
+                        placeholder="Cole o código de mérito aqui"
+                        className="flex-grow px-3 py-2 bg-gray-800 border border-gray-600 rounded-md text-gray-200 placeholder-gray-500 focus:ring-yellow-500 focus:border-yellow-500"
+                    />
+                    <button 
+                        onClick={handleRedeemCode}
+                        className="px-6 py-2 bg-yellow-600 hover:bg-yellow-500 text-gray-900 font-bold rounded-md transition-colors"
+                    >
+                        Resgatar
+                    </button>
+                </div>
+                {rewardMessage && (
+                    <p className={`mt-3 text-center text-sm font-semibold ${rewardMessage.type === 'success' ? 'text-green-400' : 'text-red-400'}`}>
+                        {rewardMessage.text}
+                    </p>
+                )}
+              </div>
             </div>
         </div>
       </div>

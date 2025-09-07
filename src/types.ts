@@ -110,4 +110,5 @@ export interface PlayerData {
       gradedQuiz?: GradedQuiz;
     };
   };
+  claimedTrainingDates?: string[]; // Array of 'YYYY-MM-DD' strings
 }

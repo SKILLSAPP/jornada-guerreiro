@@ -68,6 +68,7 @@ const GameScreen = ({ playerData, onUpdateProgress, onLogout }: GameScreenProps)
           <PlayerDashboard 
             playerData={playerData} 
             onBackToMap={handleBackToMap} 
+            onUpdateProgress={onUpdateProgress}
           />
         );
       case 'challengePath':
