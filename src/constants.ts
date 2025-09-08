@@ -4,6 +4,7 @@ export const MAIN_BACKGROUND_URL = 'https://i.imgur.com/0XH0wzI_d.png?maxwidth=5
 export const WELCOME_BACKGROUND_URL = 'https://i.imgur.com/rGAEiCz_d.jpeg?maxwidth=520&shape=thumb&fidelity=high';
 export const CHALLENGE_PATH_BACKGROUND_URL = 'https://i.imgur.com/goUCezZ.jpeg';
 export const STORYTELLING_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSdwY8SXcMGaSTvQ50zh2_gudQEnDmCWGBwKnL3-ZhHTrzNFDQ/viewform';
+export const MANUAL_URL = '#'; // TODO: Substituir pelo link real do PDF do Manual
 export const MENTOR_EMAIL = 'seu-email-aqui@exemplo.com'; // IMPORTANTE: Substituir pelo e-mail real do mentor
 
 export const ISLANDS: Island[] = [
