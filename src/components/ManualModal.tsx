@@ -27,7 +27,7 @@ const ManualModal = ({ onClose }: ManualModalProps) => {
     }, []); // O array vazio garante que o efeito só rode na montagem e desmontagem
 
     return (
-        <div className="fixed inset-0 bg-black bg-opacity-85 flex items-start justify-center z-50 p-4 sm:py-12 overflow-y-auto animate-fade-in">
+        <div className="fixed inset-0 bg-black bg-opacity-85 flex items-start justify-center z-50 p-4 sm:py-12 animate-fade-in">
             <div className="bg-gray-800 rounded-lg shadow-2xl p-6 w-full max-w-6xl max-h-[90vh] flex flex-col border-2 border-yellow-500/50">
                 <header className="flex justify-between items-center pb-4 mb-4 border-b border-gray-700/50 flex-shrink-0">
                     <h1 className="text-3xl font-cinzel text-yellow-400">Manual do Guerreiro</h1>
@@ -36,7 +36,7 @@ const ManualModal = ({ onClose }: ManualModalProps) => {
                 
                 <div className="flex flex-col md:flex-row gap-6 flex-grow min-h-0">
                     {/* Navegação Lateral */}
-                    <nav className="md:w-1/4 h-1/3 md:h-auto flex-shrink-0 overflow-y-auto pr-4 border-b md:border-b-0 md:border-r border-gray-700/50 pb-4 md:pb-0">
+                    <nav className="md:w-1/4 flex-shrink-0 overflow-y-auto pr-4 border-b md:border-b-0 md:border-r border-gray-700/50 pb-4 md:pb-0">
                         <ul className="space-y-1">
                             <li><NavLink href="#introducao">Introdução</NavLink></li>
                             <li>
@@ -70,7 +70,7 @@ const ManualModal = ({ onClose }: ManualModalProps) => {
                     </nav>
 
                     {/* Conteúdo Principal */}
-                    <main className="flex-grow overflow-y-auto pr-2 space-y-8 min-h-0">
+                    <main className="flex-grow overflow-y-auto pr-2 space-y-8">
                         <div className="prose prose-invert prose-p:text-gray-300 prose-headings:font-cinzel prose-strong:text-yellow-200 prose-ul:list-disc prose-ol:list-decimal prose-a:text-blue-400 text-gray-300">
                             
                             <section id="introducao">
