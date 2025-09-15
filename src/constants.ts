@@ -23,21 +23,9 @@ export const ISLANDS: Island[] = [
         "description": "Estude os materiais fornecidos (artigo, áudio e podcast) e depois responda ao quiz para testar seu conhecimento sobre a arte da comunicação.",
         "points": 150,
         "resources": [
-          {
-            "type": "article",
-            "label": "Artigo Técnico (Leitura)",
-            "url": "https://drive.google.com/file/d/1qFtfUwxCz2m6rrOSnDiBHh99YahquB6t/view?usp=sharing"
-          },
-          {
-            "type": "audio",
-            "label": "Artigo Técnico (Áudio)",
-            "url": "https://drive.google.com/file/d/1xo8zgjM_gSAB8OlTt9GLGrZT92lf0vi6/view?usp=sharing"
-          },
-          {
-            "type": "podcast",
-            "label": "Podcast de Análise",
-            "url": "https://drive.google.com/file/d/1bTNHkEHaXmXEo_DNYuXhctUcNY31wR4_/view?usp=sharing"
-          }
+          { "type": "article", "label": "Artigo Técnico", "url": "https://drive.google.com/file/d/1Tmjj-xU-nMESN_6J-z1JtRMm0ZCzmyBR/view?usp=drive_link" },
+          { "type": "audio", "label": "Áudio Artigo", "url": "https://drive.google.com/file/d/1yiSvwqc8oVdiJ6fG2Ulc66dT_f50Hir4/view?usp=drive_link" },
+          { "type": "podcast", "label": "PODCAST 1", "url": "https://drive.google.com/file/d/1QVBcuOmrPykJu-tei8QyNFd-8YGxL-dM/view?usp=drive_link" }
         ],
         "quizId": "island-1-challenge-1"
       },
@@ -47,21 +35,10 @@ export const ISLANDS: Island[] = [
         "description": "Estude os materiais sobre oratória (resumo do livro, áudio e análise) e prove seu conhecimento no quiz.",
         "points": 200,
         "resources": [
-          {
-            "type": "book",
-            "label": "Resumo de Livro (Leitura)",
-            "url": "https://drive.google.com/file/d/1Zb3H9wRGALly5DfuSUT-v4Cahwry165G/view?usp=sharing"
-          },
-          {
-            "type": "audio",
-            "label": "Resumo de Livro (Áudio)",
-            "url": "https://drive.google.com/file/d/1Fwq4tweCmPdRfkEtA5Pjz-aqwMrWonlU/view?usp=sharing"
-          },
-          {
-            "type": "podcast",
-            "label": "Podcast de Análise",
-            "url": "https://drive.google.com/file/d/1Ag6h9Zowz7_0B23abHOuey14kG7rMEsa/view?usp=sharing"
-          }
+          { "type": "audio", "label": "Áudio Livro - Parte I", "url": "https://drive.google.com/file/d/1w9OvRUVW1GT7GTnA68ZLcz8PKk5Rbh7g/view?usp=drive_link" },
+          { "type": "audio", "label": "Áudio Livro - Parte II", "url": "https://drive.google.com/file/d/1Y0IzRsC3CgHxf5SLYmg8JPYYkrD6VX7x/view?usp=drive_link" },
+          { "type": "book", "label": "Livro", "url": "https://drive.google.com/file/d/1AZUF7PbwLXTp2G9iRXwAoLcf2PF335bb/view?usp=drive_link" },
+          { "type": "podcast", "label": "PODCAST 2", "url": "https://drive.google.com/file/d/1i_4qaYW_QNXde25gqAvI3mQU7oqBGcBX/view?usp=drive_link" }
         ],
         "quizId": "island-1-challenge-2"
       },
@@ -71,22 +48,11 @@ export const ISLANDS: Island[] = [
         "description": "Absorva a sabedoria de um TEDx, um podcast e um estudo de caso corporativo, depois faça um quiz completo.",
         "points": 250,
         "resources": [
-          {
-            "type": "video",
-            "label": "Palestra TEDx",
-            "url": "#"
-          },
-          {
-            "type": "podcast",
-            "label": "Podcast",
-            "url": "#"
-          },
-          {
-            "type": "case_study",
-            "label": "Estudo de Caso",
-            "url": "#"
-          }
-        ]
+          { "type": "video", "label": "TEDx", "url": "https://drive.google.com/file/d/1ZkwQ5c6Obp8rq9KM5N-XbQe_5pW7mmWo/view?usp=drive_link" },
+          { "type": "podcast", "label": "PODCAST 3", "url": "https://drive.google.com/file/d/177JKThSSfIZhsmS4Ontph_fwbLbAorXA/view?usp=drive_link" },
+          { "type": "case_study", "label": "Estudo de Caso", "url": "https://drive.google.com/file/d/11celUoNeQ8H2fGWFu_hqaRrsxfEfW9bj/view?usp=drive_link" }
+        ],
+        "quizId": "island-1-challenge-3"
       },
       {
         "id": 4,
@@ -97,7 +63,7 @@ export const ISLANDS: Island[] = [
           {
             "type": "case_study",
             "label": "Estudo de Caso do Grande Desafio",
-            "url": "#"
+            "url": "https://drive.google.com/file/d/1xp3IhgoQRk7O9M5msGaUqel0M4dQbdCg/view?usp=drive_link"
           }
         ]
       }
@@ -118,21 +84,9 @@ export const ISLANDS: Island[] = [
         "description": "Estude os materiais sobre os fundamentos da inteligência emocional e teste seus conhecimentos no quiz.",
         "points": 150,
         "resources": [
-          {
-            "type": "article",
-            "label": "Artigo (Leitura)",
-            "url": "#"
-          },
-          {
-            "type": "audio",
-            "label": "Artigo (Áudio)",
-            "url": "#"
-          },
-          {
-            "type": "podcast",
-            "label": "Podcast de Análise",
-            "url": "#"
-          }
+          { "type": "article", "label": "Artigo Técnico", "url": "https://drive.google.com/file/d/1IY6S8JkamvdaXMRvzfT-bRrjnyIhEqep/view?usp=drive_link" },
+          { "type": "audio", "label": "Áudio Artigo", "url": "https://drive.google.com/file/d/1E8qVqOTE-gfJkXcc2EzdRumePl8TO_6v/view?usp=drive_link" },
+          { "type": "podcast", "label": "PODCAST 1", "url": "https://drive.google.com/file/d/149Rt4WYlTniUlASP2equF-WLQZrf-2We/view?usp=drive_link" }
         ]
       },
       {
@@ -141,21 +95,10 @@ export const ISLANDS: Island[] = [
         "description": "Aprenda a gerenciar emoções com os materiais de estudo e responda ao quiz.",
         "points": 200,
         "resources": [
-          {
-            "type": "book",
-            "label": "Resumo de Livro (Leitura)",
-            "url": "#"
-          },
-          {
-            "type": "audio",
-            "label": "Resumo de Livro (Áudio)",
-            "url": "#"
-          },
-          {
-            "type": "podcast",
-            "label": "Podcast de Análise",
-            "url": "#"
-          }
+          { "type": "audio", "label": "Áudio Livro - Parte I", "url": "https://drive.google.com/file/d/15ajjbZjbhtI_A2AqDuxs43t8E3gk3QIR/view?usp=drive_link" },
+          { "type": "audio", "label": "Áudio Livro - Parte II", "url": "https://drive.google.com/file/d/1hmjGXxxcwiAnz9XmihKL5cEpnX-xkpvC/view?usp=drive_link" },
+          { "type": "book", "label": "Livro", "url": "https://drive.google.com/file/d/1LbwzsM9sFLjOQb4MbKmJoOi0QFaGjpEq/view?usp=drive_link" },
+          { "type": "podcast", "label": "PODCAST 2", "url": "https://drive.google.com/file/d/1-6tMIj9mKukAtbCSSZZl6CbmzaJIhdsb/view?usp=drive_link" }
         ]
       },
       {
@@ -164,21 +107,9 @@ export const ISLANDS: Island[] = [
         "description": "Engaje-se com um vídeo, podcast e estudo de caso sobre empatia no trabalho.",
         "points": 250,
         "resources": [
-          {
-            "type": "video",
-            "label": "Vídeo",
-            "url": "#"
-          },
-          {
-            "type": "podcast",
-            "label": "Podcast",
-            "url": "#"
-          },
-          {
-            "type": "case_study",
-            "label": "Estudo de Caso",
-            "url": "#"
-          }
+          { "type": "video", "label": "TEDx", "url": "https://drive.google.com/file/d/1qvMJsYHef02Z-IP_KACcffTrHf9LfMn4/view?usp=drive_link" },
+          { "type": "podcast", "label": "PODCAST 3", "url": "https://drive.google.com/file/d/17vynwLyEkSyhl-R3Ljyv044WYg7E2Ofw/view?usp=drive_link" },
+          { "type": "case_study", "label": "Estudo de Caso", "url": "https://drive.google.com/file/d/1u5hEZAZTUoicXEyYjkCoqRWSp834cb2f/view?usp=drive_link" }
         ]
       },
       {
@@ -190,7 +121,7 @@ export const ISLANDS: Island[] = [
           {
             "type": "case_study",
             "label": "Estudo de Caso de Conflito",
-            "url": "#"
+            "url": "https://drive.google.com/file/d/1OvIijU8FqsvEJTFkQLHotcuLJUZ-x443/view?usp=drive_link"
           }
         ]
       }
@@ -211,21 +142,9 @@ export const ISLANDS: Island[] = [
         "description": "Estude os materiais sobre a psicologia da resiliência e faça o quiz.",
         "points": 150,
         "resources": [
-          {
-            "type": "article",
-            "label": "Artigo (Leitura)",
-            "url": "#"
-          },
-          {
-            "type": "audio",
-            "label": "Artigo (Áudio)",
-            "url": "#"
-          },
-          {
-            "type": "podcast",
-            "label": "Podcast de Análise",
-            "url": "#"
-          }
+          { "type": "article", "label": "Artigo Técnico", "url": "#" },
+          { "type": "audio", "label": "Áudio Artigo", "url": "#" },
+          { "type": "podcast", "label": "PODCAST 1", "url": "#" }
         ]
       },
       {
@@ -234,21 +153,10 @@ export const ISLANDS: Island[] = [
         "description": "Aprenda como superar adversidades com os materiais de estudo e responda ao quiz.",
         "points": 200,
         "resources": [
-          {
-            "type": "book",
-            "label": "Resumo de Livro (Leitura)",
-            "url": "#"
-          },
-          {
-            "type": "audio",
-            "label": "Resumo de Livro (Áudio)",
-            "url": "#"
-          },
-          {
-            "type": "podcast",
-            "label": "Podcast de Análise",
-            "url": "#"
-          }
+          { "type": "audio", "label": "Áudio Livro - Parte I", "url": "#" },
+          { "type": "audio", "label": "Áudio Livro - Parte II", "url": "#" },
+          { "type": "book", "label": "Livro", "url": "#" },
+          { "type": "podcast", "label": "PODCAST 2", "url": "#" }
         ]
       },
       {
@@ -257,21 +165,9 @@ export const ISLANDS: Island[] = [
         "description": "Aprenda com exemplos reais de resiliência em face ao fracasso.",
         "points": 250,
         "resources": [
-          {
-            "type": "video",
-            "label": "TEDx",
-            "url": "#"
-          },
-          {
-            "type": "podcast",
-            "label": "Podcast",
-            "url": "#"
-          },
-          {
-            "type": "case_study",
-            "label": "Estudo de Caso",
-            "url": "#"
-          }
+          { "type": "video", "label": "TEDx", "url": "#" },
+          { "type": "podcast", "label": "PODCAST 3", "url": "#" },
+          { "type": "case_study", "label": "Estudo de Caso", "url": "#" }
         ]
       },
       {
@@ -304,21 +200,9 @@ export const ISLANDS: Island[] = [
         "description": "Aprenda sobre a importância da adaptabilidade com os materiais de estudo e faça o quiz.",
         "points": 150,
         "resources": [
-          {
-            "type": "article",
-            "label": "Artigo (Leitura)",
-            "url": "#"
-          },
-          {
-            "type": "audio",
-            "label": "Artigo (Áudio)",
-            "url": "#"
-          },
-          {
-            "type": "podcast",
-            "label": "Podcast de Análise",
-            "url": "#"
-          }
+          { "type": "article", "label": "Artigo Técnico", "url": "#" },
+          { "type": "audio", "label": "Áudio Artigo", "url": "#" },
+          { "type": "podcast", "label": "PODCAST 1", "url": "#" }
         ]
       },
       {
@@ -327,21 +211,10 @@ export const ISLANDS: Island[] = [
         "description": "Estude como abraçar e liderar a mudança com os materiais fornecidos e responda ao quiz.",
         "points": 200,
         "resources": [
-          {
-            "type": "book",
-            "label": "Resumo de Livro (Leitura)",
-            "url": "#"
-          },
-          {
-            "type": "audio",
-            "label": "Resumo de Livro (Áudio)",
-            "url": "#"
-          },
-          {
-            "type": "podcast",
-            "label": "Podcast de Análise",
-            "url": "#"
-          }
+          { "type": "audio", "label": "Áudio Livro - Parte I", "url": "#" },
+          { "type": "audio", "label": "Áudio Livro - Parte II", "url": "#" },
+          { "type": "book", "label": "Livro", "url": "#" },
+          { "type": "podcast", "label": "PODCAST 2", "url": "#" }
         ]
       },
       {
@@ -350,21 +223,9 @@ export const ISLANDS: Island[] = [
         "description": "Analise como a flexibilidade foi chave em diferentes cenários corporativos.",
         "points": 250,
         "resources": [
-          {
-            "type": "video",
-            "label": "TEDx",
-            "url": "#"
-          },
-          {
-            "type": "podcast",
-            "label": "Podcast",
-            "url": "#"
-          },
-          {
-            "type": "case_study",
-            "label": "Estudo de Caso",
-            "url": "#"
-          }
+          { "type": "video", "label": "TEDx", "url": "#" },
+          { "type": "podcast", "label": "PODCAST 3", "url": "#" },
+          { "type": "case_study", "label": "Estudo de Caso", "url": "#" }
         ]
       },
       {
@@ -397,21 +258,9 @@ export const ISLANDS: Island[] = [
         "description": "Aprenda técnicas para destravar o pensamento criativo com os materiais de estudo e faça o quiz.",
         "points": 150,
         "resources": [
-          {
-            "type": "article",
-            "label": "Artigo (Leitura)",
-            "url": "#"
-          },
-          {
-            "type": "audio",
-            "label": "Artigo (Áudio)",
-            "url": "#"
-          },
-          {
-            "type": "podcast",
-            "label": "Podcast de Análise",
-            "url": "#"
-          }
+          { "type": "article", "label": "Artigo Técnico", "url": "#" },
+          { "type": "audio", "label": "Áudio Artigo", "url": "#" },
+          { "type": "podcast", "label": "PODCAST 1", "url": "#" }
         ]
       },
       {
@@ -420,21 +269,10 @@ export const ISLANDS: Island[] = [
         "description": "Estude processos de inovação com os materiais fornecidos e responda ao quiz.",
         "points": 200,
         "resources": [
-          {
-            "type": "book",
-            "label": "Resumo de Livro (Leitura)",
-            "url": "#"
-          },
-          {
-            "type": "audio",
-            "label": "Resumo de Livro (Áudio)",
-            "url": "#"
-          },
-          {
-            "type": "podcast",
-            "label": "Podcast de Análise",
-            "url": "#"
-          }
+          { "type": "audio", "label": "Áudio Livro - Parte I", "url": "#" },
+          { "type": "audio", "label": "Áudio Livro - Parte II", "url": "#" },
+          { "type": "book", "label": "Livro", "url": "#" },
+          { "type": "podcast", "label": "PODCAST 2", "url": "#" }
         ]
       },
       {
@@ -443,21 +281,9 @@ export const ISLANDS: Island[] = [
         "description": "Veja como a criatividade resolveu problemas complexos no mundo real.",
         "points": 250,
         "resources": [
-          {
-            "type": "video",
-            "label": "TEDx",
-            "url": "#"
-          },
-          {
-            "type": "podcast",
-            "label": "Podcast",
-            "url": "#"
-          },
-          {
-            "type": "case_study",
-            "label": "Estudo de Caso",
-            "url": "#"
-          }
+          { "type": "video", "label": "TEDx", "url": "#" },
+          { "type": "podcast", "label": "PODCAST 3", "url": "#" },
+          { "type": "case_study", "label": "Estudo de Caso", "url": "#" }
         ]
       },
       {
@@ -490,21 +316,9 @@ export const ISLANDS: Island[] = [
         "description": "Estude os princípios da gestão eficaz do tempo com os materiais fornecidos e faça o quiz.",
         "points": 150,
         "resources": [
-          {
-            "type": "article",
-            "label": "Artigo (Leitura)",
-            "url": "#"
-          },
-          {
-            "type": "audio",
-            "label": "Artigo (Áudio)",
-            "url": "#"
-          },
-          {
-            "type": "podcast",
-            "label": "Podcast de Análise",
-            "url": "#"
-          }
+          { "type": "article", "label": "Artigo Técnico", "url": "#" },
+          { "type": "audio", "label": "Áudio Artigo", "url": "#" },
+          { "type": "podcast", "label": "PODCAST 1", "url": "#" }
         ]
       },
       {
@@ -513,21 +327,10 @@ export const ISLANDS: Island[] = [
         "description": "Aprenda sobre métodos ágeis e produtividade pessoal com os materiais de estudo e responda ao quiz.",
         "points": 200,
         "resources": [
-          {
-            "type": "book",
-            "label": "Resumo de Livro (Leitura)",
-            "url": "#"
-          },
-          {
-            "type": "audio",
-            "label": "Resumo de Livro (Áudio)",
-            "url": "#"
-          },
-          {
-            "type": "podcast",
-            "label": "Podcast de Análise",
-            "url": "#"
-          }
+          { "type": "audio", "label": "Áudio Livro - Parte I", "url": "#" },
+          { "type": "audio", "label": "Áudio Livro - Parte II", "url": "#" },
+          { "type": "book", "label": "Livro", "url": "#" },
+          { "type": "podcast", "label": "PODCAST 2", "url": "#" }
         ]
       },
       {
@@ -536,21 +339,9 @@ export const ISLANDS: Island[] = [
         "description": "Aprenda com especialistas como otimizar o fluxo de trabalho e priorizar tarefas.",
         "points": 250,
         "resources": [
-          {
-            "type": "video",
-            "label": "TEDx",
-            "url": "#"
-          },
-          {
-            "type": "podcast",
-            "label": "Podcast",
-            "url": "#"
-          },
-          {
-            "type": "case_study",
-            "label": "Estudo de Caso",
-            "url": "#"
-          }
+          { "type": "video", "label": "TEDx", "url": "#" },
+          { "type": "podcast", "label": "PODCAST 3", "url": "#" },
+          { "type": "case_study", "label": "Estudo de Caso", "url": "#" }
         ]
       },
       {
@@ -583,21 +374,9 @@ export const ISLANDS: Island[] = [
         "description": "Estude sobre as bases do pensamento crítico com os materiais fornecidos e faça o quiz.",
         "points": 150,
         "resources": [
-          {
-            "type": "article",
-            "label": "Artigo (Leitura)",
-            "url": "#"
-          },
-          {
-            "type": "audio",
-            "label": "Artigo (Áudio)",
-            "url": "#"
-          },
-          {
-            "type": "podcast",
-            "label": "Podcast de Análise",
-            "url": "#"
-          }
+          { "type": "article", "label": "Artigo Técnico", "url": "#" },
+          { "type": "audio", "label": "Áudio Artigo", "url": "#" },
+          { "type": "podcast", "label": "PODCAST 1", "url": "#" }
         ]
       },
       {
@@ -606,21 +385,10 @@ export const ISLANDS: Island[] = [
         "description": "Aprenda a identificar argumentos falaciosos com os materiais de estudo e responda ao quiz.",
         "points": 200,
         "resources": [
-          {
-            "type": "book",
-            "label": "Resumo de Livro (Leitura)",
-            "url": "#"
-          },
-          {
-            "type": "audio",
-            "label": "Resumo de Livro (Áudio)",
-            "url": "#"
-          },
-          {
-            "type": "podcast",
-            "label": "Podcast de Análise",
-            "url": "#"
-          }
+          { "type": "audio", "label": "Áudio Livro - Parte I", "url": "#" },
+          { "type": "audio", "label": "Áudio Livro - Parte II", "url": "#" },
+          { "type": "book", "label": "Livro", "url": "#" },
+          { "type": "podcast", "label": "PODCAST 2", "url": "#" }
         ]
       },
       {
@@ -629,21 +397,9 @@ export const ISLANDS: Island[] = [
         "description": "Examine casos onde a análise crítica levou a descobertas surpreendentes.",
         "points": 250,
         "resources": [
-          {
-            "type": "video",
-            "label": "TEDx",
-            "url": "#"
-          },
-          {
-            "type": "podcast",
-            "label": "Podcast",
-            "url": "#"
-          },
-          {
-            "type": "case_study",
-            "label": "Estudo de Caso",
-            "url": "#"
-          }
+          { "type": "video", "label": "TEDx", "url": "#" },
+          { "type": "podcast", "label": "PODCAST 3", "url": "#" },
+          { "type": "case_study", "label": "Estudo de Caso", "url": "#" }
         ]
       },
       {
@@ -676,21 +432,9 @@ export const ISLANDS: Island[] = [
         "description": "Aprenda frameworks para resolução de problemas com os materiais de estudo e faça o quiz.",
         "points": 150,
         "resources": [
-          {
-            "type": "article",
-            "label": "Artigo (Leitura)",
-            "url": "#"
-          },
-          {
-            "type": "audio",
-            "label": "Artigo (Áudio)",
-            "url": "#"
-          },
-          {
-            "type": "podcast",
-            "label": "Podcast de Análise",
-            "url": "#"
-          }
+          { "type": "article", "label": "Artigo Técnico", "url": "#" },
+          { "type": "audio", "label": "Áudio Artigo", "url": "#" },
+          { "type": "podcast", "label": "PODCAST 1", "url": "#" }
         ]
       },
       {
@@ -699,21 +443,10 @@ export const ISLANDS: Island[] = [
         "description": "Estude como encontrar a causa raiz dos problemas com os materiais fornecidos e responda ao quiz.",
         "points": 200,
         "resources": [
-          {
-            "type": "book",
-            "label": "Resumo de Livro (Leitura)",
-            "url": "#"
-          },
-          {
-            "type": "audio",
-            "label": "Resumo de Livro (Áudio)",
-            "url": "#"
-          },
-          {
-            "type": "podcast",
-            "label": "Podcast de Análise",
-            "url": "#"
-          }
+          { "type": "audio", "label": "Áudio Livro - Parte I", "url": "#" },
+          { "type": "audio", "label": "Áudio Livro - Parte II", "url": "#" },
+          { "type": "book", "label": "Livro", "url": "#" },
+          { "type": "podcast", "label": "PODCAST 2", "url": "#" }
         ]
       },
       {
@@ -722,21 +455,9 @@ export const ISLANDS: Island[] = [
         "description": "Aprenda com exemplos de soluções elegantes para problemas aparentemente impossíveis.",
         "points": 250,
         "resources": [
-          {
-            "type": "video",
-            "label": "TEDx",
-            "url": "#"
-          },
-          {
-            "type": "podcast",
-            "label": "Podcast",
-            "url": "#"
-          },
-          {
-            "type": "case_study",
-            "label": "Estudo de Caso",
-            "url": "#"
-          }
+          { "type": "video", "label": "TEDx", "url": "#" },
+          { "type": "podcast", "label": "PODCAST 3", "url": "#" },
+          { "type": "case_study", "label": "Estudo de Caso", "url": "#" }
         ]
       },
       {
@@ -769,21 +490,9 @@ export const ISLANDS: Island[] = [
         "description": "Aprenda sobre estilos de liderança com os materiais de estudo e faça o quiz.",
         "points": 150,
         "resources": [
-          {
-            "type": "article",
-            "label": "Artigo (Leitura)",
-            "url": "#"
-          },
-          {
-            "type": "audio",
-            "label": "Artigo (Áudio)",
-            "url": "#"
-          },
-          {
-            "type": "podcast",
-            "label": "Podcast de Análise",
-            "url": "#"
-          }
+          { "type": "article", "label": "Artigo Técnico", "url": "#" },
+          { "type": "audio", "label": "Áudio Artigo", "url": "#" },
+          { "type": "podcast", "label": "PODCAST 1", "url": "#" }
         ]
       },
       {
@@ -792,21 +501,10 @@ export const ISLANDS: Island[] = [
         "description": "Estude como construir equipes de alta performance com os materiais fornecidos e responda ao quiz.",
         "points": 200,
         "resources": [
-          {
-            "type": "book",
-            "label": "Resumo de Livro (Leitura)",
-            "url": "#"
-          },
-          {
-            "type": "audio",
-            "label": "Resumo de Livro (Áudio)",
-            "url": "#"
-          },
-          {
-            "type": "podcast",
-            "label": "Podcast de Análise",
-            "url": "#"
-          }
+          { "type": "audio", "label": "Áudio Livro - Parte I", "url": "#" },
+          { "type": "audio", "label": "Áudio Livro - Parte II", "url": "#" },
+          { "type": "book", "label": "Livro", "url": "#" },
+          { "type": "podcast", "label": "PODCAST 2", "url": "#" }
         ]
       },
       {
@@ -815,21 +513,9 @@ export const ISLANDS: Island[] = [
         "description": "Inspire-se em histórias de liderança e trabalho em equipe que mudaram o jogo.",
         "points": 250,
         "resources": [
-          {
-            "type": "video",
-            "label": "TEDx",
-            "url": "#"
-          },
-          {
-            "type": "podcast",
-            "label": "Podcast",
-            "url": "#"
-          },
-          {
-            "type": "case_study",
-            "label": "Estudo de Caso",
-            "url": "#"
-          }
+          { "type": "video", "label": "TEDx", "url": "#" },
+          { "type": "podcast", "label": "PODCAST 3", "url": "#" },
+          { "type": "case_study", "label": "Estudo de Caso", "url": "#" }
         ]
       },
       {
@@ -862,21 +548,9 @@ export const ISLANDS: Island[] = [
         "description": "Estude os princípios da negociação ganha-ganha com os materiais de estudo e faça o quiz.",
         "points": 150,
         "resources": [
-          {
-            "type": "article",
-            "label": "Artigo (Leitura)",
-            "url": "#"
-          },
-          {
-            "type": "audio",
-            "label": "Artigo (Áudio)",
-            "url": "#"
-          },
-          {
-            "type": "podcast",
-            "label": "Podcast de Análise",
-            "url": "#"
-          }
+          { "type": "article", "label": "Artigo Técnico", "url": "#" },
+          { "type": "audio", "label": "Áudio Artigo", "url": "#" },
+          { "type": "podcast", "label": "PODCAST 1", "url": "#" }
         ]
       },
       {
@@ -885,21 +559,10 @@ export const ISLANDS: Island[] = [
         "description": "Aprenda táticas de negociação e influência com os materiais fornecidos e responda ao quiz.",
         "points": 200,
         "resources": [
-          {
-            "type": "book",
-            "label": "Resumo de Livro (Leitura)",
-            "url": "#"
-          },
-          {
-            "type": "audio",
-            "label": "Resumo de Livro (Áudio)",
-            "url": "#"
-          },
-          {
-            "type": "podcast",
-            "label": "Podcast de Análise",
-            "url": "#"
-          }
+          { "type": "audio", "label": "Áudio Livro - Parte I", "url": "#" },
+          { "type": "audio", "label": "Áudio Livro - Parte II", "url": "#" },
+          { "type": "book", "label": "Livro", "url": "#" },
+          { "type": "podcast", "label": "PODCAST 2", "url": "#" }
         ]
       },
       {
@@ -908,21 +571,9 @@ export const ISLANDS: Island[] = [
         "description": "Analise negociações complexas do mundo corporativo e diplomático.",
         "points": 250,
         "resources": [
-          {
-            "type": "video",
-            "label": "TEDx",
-            "url": "#"
-          },
-          {
-            "type": "podcast",
-            "label": "Podcast",
-            "url": "#"
-          },
-          {
-            "type": "case_study",
-            "label": "Estudo de Caso",
-            "url": "#"
-          }
+          { "type": "video", "label": "TEDx", "url": "#" },
+          { "type": "podcast", "label": "PODCAST 3", "url": "#" },
+          { "type": "case_study", "label": "Estudo de Caso", "url": "#" }
         ]
       },
       {

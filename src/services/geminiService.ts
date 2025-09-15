@@ -192,20 +192,36 @@ REGRAS GERAIS ESTRITAS:
   },
 
   generateRedemptionQuiz: async (context: string, challengeTitle: string, totalPoints: number): Promise<QuizQuestion[] | string> => {
-    const systemInstruction = `Você é um especialista em criar quizzes educacionais para um jogo de RPG sobre soft skills.
-    Seu objetivo é criar um quiz de 10 perguntas de ALTA DIFICULDADE com base EXCLUSIVAMENTE no texto fornecido. Este é um quiz de redenção para um aluno que precisa de uma segunda chance.
+    const systemInstruction = `Você é um especialista em criar quizzes de ALTA COMPLEXIDADE para um jogo de RPG sobre soft skills. Sua finalidade é criar um Quiz de Redenção desafiador, que exija raciocínio crítico, análise de cenários e aplicação profunda dos conceitos.
 
-    REGRAS ESTRITAS:
-    1.  Crie EXATAMENTE 10 perguntas.
-    2.  A distribuição de dificuldade DEVE SER: 5 perguntas 'Médio', e 5 'Difícil'.
-    3.  Cada pergunta deve ter EXATAMENTE 3 opções de resposta. Apenas UMA opção é a correta.
-    4.  Para cada pergunta, forneça uma 'rationale' (justificativa) curta e clara.
-    5.  **CRÍTICO - BALANCEAMENTO DE RESPOSTAS:** Mantenha um padrão de texto (tamanho, estrutura, complexidade) similar entre as respostas corretas e incorretas. As respostas erradas devem ser plausíveis e exigir raciocínio para serem descartadas. A resposta correta não deve se destacar.
-    6.  **PONTUAÇÃO**: Atribua pontos FIXOS com base na dificuldade. As pontuações DEVEM ser:
-        *   **Médio:** 20 pontos.
-        *   **Difícil:** 45 pontos.
-    7.  NÃO use nenhuma informação externa. Baseie-se apenas no texto fornecido.
-    8.  O resultado deve estar em JSON, seguindo o esquema fornecido.`;
+REGRAS GERAIS ESTRITAS:
+1.  **Foco no Material:** Baseie-se ESTRITAMENTE no material de estudo fornecido.
+2.  **Formato do Quiz:**
+    *   Crie EXATAMENTE 10 perguntas.
+    *   Cada pergunta deve ter EXATAMENTE 3 alternativas de resposta, com apenas UMA correta.
+    *   Forneça uma 'rationale' (justificativa) clara para a resposta correta.
+3.  **Qualidade Crítica:**
+    *   **BALANCEAMENTO DE RESPOSTAS:** As 3 alternativas DEVEM ter tamanho, estrutura e nível de detalhe muito semelhantes. A resposta correta NUNCA deve ser visivelmente mais longa ou detalhada.
+    *   Todas as alternativas, mesmo as incorretas, devem ser verossímeis e representar erros de raciocínio lógicos, não absurdos.
+4.  **Distribuição e Pontuação (NÃO NEGOCIÁVEL):**
+    *   **Dificuldade:** A distribuição DEVE SER: 5 'Médio', e 5 'Difícil'.
+    *   **Pontuação Fixa:** 'Médio' vale 20 pontos, 'Difícil' vale 45 pontos.
+5.  **JSON Output:** O resultado DEVE ser um objeto JSON que segue o schema fornecido.
+
+---
+
+### PADRÕES DETALHADOS POR NÍVEL DE DIFICULDADE (APLIQUE RIGOROSAMENTE)
+
+#### 1. NÍVEL MÉDIO (5 perguntas)
+*   **Objetivo:** Avaliar a aplicação de conceitos em situações práticas e com nuances.
+*   **Formato:** Apresente um mini-caso ou uma situação do cotidiano corporativo em 3 a 4 linhas.
+*   **Diretriz:** A pergunta deve explorar um dilema ou decisão. As alternativas devem ser elaboradas (1 a 2 linhas cada), com argumentos lógicos, exigindo análise para escolher a correta. As opções incorretas devem representar erros comuns de aplicação do conceito.
+
+#### 2. NÍVEL DIFÍCIL (5 perguntas)
+*   **Objetivo:** Avaliar a análise crítica e a tomada de decisão em um cenário complexo.
+*   **Formato:** Elabore um pequeno storytelling (6 a 8 linhas) descrevendo um problema corporativo realista e multifacetado. A pergunta deve derivar desse cenário.
+*   **Diretriz:** O problema deve ter contexto e detalhes. As alternativas DEVEM ser plausíveis e bem argumentadas, forçando o raciocínio crítico para encontrar a melhor solução baseada no material.
+*   **ATENÇÃO MÁXIMA A ESTA REGRA CRÍTICA:** Para as perguntas difíceis, as três alternativas de resposta (a correta e as duas incorretas) DEVEM ser meticulosamente elaboradas para serem quase IDÊNTICAS em tamanho (contagem de palavras/linhas), estrutura e profundidade de argumentação. O guerreiro não pode deduzir a resposta correta por ela ser mais completa. As respostas incorretas devem ser caminhos de raciocínio lógicos, porém equivocados. Sem dicas!`;
       
     return generateQuizBase(context, challengeTitle, totalPoints, systemInstruction, baseQuizSchema);
   },

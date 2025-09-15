@@ -23,29 +23,44 @@ const IslandView = ({ island, playerData, onUpdateProgress, onBackToMap }: Islan
   const isCurrentIsland = island.id === currentIslandId;
 
   const handleSubmitForReview = (challengeId: number, submission: string | number[], submissionType: 'quiz' | 'submission' | 'presentation') => {
-    const newProgress = JSON.parse(JSON.stringify(playerData)); // Deep copy
+    const newProgress = JSON.parse(JSON.stringify(playerData));
     const currentIslandProgress = newProgress.progress[island.id] || { score: 0, completedChallenges: [], pendingSubmissions: {} };
     
     if (!currentIslandProgress.pendingSubmissions) {
       currentIslandProgress.pendingSubmissions = {};
     }
 
-    if (currentIslandProgress.pendingSubmissions[challengeId]) return;
+    const existingSubmission = currentIslandProgress.pendingSubmissions[challengeId];
+
+    // Impede a nova submissão de um quiz que já foi respondido e está pendente
+    if (existingSubmission && existingSubmission.answers) {
+      alert("Você já enviou este quiz. Aguarde a avaliação do Mestre.");
+      return;
+    }
+    
+    // Para um quiz de redenção, atualizamos a submissão pendente existente.
+    // Para um novo quiz, criamos uma nova.
+    const baseSubmission = existingSubmission || {};
 
     if (submissionType === 'quiz' && Array.isArray(submission)) {
        currentIslandProgress.pendingSubmissions[challengeId] = {
+        ...baseSubmission,
         submissionType: 'quiz',
         answers: submission,
         submittedAt: new Date().toISOString(),
       };
     } else if (submissionType === 'submission' && typeof submission === 'string') {
       currentIslandProgress.pendingSubmissions[challengeId] = {
+        ...baseSubmission,
         submissionType: 'submission',
         submission: submission,
         submittedAt: new Date().toISOString(),
       };
     } else if (submissionType === 'presentation') {
+       // Isso também não deve poder ser reenviado, mas a UI já impede.
+       if (existingSubmission) return;
        currentIslandProgress.pendingSubmissions[challengeId] = {
+        ...baseSubmission,
         submissionType: 'presentation',
         submittedAt: new Date().toISOString(),
       };
@@ -54,7 +69,6 @@ const IslandView = ({ island, playerData, onUpdateProgress, onBackToMap }: Islan
     newProgress.progress[island.id] = currentIslandProgress;
     onUpdateProgress({ ...newProgress });
 
-    // A mágica agora acontece nos bastidores! O progresso é salvo no banco.
     alert("Sua tarefa foi enviada ao Mestre para avaliação!");
   };
   

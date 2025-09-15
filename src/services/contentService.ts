@@ -1,4 +1,4 @@
-import { ISLANDS, TOTAL_POINTS_TO_CONQUER, MANDALA_PETAL_THRESHOLDS, MAIN_BACKGROUND_URL, WELCOME_BACKGROUND_URL, STORYTELLING_URL, CHALLENGE_PATH_BACKGROUND_URL, MANUAL_URL } from '../constants';
+import { ISLANDS, TOTAL_POINTS_TO_CONQUER, MANDALA_PETAL_THRESHOLDS, MAIN_BACKGROUND_URL, WELCOME_BACKGROUND_URL, STORYTELLING_URL, CHALLENGE_PATH_BACKGROUND_URL, MANUAL_URL, MENTOR_EMAIL } from '../constants';
 import { ALL_QUIZZES } from '../quizzes';
 import { Island, Quiz } from '../types';
 
@@ -20,6 +20,7 @@ export const contentService = {
 
   getStorytellingUrl: (): string => STORYTELLING_URL,
   getManualUrl: (): string => MANUAL_URL,
+  getMentorEmail: (): string => MENTOR_EMAIL,
   getMainBackgroundUrl: (): string => MAIN_BACKGROUND_URL,
   getWelcomeBackgroundUrl: (): string => WELCOME_BACKGROUND_URL,
   getChallengePathBackgroundUrl: (): string => CHALLENGE_PATH_BACKGROUND_URL,

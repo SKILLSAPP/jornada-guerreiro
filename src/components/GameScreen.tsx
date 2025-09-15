@@ -5,6 +5,7 @@ import IslandMap from './IslandMap';
 import IslandView from './IslandView';
 import PlayerDashboard from './PlayerDashboard';
 import ChallengePath from './ChallengePath';
+import ManualModal from './ManualModal';
 
 interface GameScreenProps {
   playerData: PlayerData;
@@ -15,6 +16,7 @@ interface GameScreenProps {
 const GameScreen = ({ playerData, onUpdateProgress, onLogout }: GameScreenProps) => {
   const [currentView, setCurrentView] = useState<'map' | 'island' | 'dashboard' | 'challengePath'>('map');
   const [selectedIsland, setSelectedIsland] = useState<Island | null>(null);
+  const [isManualOpen, setIsManualOpen] = useState(false);
 
   const handleSelectIsland = useCallback((island: Island) => {
     setSelectedIsland(island);
@@ -92,53 +94,52 @@ const GameScreen = ({ playerData, onUpdateProgress, onLogout }: GameScreenProps)
 
   return (
     <>
-    <div className="p-4 sm:p-6 lg:p-8">
-      <header className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 pb-4 border-b-2 border-yellow-500/30 gap-4">
-        <div>
-          <h1 className="text-2xl md:text-3xl font-bold font-cinzel text-yellow-400">Bem-vindo, Guerreiro {playerData.name}</h1>
-          <p className="text-gray-300">Sua pontuação total: {totalScore} Moedas de Ouro</p>
-        </div>
-        <div className="flex items-center gap-2 sm:gap-4 flex-wrap">
-          <button
-            onClick={handleShowChallengePath}
-            className="px-3 py-2 text-sm sm:px-4 sm:py-2 bg-purple-600 hover:bg-purple-700 text-white font-semibold rounded-lg shadow-md transition-colors"
-          >
-            Trilha Mágica
-          </button>
-          <button
-            onClick={handleShowDashboard}
-            className="px-3 py-2 text-sm sm:px-4 sm:py-2 bg-yellow-600 hover:bg-yellow-700 text-white font-semibold rounded-lg shadow-md transition-colors"
-          >
-            Meu Progresso
-          </button>
-          <a
-            href={contentService.getStorytellingUrl()}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="px-3 py-2 text-sm sm:px-4 sm:py-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg shadow-md transition-colors"
-          >
-            Storytelling
-          </a>
-          <a
-            href={contentService.getManualUrl()}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="px-3 py-2 text-sm sm:px-4 sm:py-2 bg-gray-600 hover:bg-gray-700 text-white font-semibold rounded-lg shadow-md transition-colors"
-          >
-            Manual
-          </a>
-          <button 
-            onClick={onLogout} 
-            className="px-3 py-2 text-sm sm:px-4 sm:py-2 bg-red-600 hover:bg-red-700 text-white font-semibold rounded-lg shadow-md transition-colors"
-          >
-            Encerrar
-          </button>
-        </div>
-      </header>
-      <main>
-        {renderCurrentView()}
-      </main>
-    </div>
+      {isManualOpen && <ManualModal onClose={() => setIsManualOpen(false)} />}
+      <div className="p-4 sm:p-6 lg:p-8">
+        <header className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 pb-4 border-b-2 border-yellow-500/30 gap-4">
+          <div>
+            <h1 className="text-2xl md:text-3xl font-bold font-cinzel text-yellow-400">Bem-vindo, Guerreiro {playerData.name}</h1>
+            <p className="text-gray-300">Sua pontuação total: {totalScore} Moedas de Ouro</p>
+          </div>
+          <div className="flex items-center gap-2 sm:gap-4 flex-wrap">
+            <button
+              onClick={handleShowChallengePath}
+              className="px-3 py-2 text-sm sm:px-4 sm:py-2 bg-purple-600 hover:bg-purple-700 text-white font-semibold rounded-lg shadow-md transition-colors"
+            >
+              Trilha Mágica
+            </button>
+            <button
+              onClick={handleShowDashboard}
+              className="px-3 py-2 text-sm sm:px-4 sm:py-2 bg-yellow-600 hover:bg-yellow-700 text-white font-semibold rounded-lg shadow-md transition-colors"
+            >
+              Meu Progresso
+            </button>
+            <a
+              href={contentService.getStorytellingUrl()}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="px-3 py-2 text-sm sm:px-4 sm:py-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg shadow-md transition-colors"
+            >
+              Storytelling
+            </a>
+            <button
+              onClick={() => setIsManualOpen(true)}
+              className="px-3 py-2 text-sm sm:px-4 sm:py-2 bg-gray-600 hover:bg-gray-700 text-white font-semibold rounded-lg shadow-md transition-colors"
+            >
+              Manual
+            </button>
+            <button 
+              onClick={onLogout} 
+              className="px-3 py-2 text-sm sm:px-4 sm:py-2 bg-red-600 hover:bg-red-700 text-white font-semibold rounded-lg shadow-md transition-colors"
+            >
+              Encerrar
+            </button>
+          </div>
+        </header>
+        <main>
+          {renderCurrentView()}
+        </main>
+      </div>
     </>
   );
 };

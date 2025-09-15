@@ -15,12 +15,25 @@ interface GradingState {
     finalFeedback?: string;
 }
 
-const PASSING_SCORE_THRESHOLD = 1000;
+// Represents the state for the final judgment screen after a redemption quiz
+interface JudgementState {
+    player: PlayerData;
+    islandId: number;
+    challengeId: number;
+    presentationScore: number;
+    redemptionQuizScore: number;
+    finalIslandScore: number;
+    feedback: string;
+    gradedQuiz: GradedQuiz;
+}
+
 
 export default function TaskGrading() {
     const [players, setPlayers] = useState<PlayerData[]>([]);
     const [islands, setIslands] = useState<Island[]>([]);
     const [gradingState, setGradingState] = useState<Partial<GradingState>>({});
+    const [judgementState, setJudgementState] = useState<JudgementState | null>(null);
+    const [desperationPoints, setDesperationPoints] = useState('');
     const [loading, setLoading] = useState(true);
 
     const loadData = useCallback(async () => {
@@ -28,6 +41,8 @@ export default function TaskGrading() {
         setPlayers(await gameService.getAllPlayersData());
         setIslands(contentService.getIslands());
         setGradingState({});
+        setJudgementState(null);
+        setDesperationPoints('');
         setLoading(false);
     }, []);
 
@@ -51,9 +66,22 @@ export default function TaskGrading() {
         const key = `${player.name}-${islandId}-${challenge.id}`;
         setGradingState({ ...gradingState, key, isLoading: true });
 
-        const quiz = contentService.getQuiz(challenge.quizId!);
+        let quizId: string | undefined;
+        // Check if it's a redemption quiz submission for challenge 4
+        if (challenge.id === 4 && submission.answers && submission.redemptionQuizOffered) {
+            quizId = `island-${islandId}-challenge-${challenge.id}-redemption`;
+        } else {
+            quizId = challenge.quizId;
+        }
+
+        if (!quizId) {
+             setGradingState({ ...gradingState, key, isLoading: false, feedback: 'Erro: ID do Quiz não encontrado.' });
+             return;
+        }
+    
+        const quiz = contentService.getQuiz(quizId);
         if (!quiz || !submission.answers) {
-            setGradingState({ ...gradingState, key, isLoading: false, feedback: 'Erro: Quiz/respostas não encontrados.' });
+            setGradingState({ ...gradingState, key, isLoading: false, feedback: 'Erro: Quiz ou respostas não encontrados.' });
             return;
         }
 
@@ -66,7 +94,7 @@ export default function TaskGrading() {
         }
     };
     
-    const handleCalculateFinalResult = async (player: PlayerData, islandId: number, challengeId: number) => {
+    const handleCalculateInitialPresentationResult = async (player: PlayerData, islandId: number, challengeId: number) => {
         const key = `${player.name}-${islandId}-${challengeId}`;
         const score = parseInt(gradingState.presentationScore || '0', 10);
         if(isNaN(score)){
@@ -79,11 +107,11 @@ export default function TaskGrading() {
         const islandProgress = player.progress[islandId] || { score: 0 };
         const totalScore = islandProgress.score + score;
 
-        const feedback = await geminiService.getFinalResultFeedback(player.name, totalScore, PASSING_SCORE_THRESHOLD);
+        const feedback = await geminiService.getFinalResultFeedback(player.name, totalScore, contentService.TOTAL_POINTS_TO_CONQUER);
         setGradingState({ ...gradingState, key, isLoading: false, finalFeedback: feedback, presentationScore: score.toString() });
     };
 
-    const handleGuardianDecision = async (player: PlayerData, islandId: number, challengeId: number, approve: boolean) => {
+    const handleGuardianInitialDecision = async (player: PlayerData, islandId: number, challengeId: number, approve: boolean) => {
         const scoreValue = parseInt(gradingState.presentationScore || '0', 10);
         
         const updatedPlayer = JSON.parse(JSON.stringify(player));
@@ -113,32 +141,84 @@ export default function TaskGrading() {
         }
     };
 
+    const handleConfirmGrade = async (player: PlayerData, islandId: number, challenge: Challenge, submission: PendingSubmission) => {
+        if (!gradingState.key || !gradingState.gradedQuiz || !gradingState.score) return;
 
-    const handleConfirmGrade = async (player: PlayerData, islandId: number, challenge: Challenge) => {
-        if (!gradingState.key || !gradingState.gradedQuiz) return;
+        const scoreValue = parseInt(gradingState.score, 10);
+        const isRedemptionQuiz = challenge.id === 4 && submission.redemptionQuizOffered === true;
 
-        const scoreValue = parseInt(gradingState.score || '0', 10);
-        if (isNaN(scoreValue) || !gradingState.feedback) {
-            alert("A nota e o feedback devem ser preenchidos.");
-            return;
+        // If it's a redemption quiz, go to the judgement chamber instead of finishing
+        if (isRedemptionQuiz) {
+            const presentationScore = submission.presentationScore || 0;
+            const finalIslandScore = (player.progress[islandId]?.score || 0) + presentationScore + scoreValue;
+            
+            setJudgementState({
+                player,
+                islandId,
+                challengeId: challenge.id,
+                presentationScore,
+                redemptionQuizScore: scoreValue,
+                finalIslandScore,
+                feedback: gradingState.feedback || '',
+                gradedQuiz: gradingState.gradedQuiz,
+            });
+            // Clear grading state as we are moving to a new view
+            setGradingState({});
+
+        } else { // Standard quiz flow
+            const updatedPlayer = JSON.parse(JSON.stringify(player));
+            const progress: PlayerProgress[number] = updatedPlayer.progress[islandId];
+            
+            if (progress?.pendingSubmissions?.[challenge.id]) {
+                progress.score = (progress.score || 0) + scoreValue;
+                if (!progress.completedChallenges) progress.completedChallenges = [];
+                progress.completedChallenges.push(challenge.id);
+                delete progress.pendingSubmissions[challenge.id];
+                
+                if (!updatedPlayer.taskFeedback) updatedPlayer.taskFeedback = {};
+                updatedPlayer.taskFeedback[`${challenge.id}-${islandId}`] = {
+                    challengeTitle: challenge.title,
+                    feedback: gradingState.feedback || 'Avaliado pelo Mestre.',
+                    score: scoreValue,
+                    gradedQuiz: gradingState.gradedQuiz,
+                };
+
+                updatedPlayer.progress[islandId] = progress;
+                await gameService.savePlayerData(updatedPlayer);
+                await loadData();
+            }
         }
+    };
+
+    const handleFinalJudgement = async (finalPointsToAdd: number, isDesperationChallenge: boolean = false) => {
+        if (!judgementState) return;
+
+        const { player, islandId, challengeId, feedback, gradedQuiz, redemptionQuizScore, presentationScore } = judgementState;
 
         const updatedPlayer = JSON.parse(JSON.stringify(player));
         const progress: PlayerProgress[number] = updatedPlayer.progress[islandId];
-        const presentationScore = progress.pendingSubmissions?.[challenge.id]?.presentationScore || 0;
-        
-        if (progress?.pendingSubmissions?.[challenge.id]) {
-            progress.score = (progress.score || 0) + scoreValue + presentationScore;
+
+        if (progress?.pendingSubmissions?.[challengeId]) {
+            // Add scores from all parts of the final challenge
+            progress.score += presentationScore + redemptionQuizScore + finalPointsToAdd;
+
             if (!progress.completedChallenges) progress.completedChallenges = [];
-            progress.completedChallenges.push(challenge.id);
-            delete progress.pendingSubmissions[challenge.id];
-            
+            progress.completedChallenges.push(challengeId);
+            delete progress.pendingSubmissions[challengeId];
+
+            let finalFeedback = feedback;
+            if (isDesperationChallenge) {
+                finalFeedback += `\n\n**Veredito do Mestre:** Após o Desafio dos Desesperados, o guerreiro conquistou mais ${finalPointsToAdd} moedas de ouro e provou seu valor.`;
+            } else {
+                 finalFeedback += `\n\n**Veredito do Mestre:** O guerreiro provou seu valor e conquistou a ilha com honra.`;
+            }
+
             if (!updatedPlayer.taskFeedback) updatedPlayer.taskFeedback = {};
-            updatedPlayer.taskFeedback[`${challenge.id}-${islandId}`] = {
-                challengeTitle: challenge.title,
-                feedback: gradingState.feedback,
-                score: scoreValue,
-                gradedQuiz: gradingState.gradedQuiz,
+            updatedPlayer.taskFeedback[`${challengeId}-${islandId}`] = {
+                challengeTitle: `Desafio do Guardião (Quiz de Redenção)`,
+                feedback: finalFeedback,
+                score: redemptionQuizScore, // Score for the quiz part
+                gradedQuiz: gradedQuiz,
             };
 
             updatedPlayer.progress[islandId] = progress;
@@ -146,6 +226,7 @@ export default function TaskGrading() {
             await loadData();
         }
     };
+
 
     const pendingSummaries = players.flatMap(player =>
         Object.entries(player.progress).map(([islandIdStr, islandProgress]) => {
@@ -181,6 +262,75 @@ export default function TaskGrading() {
          return <p className="text-center text-gray-400 italic p-8">Buscando tarefas na fortaleza de dados...</p>
     }
 
+    // Render Judgement Chamber if active
+    if (judgementState) {
+        const didPass = judgementState.finalIslandScore >= contentService.TOTAL_POINTS_TO_CONQUER;
+        return (
+            <div className="bg-gray-800/50 p-6 rounded-lg border-2 border-yellow-500/50 animate-fade-in">
+                <h2 className="text-2xl font-cinzel text-center text-yellow-400 mb-4">Câmara do Julgamento do Guardião</h2>
+                <p className="text-center text-lg text-gray-300 mb-2">Guerreiro: <strong className="text-white">{judgementState.player.name}</strong></p>
+                
+                <div className="my-6 p-4 bg-black/30 rounded-lg text-center">
+                    <h3 className="text-xl font-cinzel text-gray-200">A Balança da Sabedoria</h3>
+                    <div className="flex justify-center items-center gap-4 my-2 text-lg">
+                        <div>
+                            <p className="text-gray-400 text-sm">Apresentação</p>
+                            <p className="font-bold text-white">{judgementState.presentationScore}</p>
+                        </div>
+                        <span className="text-yellow-400 text-2xl">+</span>
+                        <div>
+                            <p className="text-gray-400 text-sm">Quiz Redenção</p>
+                            <p className="font-bold text-white">{judgementState.redemptionQuizScore}</p>
+                        </div>
+                         <span className="text-yellow-400 text-2xl">=</span>
+                         <div>
+                            <p className="text-gray-400 text-sm">Total na Ilha</p>
+                            <p className="font-bold text-2xl text-yellow-300">{judgementState.finalIslandScore}</p>
+                        </div>
+                    </div>
+                     <p className="text-xs text-gray-500">(Pontuação base da ilha: {judgementState.finalIslandScore - judgementState.presentationScore - judgementState.redemptionQuizScore})</p>
+                </div>
+                
+                <div className="mt-6 pt-6 border-t border-yellow-500/30">
+                    {didPass ? (
+                        <div className="text-center">
+                            <h3 className="text-xl font-cinzel text-green-400 mb-2">Veredito: APROVADO</h3>
+                            <p className="text-gray-300 mb-4">O Guerreiro provou seu valor! Sua nota final é suficiente para a conquista.</p>
+                            <button onClick={() => handleFinalJudgement(0)} className="w-full max-w-md mx-auto py-3 px-6 bg-green-600 hover:bg-green-700 text-white font-bold rounded-lg transition-colors">
+                                Conceder Conquista da Ilha
+                            </button>
+                        </div>
+                    ) : (
+                        <div className="text-center">
+                             <h3 className="text-xl font-cinzel text-red-400 mb-2">Veredito: DERROTA PARA O GUARDIÃO</h3>
+                             <p className="text-gray-300 mb-4">O Guerreiro lutou com bravura, mas sua sabedoria ainda não é suficiente. Ele precisa de <strong className="text-white">{contentService.TOTAL_POINTS_TO_CONQUER - judgementState.finalIslandScore}</strong> moedas para conquistar a ilha.</p>
+                             <div className="mt-4 p-4 bg-purple-900/40 rounded-lg border border-purple-600/50 max-w-lg mx-auto">
+                                 <h4 className="font-cinzel text-purple-300">O Desafio dos Desesperados</h4>
+                                 <p className="text-sm text-gray-400 my-2">Descreva um desafio final para o guerreiro (offline). Após ele completar, insira os pontos que ele conquistou e finalize a jornada.</p>
+                                 <div className="flex items-center gap-4">
+                                     <input 
+                                        type="number" 
+                                        value={desperationPoints} 
+                                        onChange={(e) => setDesperationPoints(e.target.value)} 
+                                        placeholder="Pontos" 
+                                        className="w-32 px-3 py-2 bg-gray-800 border border-gray-600 rounded-md text-gray-200"
+                                     />
+                                     <button 
+                                        onClick={() => handleFinalJudgement(parseInt(desperationPoints || '0'), true)} 
+                                        disabled={!desperationPoints}
+                                        className="flex-1 py-2 px-4 bg-purple-600 hover:bg-purple-700 text-white font-bold rounded-lg transition-colors disabled:bg-gray-600"
+                                     >
+                                         Registrar Pontos e Conceder Conquista
+                                     </button>
+                                 </div>
+                             </div>
+                        </div>
+                    )}
+                </div>
+            </div>
+        );
+    }
+    
     const hasPendingTasks = pendingSummaries.length > 0 || pendingSubmissions.length > 0;
 
     if (!hasPendingTasks) {
@@ -255,7 +405,7 @@ export default function TaskGrading() {
                                                     <div className="flex items-center gap-4">
                                                         <label className="block text-sm font-medium text-gray-300">Nota Final (editável)</label>
                                                         <input type="number" value={gradingState.score} onChange={(e) => setGradingState({ ...gradingState, score: e.target.value })} className="w-24 px-2 py-2 bg-gray-900 border border-gray-600 rounded-md text-gray-200" />
-                                                        <button onClick={() => handleConfirmGrade(player, island.id, challenge)} className="flex-1 px-4 py-2 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg">Confirmar Avaliação</button>
+                                                        <button onClick={() => handleConfirmGrade(player, island.id, challenge, submission)} className="flex-1 px-4 py-2 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg">Confirmar Avaliação</button>
                                                     </div>
                                                 </div>
                                             )}
@@ -269,7 +419,7 @@ export default function TaskGrading() {
                                                     <label className="block text-sm font-medium text-gray-300 mb-1">Nota da Apresentação (0-{challenge.points})</label>
                                                     <input type="number" value={isGradingThis ? gradingState.presentationScore : ''} onChange={(e) => setGradingState({ key, presentationScore: e.target.value })} min="0" max={challenge.points} className="w-full p-2 bg-gray-900 border border-gray-600 rounded text-gray-200" />
                                                 </div>
-                                                <button onClick={() => handleCalculateFinalResult(player, island.id, challenge.id)} disabled={isGradingThis && gradingState.isLoading} className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg disabled:bg-gray-600">Calcular Resultado</button>
+                                                <button onClick={() => handleCalculateInitialPresentationResult(player, island.id, challenge.id)} disabled={isGradingThis && gradingState.isLoading} className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg disabled:bg-gray-600">Calcular Resultado</button>
                                             </div>
 
                                             {isGradingThis && gradingState.finalFeedback && (
@@ -277,8 +427,8 @@ export default function TaskGrading() {
                                                     <h4 className="font-cinzel text-yellow-300">Conselho do Oráculo IA</h4>
                                                     <p className="text-gray-300 italic">"{gradingState.finalFeedback}"</p>
                                                     <div className="flex gap-4">
-                                                        <button onClick={() => handleGuardianDecision(player, island.id, challenge.id, false)} className="w-full px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white font-semibold rounded-lg">Oferecer Quiz de Redenção</button>
-                                                        <button onClick={() => handleGuardianDecision(player, island.id, challenge.id, true)} className="w-full px-4 py-2 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg">Aprovar e Conquistar a Ilha</button>
+                                                        <button onClick={() => handleGuardianInitialDecision(player, island.id, challenge.id, false)} className="w-full px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white font-semibold rounded-lg">Oferecer Quiz de Redenção</button>
+                                                        <button onClick={() => handleGuardianInitialDecision(player, island.id, challenge.id, true)} className="w-full px-4 py-2 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg">Aprovar e Conquistar a Ilha</button>
                                                     </div>
                                                 </div>
                                             )}

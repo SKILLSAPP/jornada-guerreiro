@@ -416,5 +416,421 @@ export const ALL_QUIZZES: Quiz[] = [
         "rationale": "A abordagem correta integra múltiplos princípios: a Regra dos 18 Minutos (Cap. 7) para concisão, Storytelling pessoal (Cap. 2 e 9) para conexão emocional e autenticidade, uso de visuais e linguagem corporal (Cap. 8 e 3) para multissensorialidade e presença, e a criação de um \"momento caramba\" (Cap. 5) com a demonstração interativa para surpreender e memorizar. As outras opções focam em aspectos isolados (dados/técnica ou estatísticas/funcionalidades) sem a integração de elementos emocionais e de engajamento que Gallo defende como cruciais para inspirar e persuadir."
       }
     ]
+  },
+  {
+    "id": "island-1-challenge-3",
+    "name": "Desafio 3 - TEDx + PODCAST: Comunicação e Oratória",
+    "islandId": 1,
+    "challengeId": 3,
+    "questions": [
+      {
+        "questionText": "Segundo Lena Souza, o que ela transformou em força em sua jornada pessoal, conforme narrado em sua palestra?",
+        "difficulty": "Fácil",
+        "points": 10,
+        "options": [
+          {
+            "text": "Apenas suas habilidades técnicas de oratória, desenvolvidas em cursos especializados.",
+            "isCorrect": false
+          },
+          {
+            "text": "Suas maiores fraquezas, dores e traumas de infância e problemas de autoestima.",
+            "isCorrect": true
+          },
+          {
+            "text": "As expectativas de sua família e amigos sobre sua carreira profissional e acadêmica.",
+            "isCorrect": false
+          }
+        ],
+        "rationale": "O texto afirma: 'A palestrante revela que suas 'maiores fraquezas, a minha maior dor, meus maiores traumas de infância, o que eu não gostava em mim, eu transformei força.'"
+      },
+      {
+        "questionText": "Qual foi um dos principais obstáculos de autoestima que Lena Souza enfrentou, que a levou a ter vergonha de sorrir, conforme mencionado em sua palestra?",
+        "difficulty": "Fácil",
+        "points": 10,
+        "options": [
+          {
+            "text": "A dificuldade em memorizar textos complexos para apresentações em público.",
+            "isCorrect": false
+          },
+          {
+            "text": "A vergonha de sorrir devido a falhas nos dentes e a comentários negativos de terceiros.",
+            "isCorrect": true
+          },
+          {
+            "text": "A incapacidade de improvisar em situações inesperadas durante suas palestras.",
+            "isCorrect": false
+          }
+        ],
+        "rationale": "O material detalha: 'A vergonha de sorrir devido a falhas nos dentes foi um obstáculo significativo.'"
+      },
+      {
+        "questionText": "Qual organização Lena Souza se juntou, que a levou a descobrir e participar de um concurso de oratória, marcando um ponto de virada em sua vida?",
+        "difficulty": "Fácil",
+        "points": 10,
+        "options": [
+          {
+            "text": "Uma associação de dança contemporânea, onde encontrou sua expressividade corporal.",
+            "isCorrect": false
+          },
+          {
+            "text": "A JCI (Jovens Líderes Empreendedores), buscando mudanças positivas e novas oportunidades.",
+            "isCorrect": true
+          },
+          {
+            "text": "Um grupo de teatro amador local, onde desenvolveu suas habilidades de atuação e improviso.",
+            "isCorrect": false
+          }
+        ],
+        "rationale": "O texto menciona: 'Juntou-se à JCI (Jovens Líderes Empreendedores)... Foi através da JCI que descobriu o concurso de oratória.'"
+      },
+      {
+        "questionText": "De acordo com Nicholas Butman, em sua obra 'Como Convencer Alguém em 90 Segundos', qual dos três passos fundamentais da comunicação a maioria das pessoas foca, negligenciando os outros?",
+        "difficulty": "Fácil",
+        "points": 10,
+        "options": [
+          {
+            "text": "Encontrar a Pessoa, focando intensamente na apresentação inicial e no primeiro contato.",
+            "isCorrect": false
+          },
+          {
+            "text": "Gerar Afinidade (Rapport), priorizando a criação de uma conexão e um senso de conforto.",
+            "isCorrect": false
+          },
+          {
+            "text": "Comunicar, deixando de lado a etapa de encontrar a pessoa e a de gerar afinidade.",
+            "isCorrect": true
+          }
+        ],
+        "rationale": "O briefing afirma: \"'A maioria das pessoas foca só no se comunicar, esquece os dois primeiros passos.'\""
+      },
+      {
+        "questionText": "Segundo a regra 7-38-55 mencionada no briefing sobre a comunicação, qual porcentagem da mensagem é composta por elementos não verbais, como linguagem corporal e tom de voz?",
+        "difficulty": "Fácil",
+        "points": 10,
+        "options": [
+          {
+            "text": "Apenas 7% da comunicação total, sendo a parte verbal a mais relevante.",
+            "isCorrect": false
+          },
+          {
+            "text": "38% da comunicação total, referente exclusivamente ao tom de voz.",
+            "isCorrect": false
+          },
+          {
+            "text": "93% da comunicação total, englobando postura, tom de voz e gestos.",
+            "isCorrect": true
+          }
+        ],
+        "rationale": "O material especifica: 'Apenas '7% da sua comunicação é verbal, 93% é tua postura, tom de voz, a maneira como você esticula.''"
+      },
+      {
+        "questionText": "Uma jovem palestrante, Maria, está frustrada com a rigidez dos cursos de oratória tradicionais, que a fazem sentir-se artificial e insegura, inibindo sua identidade. Baseando-se na visão de Lena Souza sobre a oratória, qual seria a melhor abordagem para Maria superar essa dificuldade?",
+        "difficulty": "Médio",
+        "points": 30,
+        "options": [
+          {
+            "text": "Ignorar completamente as técnicas de oratória e focar apenas na espontaneidade, sem qualquer preparo, para ser mais autêntica.",
+            "isCorrect": false
+          },
+          {
+            "text": "Buscar uma abordagem que integre ferramentas da psicologia e neurociência, focando na aceitação e autenticidade pessoal, em vez de regras estritas e padrões rígidos.",
+            "isCorrect": true
+          },
+          {
+            "text": "Persistir nos métodos tradicionais, pois a rigidez e a padronização são fundamentais para o domínio da oratória e para evitar erros em público.",
+            "isCorrect": false
+          }
+        ],
+        "rationale": "Lena Souza 'ficou 'incomodada' com a rigidez dos cursos de oratória... Buscou ferramentas da psicologia, neurociência... A principal lição que ela aprendeu e ensina é a aceitação. 'Não tem padrão. Padrão é você.''"
+      },
+      {
+        "questionText": "João tem uma entrevista de emprego crucial para a vaga dos seus sonhos. Ele sabe que a primeira impressão é vital para o sucesso. Qual das seguintes atitudes, baseada na 'Fórmula para uma Boa Primeira Impressão' de Nicholas Butman, ele deveria priorizar nos primeiros segundos da interação?",
+        "difficulty": "Médio",
+        "points": 30,
+        "options": [
+          {
+            "text": "Começar a falar imediatamente sobre suas qualificações e experiências mais relevantes para impressionar o entrevistador com seu currículo.",
+            "isCorrect": false
+          },
+          {
+            "text": "Manter uma postura neutra e aguardar que o entrevistador inicie a conversa e o contato visual, para não parecer excessivamente ansioso.",
+            "isCorrect": false
+          },
+          {
+            "text": "Olhar nos olhos do entrevistador, sorrir, inclinar-se levemente para frente, estender a mão e cumprimentar pelo nome, demonstrando interesse.",
+            "isCorrect": true
+          }
+        ],
+        "rationale": "A 'Fórmula' de Butman inclui: 'Olhar no olho. Sorrir. Inclinar-se levemente para frente... Estender a mão. Falar 'Oi' e o nome da pessoa.'"
+      },
+      {
+        "questionText": "Uma empresa está lançando um novo produto inovador, mas um de seus vendedores, Carlos, demonstra pouco entusiasmo e suas vendas estão abaixo da média, apesar de o produto ser tecnicamente bom. Ele argumenta que o produto é bom, mas não consegue convencer os clientes. De acordo com o briefing, qual é a provável causa do baixo desempenho de Carlos?",
+        "difficulty": "Médio",
+        "points": 30,
+        "options": [
+          {
+            "text": "A falta de um script de vendas detalhado e rígido que o guie em cada interação com o cliente, tornando-o menos preparado para objeções.",
+            "isCorrect": false
+          },
+          {
+            "text": "A sua falta de crença genuína no produto, que se manifesta em microexpressões e sinais não verbais, comunicando desconfiança aos clientes.",
+            "isCorrect": true
+          },
+          {
+            "text": "A pressão excessiva da gerência por resultados, que o impede de se conectar de forma autêntica com os clientes e suas necessidades.",
+            "isCorrect": false
+          }
+        ],
+        "rationale": "O texto afirma: 'Um Bom Vendedor Vende Qualquer Coisa? Sim, 'contanto que ele acredite que funcione.' A falta de crença no produto se manifesta em 'microexpressões e dar pequenos sinais dentro da tua comunicação não verbal que mostra que você não confia tanto nisso.'"
+      },
+      {
+        "questionText": "Em uma reunião com um cliente potencial, Ana percebe que ele está hesitante em compartilhar detalhes sobre os desafios de sua empresa. Para construir rapport e encorajá-lo a se abrir, qual estratégia Ana deveria adotar, baseada nas técnicas de rapport e escuta ativa?",
+        "difficulty": "Médio",
+        "points": 30,
+        "options": [
+          {
+            "text": "Dominar a conversa, apresentando todas as soluções possíveis para os problemas que ela imagina que o cliente possa ter, mostrando seu conhecimento.",
+            "isCorrect": false
+          },
+          {
+            "text": "Utilizar a escuta ativa, parando tudo para focar 100% no que ele diz, parafraseando suas falas para demonstrar compreensão e fazendo perguntas abertas.",
+            "isCorrect": true
+          },
+          {
+            "text": "Interromper o cliente para corrigir qualquer informação que pareça imprecisa, mostrando seu conhecimento técnico e sua atenção aos detalhes.",
+            "isCorrect": false
+          }
+        ],
+        "rationale": "O briefing destaca a 'Escuta Ativa: Parar tudo, focar 100% no que o outro diz e parafrasear para demonstrar interesse e compreensão' e 'Perguntas Abertas: Criam conexões mais profundas'."
+      },
+      {
+        "questionText": "Sofia, uma nova líder de projeto, teve um início desastroso em sua equipe. No primeiro dia, devido a um mal-entendido e sua postura inicialmente reservada, foi percebida como arrogante e desinteressada. Agora, a equipe demonstra resistência às suas ideias e a comunicação está comprometida. Sofia precisa reverter essa primeira impressão negativa e construir confiança. Considerando as informações do briefing sobre a primeira impressão e as técnicas de persuasão, qual a estratégia mais completa e eficaz que Sofia deveria implementar para superar esse desafio complexo?",
+        "difficulty": "Difícil",
+        "points": 80,
+        "options": [
+          {
+            "text": "Sofia deve focar em apresentar resultados excepcionais de forma isolada, demonstrando sua competência técnica e esperando que os números falem por si, sem se preocupar excessivamente com a interação pessoal. Essa abordagem, embora demorada, eventualmente provará seu valor e mudará a percepção da equipe sobre sua capacidade.",
+            "isCorrect": false
+          },
+          {
+            "text": "Sofia deve realizar uma reunião formal para pedir desculpas pelo mal-entendido inicial e, em seguida, adotar uma postura de liderança mais assertiva, impondo suas decisões para mostrar que está no comando e que a equipe deve seguir suas diretrizes, visando reverter a percepção de desinteresse e falta de controle.",
+            "isCorrect": false
+          },
+          {
+            "text": "Sofia precisa iniciar um processo contínuo de 'oito encontros positivos', aplicando a 'fórmula da boa primeira impressão' em cada interação: contato visual genuíno, sorriso, postura aberta e uso do nome de cada membro. Além disso, deve praticar a escuta ativa e o espelhamento sutil para gerar rapport, buscando intencionalmente demonstrar empatia e uma 'atitude útil' em todas as oportunidades.",
+            "isCorrect": true
+          }
+        ],
+        "rationale": "O briefing afirma que 'são necessários oito encontros positivos para reverter uma primeira impressão negativa' e detalha a 'Fórmula para uma Boa Primeira Impressão' (olhar no olho, sorrir, inclinar-se, estender a mão, falar o nome). Adicionalmente, enfatiza a importância da linguagem corporal aberta, 'atitude útil', escuta ativa e espelhamento para construir rapport, todos elementos cruciais para uma estratégia completa de reversão de imagem e construção de confiança. As outras opções são incompletas ou contraproducentes."
+      }
+    ]
+  },
+  {
+    "id": "island-1-challenge-4-redemption",
+    "name": "COMUNICAÇÃO & ORATÓRIA - QUIZ DE RECUPERAÇÃO",
+    "islandId": 1,
+    "challengeId": 4,
+    "questions": [
+      {
+        "questionText": "De acordo com Nicholas Butman, qual é a etapa da comunicação onde a maioria das pessoas foca, mas que é ineficaz sem os dois primeiros passos?",
+        "difficulty": "Médio",
+        "points": 20,
+        "options": [
+          {
+            "text": "Encontrar a Pessoa.",
+            "isCorrect": false
+          },
+          {
+            "text": "Gerar Afinidade (Rapport).",
+            "isCorrect": false
+          },
+          {
+            "text": "Comunicar.",
+            "isCorrect": true
+          }
+        ],
+        "rationale": "O texto afirma que 'A maioria das pessoas foca só no se comunicar, esquece os dois primeiros passos', tornando essa etapa ineficaz sem as anteriores."
+      },
+      {
+        "questionText": "Qual é a porcentagem da comunicação que, segundo a '7-38-55 Rule', é composta pela linguagem corporal?",
+        "difficulty": "Médio",
+        "points": 20,
+        "options": [
+          {
+            "text": "7%.",
+            "isCorrect": false
+          },
+          {
+            "text": "38%.",
+            "isCorrect": false
+          },
+          {
+            "text": "55%.",
+            "isCorrect": true
+          }
+        ],
+        "rationale": "O texto especifica que '55% expressão corporal e 38% tom de voz', e '7% da sua comunicação é verbal', de acordo com a regra."
+      },
+      {
+        "questionText": "Segundo o texto, qual é a principal característica do 'Sistema 1' do nosso cérebro ao formar primeiras impressões?",
+        "difficulty": "Médio",
+        "points": 20,
+        "options": [
+          {
+            "text": "É um sistema lento e analítico, focado na lógica.",
+            "isCorrect": false
+          },
+          {
+            "text": "É um sistema rápido e intuitivo, que forma preconceitos em segundos.",
+            "isCorrect": true
+          },
+          {
+            "text": "É um sistema que avalia conscientemente as ameaças e oportunidades.",
+            "isCorrect": false
+          }
+        ],
+        "rationale": "O texto descreve o 'Sistema 1 (Rápido e Intuitivo)' como aquele que 'toma decisões em segundos, formando preconceitos baseados em experiências passadas'."
+      },
+      {
+        "questionText": "Qual das seguintes atitudes é considerada 'útil' para a comunicação, de acordo com o briefing?",
+        "difficulty": "Médio",
+        "points": 20,
+        "options": [
+          {
+            "text": "Sarcasmo.",
+            "isCorrect": false
+          },
+          {
+            "text": "Curiosidade.",
+            "isCorrect": true
+          },
+          {
+            "text": "Impaciência.",
+            "isCorrect": false
+          }
+        ],
+        "rationale": "O texto menciona que uma 'atitude útil' inclui 'curiosidade, entusiasmo, encorajadora, afetuosa', em contraste com 'inútil' como 'impaciência, sarcasmo, ceticismo, raiva'."
+      },
+      {
+        "questionText": "Para reverter uma primeira impressão negativa, o texto sugere que são necessários quantos encontros positivos?",
+        "difficulty": "Médio",
+        "points": 20,
+        "options": [
+          {
+            "text": "Cinco encontros positivos.",
+            "isCorrect": false
+          },
+          {
+            "text": "Oito encontros positivos.",
+            "isCorrect": true
+          },
+          {
+            "text": "Três encontros positivos.",
+            "isCorrect": false
+          }
+        ],
+        "rationale": "O texto afirma explicitamente: 'São necessários oito encontros positivos para reverter uma primeira impressão negativa'."
+      },
+      {
+        "questionText": "No contexto da comunicação não verbal, qual é a microexpressão ou ação específica que o texto sugere para tornar o contato visual mais 'qualificado' e aumentar o rapport?",
+        "difficulty": "Difícil",
+        "points": 45,
+        "options": [
+          {
+            "text": "Manter o olhar fixo por um período prolongado para demonstrar seriedade.",
+            "isCorrect": false
+          },
+          {
+            "text": "Reparar na cor dos olhos da pessoa para forçar um contato visual mais intenso.",
+            "isCorrect": true
+          },
+          {
+            "text": "Desviar o olhar ocasionalmente para não parecer invasivo ou intimidador.",
+            "isCorrect": false
+          }
+        ],
+        "rationale": "O texto especifica que 'Reparar na cor dos olhos da pessoa força um contato visual mais intenso e qualificado, aumentando o rapport'."
+      },
+      {
+        "questionText": "De acordo com o modelo SPIN Selling, qual tipo de pergunta tem o objetivo de motivar a mudança ao explorar as consequências dos problemas?",
+        "difficulty": "Difícil",
+        "points": 45,
+        "options": [
+          {
+            "text": "Perguntas de Situação, que abordam o contexto atual.",
+            "isCorrect": false
+          },
+          {
+            "text": "Perguntas de Implicação, que focam nas consequências dos desafios.",
+            "isCorrect": true
+          },
+          {
+            "text": "Perguntas de Necessidade de Solução, que levam à imaginação do futuro desejado.",
+            "isCorrect": false
+          }
+        ],
+        "rationale": "O texto descreve as 'Perguntas de Implicação' como aquelas sobre 'as consequências dos problemas (motivam a mudança)'."
+      },
+      {
+        "questionText": "Qual dos seguintes elementos é crucial para o 'Ethos' na retórica de Aristóteles, conforme descrito no briefing?",
+        "difficulty": "Difícil",
+        "points": 45,
+        "options": [
+          {
+            "text": "A capacidade de emocionar a pessoa.",
+            "isCorrect": false
+          },
+          {
+            "text": "A coerência lógica da linha de raciocínio.",
+            "isCorrect": false
+          },
+          {
+            "text": "A transmissão de confiança, credibilidade e autoridade.",
+            "isCorrect": true
+          }
+        ],
+        "rationale": "O texto define 'Ethos' como 'Transmitir confiança, credibilidade e autoridade (ex: vestimenta, experiência)'."
+      },
+      {
+        "questionText": "O briefing menciona que um script de vendas deve ser uma 'estrutura base' que o vendedor ensaia tanto até se tornar 'inútil'. Qual é o objetivo final dessa prática?",
+        "difficulty": "Difícil",
+        "points": 45,
+        "options": [
+          {
+            "text": "Garantir que o vendedor siga o script rigidamente em todas as interações.",
+            "isCorrect": false
+          },
+          {
+            "text": "Permitir uma adaptação fluida e não robótica da comunicação.",
+            "isCorrect": true
+          },
+          {
+            "text": "Reduzir a necessidade de personalização, padronizando a abordagem.",
+            "isCorrect": false
+          }
+        ],
+        "rationale": "O texto explica que o script deve ser ensaiado até se tornar 'inútil' para 'permitir uma adaptação fluida e não robótica' da comunicação."
+      },
+      {
+        "questionText": "Qual é a principal desvantagem de vendas baseadas apenas em pressão excessiva, como exemplificado pelo mercado de time share, de acordo com o texto?",
+        "difficulty": "Difícil",
+        "points": 45,
+        "options": [
+          {
+            "text": "A dificuldade em mensurar a eficácia da abordagem a longo prazo.",
+            "isCorrect": false
+          },
+          {
+            "text": "A quebra de expectativa imediata após a compra e baixa satisfação do cliente.",
+            "isCorrect": true
+          },
+          {
+            "text": "A impossibilidade de aplicar técnicas de espelhamento e escuta ativa.",
+            "isCorrect": false
+          }
+        ],
+        "rationale": "O texto afirma que vendas baseadas em pressão podem levar a uma 'quebra de expectativa imediata após a compra' e 'baixa satisfação do cliente, prejudicando o valor de longo prazo (LTV)'."
+      }
+    ]
   }
 ];

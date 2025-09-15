@@ -141,6 +141,25 @@ const PlayerDashboard = ({ playerData, onBackToMap, onUpdateProgress }: PlayerDa
     window.open(finalUrl, '_blank');
   };
 
+  const handleContactMentor = () => {
+    const mentorEmail = contentService.getMentorEmail();
+    if (!mentorEmail || mentorEmail.includes('seu-email-aqui')) {
+        alert("O canal de comunicação com o Mestre ainda não foi configurado. Por favor, avise-o para que configure o e-mail de contato.");
+        return;
+    }
+    const subject = `Mensagem Urgente do Guerreiro: ${playerData.name}`;
+    const body = `Saudações, Mestre.
+
+Escrevo do reino para relatar o seguinte:
+
+[Por favor, descreva sua dúvida, sugestão ou o problema que encontrou aqui]
+
+Aguardando sua sabedoria,
+Guerreiro ${playerData.name}`;
+    
+    window.location.href = `mailto:${mentorEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  };
+
 
   return (
     <>
@@ -165,6 +184,17 @@ const PlayerDashboard = ({ playerData, onBackToMap, onUpdateProgress }: PlayerDa
             {petalsEarned === 5 && (
                  <p className="font-bold text-yellow-300 text-center">A MANDALA ESTÁ COMPLETA!</p>
             )}
+
+            <div className="mt-8 pt-6 border-t border-yellow-500/20 w-full text-center">
+                <h3 className="text-xl font-cinzel text-red-300 mb-2">Comunicação com o Mestre</h3>
+                <p className="text-xs text-gray-400 mb-4">Para dúvidas urgentes ou relatos de falhas no reino.</p>
+                <button
+                    onClick={handleContactMentor}
+                    className="w-full px-4 py-2 bg-red-800 hover:bg-red-700 text-white font-bold rounded-lg shadow-lg transition-transform transform hover:scale-105 font-cinzel tracking-wider"
+                >
+                    Enviar Pergaminho Urgente
+                </button>
+            </div>
         </div>
 
         <div className="lg:col-span-2 lg:order-1 flex flex-col gap-8">

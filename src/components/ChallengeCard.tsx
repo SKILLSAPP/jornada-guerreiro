@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Island, Challenge, PendingSubmission } from '../types';
 import QuizModal from './quiz/QuizModal';
@@ -35,7 +34,14 @@ function ResourceLink({ resource }: ResourceLinkProps) {
 
 const ChallengeCard = ({ island, challenge, isCompleted, isLocked, isPending, pendingSubmission, onSubmitForReview }: ChallengeCardProps) => {
   const [isQuizModalOpen, setQuizModalOpen] = useState(false);
+  
   const isRedemptionQuizOffered = isPending && !!pendingSubmission?.redemptionQuizOffered;
+  const isRedemptionQuizTaken = isRedemptionQuizOffered && !!pendingSubmission?.answers;
+
+  // Determine the correct quizId for the modal, handling regular and redemption quizzes.
+  const modalQuizId = isRedemptionQuizOffered
+    ? `island-${island.id}-challenge-${challenge.id}-redemption`
+    : challenge.quizId;
 
   const cardClasses = `p-5 rounded-lg border transition-all duration-300 ${
     isCompleted ? 'bg-green-900/40 border-green-500/50' : 
@@ -49,15 +55,7 @@ const ChallengeCard = ({ island, challenge, isCompleted, isLocked, isPending, pe
   };
   
   const renderActionButtons = () => {
-    // 1. Guardian Challenge - Redemption Quiz Offered
-    if (challenge.id === 4 && isRedemptionQuizOffered) {
-       return (
-        <button onClick={() => setQuizModalOpen(true)} className="w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded transition-colors animate-pulse">
-          Fazer Quiz de Redenção
-        </button>
-      );
-    }
-    // 2. Guardian Challenge - Initial submission
+    // 1. Guardian Challenge - Initial submission
     if (challenge.id === 4) {
       return (
         <button
@@ -68,7 +66,7 @@ const ChallengeCard = ({ island, challenge, isCompleted, isLocked, isPending, pe
         </button>
       );
     }
-    // 3. Internal Quiz
+    // 2. Internal Quiz
     if (challenge.quizId) {
       return (
         <button onClick={() => setQuizModalOpen(true)} className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition-colors">
@@ -76,7 +74,7 @@ const ChallengeCard = ({ island, challenge, isCompleted, isLocked, isPending, pe
         </button>
       );
     }
-    // 4. External Quiz (Legacy)
+    // 3. External Quiz (Legacy)
     if (challenge.quizUrl) {
       return (
         <div className="flex flex-col sm:flex-row gap-2">
@@ -132,16 +130,23 @@ const ChallengeCard = ({ island, challenge, isCompleted, isLocked, isPending, pe
         
          {isPending && (
            <div className="mt-4 pt-4 border-t border-gray-600/50">
-              <p className="text-center text-yellow-300 italic">
-                {isRedemptionQuizOffered ? "O Mestre lhe concedeu uma nova chance! Faça o Quiz de Redenção." : "Sua tarefa foi enviada ao Mestre. Aguarde o seu julgamento."}
+              <p className="text-center text-yellow-300 italic mb-4">
+                {isRedemptionQuizOffered && !isRedemptionQuizTaken
+                    ? "O Mestre lhe concedeu uma nova chance! Faça o Quiz de Redenção."
+                    : "Sua tarefa foi enviada ao Mestre. Aguarde o seu julgamento."}
               </p>
+               {isRedemptionQuizOffered && !isRedemptionQuizTaken && (
+                <button onClick={() => setQuizModalOpen(true)} className="w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded transition-colors animate-pulse">
+                  Fazer Quiz de Redenção
+                </button>
+              )}
            </div>
          )}
       </div>
 
-      {isQuizModalOpen && challenge.quizId && (
+      {isQuizModalOpen && modalQuizId && (
         <QuizModal
-          quizId={challenge.quizId}
+          quizId={modalQuizId}
           challengeId={challenge.id}
           onClose={() => setQuizModalOpen(false)}
           onSubmit={handleQuizSubmit}
