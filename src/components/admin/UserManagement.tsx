@@ -166,17 +166,40 @@ export default function UserManagement() {
               {loading ? (
                  <p className="text-gray-500 italic text-center p-8">Buscando guerreiros na fortaleza de dados...</p>
               ) : players.length > 0 ? (
-                players.map(player => (
-                  <PlayerCard
-                    key={player.name}
-                    player={player}
-                    password={passwords[player.name]}
-                    status={getPlayerStatus(player)}
-                    onUpdate={handleUpdateUser}
-                    onInvoke={handleInvoke}
-                    onDelete={handleDeleteUser}
-                  />
-                ))
+                players.map(player => {
+                  try {
+                    const status = getPlayerStatus(player);
+                    return (
+                      <PlayerCard
+                        key={player.name}
+                        player={player}
+                        password={passwords[player.name]}
+                        status={status}
+                        onUpdate={handleUpdateUser}
+                        onInvoke={handleInvoke}
+                        onDelete={handleDeleteUser}
+                      />
+                    );
+                  } catch (error) {
+                    console.error(`Failed to render player card for ${player.name}:`, error);
+                    return (
+                      <div key={player.name} className="bg-red-900/50 p-4 rounded-lg border border-red-500">
+                        <div className="flex flex-col sm:flex-row justify-between items-start gap-4">
+                          <div>
+                            <h3 className="font-semibold text-xl text-red-300">Erro ao Carregar: {player.name}</h3>
+                            <p className="text-red-200 mt-2 text-sm">Os dados deste guerreiro estão corrompidos (provavelmente falta o progresso). Recomenda-se excluir e recriar este guerreiro.</p>
+                          </div>
+                          <button 
+                            onClick={() => handleDeleteUser(player.name)} 
+                            className="mt-2 sm:mt-0 px-3 py-1 bg-red-700 hover:bg-red-800 text-white text-sm font-semibold rounded-md flex-shrink-0"
+                          >
+                            Excluir Guerreiro
+                          </button>
+                        </div>
+                      </div>
+                    );
+                  }
+                })
               ) : (
                  <p className="text-gray-500 italic text-center p-8">Nenhum guerreiro foi criado ainda.</p>
               )}

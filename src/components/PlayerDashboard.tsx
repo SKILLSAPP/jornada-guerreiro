@@ -142,22 +142,23 @@ const PlayerDashboard = ({ playerData, onBackToMap, onUpdateProgress }: PlayerDa
   };
 
   const handleContactMentor = () => {
-    const mentorEmail = contentService.getMentorEmail();
-    if (!mentorEmail || mentorEmail.includes('seu-email-aqui')) {
-        alert("O canal de comunicação com o Mestre ainda não foi configurado. Por favor, avise-o para que configure o e-mail de contato.");
-        return;
+    const email = contentService.getMentorEmail();
+    const subject = `Pergaminho Urgente do Guerreiro: ${playerData.name}`;
+    const bodyTemplate = `Saudações, Mestre.\n\nSou o guerreiro ${playerData.name} e preciso de sua ajuda.\n\n[Descreva sua dúvida ou problema aqui]\n\nAgradeço sua sabedoria.\n`;
+
+    if (navigator.clipboard) {
+        navigator.clipboard.writeText(bodyTemplate).then(() => {
+            alert('O modelo de texto do pergaminho foi copiado para sua área de transferência. Cole-o no corpo do e-mail.');
+        }).catch(err => {
+            console.error('Falha ao copiar texto: ', err);
+            prompt("Não foi possível copiar automaticamente. Por favor, copie este texto (Ctrl+C) e cole no seu e-mail:", bodyTemplate);
+        }).finally(() => {
+            window.location.href = `mailto:${email}?subject=${encodeURIComponent(subject)}`;
+        });
+    } else {
+        prompt("Copie este texto (Ctrl+C) e cole no seu e-mail:", bodyTemplate);
+        window.location.href = `mailto:${email}?subject=${encodeURIComponent(subject)}`;
     }
-    const subject = `Mensagem Urgente do Guerreiro: ${playerData.name}`;
-    const body = `Saudações, Mestre.
-
-Escrevo do reino para relatar o seguinte:
-
-[Por favor, descreva sua dúvida, sugestão ou o problema que encontrou aqui]
-
-Aguardando sua sabedoria,
-Guerreiro ${playerData.name}`;
-    
-    window.location.href = `mailto:${mentorEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
   };
 
 

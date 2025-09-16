@@ -5,6 +5,8 @@ import { contentService } from '../../services/contentService';
 export default function ContentManagement() {
     const [islands, setIslands] = useState<Island[]>([]);
     const [storytellingUrl, setStorytellingUrl] = useState<string>('');
+    const [manualUrl, setManualUrl] = useState<string>('');
+    const [mentorEmail, setMentorEmail] = useState<string>('');
     const [mainBgUrl, setMainBgUrl] = useState('');
     const [welcomeBgUrl, setWelcomeBgUrl] = useState('');
     const [challengePathBgUrl, setChallengePathBgUrl] = useState('');
@@ -14,6 +16,8 @@ export default function ContentManagement() {
     useEffect(() => {
         setIslands(contentService.getIslands());
         setStorytellingUrl(contentService.getStorytellingUrl());
+        setManualUrl(contentService.getManualUrl());
+        setMentorEmail(contentService.getMentorEmail());
         setMainBgUrl(contentService.getMainBackgroundUrl());
         setWelcomeBgUrl(contentService.getWelcomeBackgroundUrl());
         setChallengePathBgUrl(contentService.getChallengePathBackgroundUrl());
@@ -68,11 +72,17 @@ export const MAIN_BACKGROUND_URL = '${mainBgUrl}';
 export const WELCOME_BACKGROUND_URL = '${welcomeBgUrl}';
 export const CHALLENGE_PATH_BACKGROUND_URL = '${challengePathBgUrl}';
 export const STORYTELLING_URL = '${storytellingUrl}';
+export const MANUAL_URL = '${manualUrl}';
+export const MENTOR_EMAIL = '${mentorEmail}'; // IMPORTANTE: Substituir pelo e-mail real do mentor
 
 export const ISLANDS: Island[] = ${islandsString};
 
-export const TOTAL_POINTS_TO_CONQUER = ${contentService.TOTAL_POINTS_TO_CONQUER};
-export const MANDALA_PETAL_THRESHOLDS = [${contentService.MANDALA_PETAL_THRESHOLDS.join(', ')}];
+export const TOTAL_POINTS_TO_CONQUER = 600;
+export const MANDALA_PETAL_THRESHOLDS = [1600, 3200, 4800, 6400, 8000];
+
+export const EXTRAORDINARY_CHALLENGE_POINTS = 50;
+export const EXTRAORDINARY_CHALLENGE_SUMMARY_MIN_WORDS = 80;
+export const EXTRAORDINARY_CHALLENGE_CHANCE = 0.5; // 50% de chance
 `;
         setGeneratedCode(codeString);
         setStatus({type: 'success', text: 'Código gerado! Copie o conteúdo abaixo.'});
@@ -117,6 +127,10 @@ export const MANDALA_PETAL_THRESHOLDS = [${contentService.MANDALA_PETAL_THRESHOL
                     <h3 className="text-lg font-cinzel text-yellow-300 border-b-2 border-yellow-500/30 pb-1 mb-3">Links e Imagens Globais</h3>
                      <label className="font-semibold text-gray-200 mb-2 block">Link do Storytelling (ex: Google Forms)</label>
                     <input type="url" value={storytellingUrl} onChange={(e) => setStorytellingUrl(e.target.value)} className="w-full text-sm p-2 bg-gray-700 border border-gray-600 rounded text-gray-300" />
+                    <label className="font-semibold text-gray-200 mb-2 block">Link do Manual do Guerreiro (PDF)</label>
+                    <input type="url" value={manualUrl} onChange={(e) => setManualUrl(e.target.value)} className="w-full text-sm p-2 bg-gray-700 border border-gray-600 rounded text-gray-300" />
+                    <label className="font-semibold text-gray-200 mb-2 block">E-mail do Mestre (para Contato)</label>
+                    <input type="email" value={mentorEmail} onChange={(e) => setMentorEmail(e.target.value)} className="w-full text-sm p-2 bg-gray-700 border border-gray-600 rounded text-gray-300" />
                     <label className="font-semibold text-gray-200 mb-2 block">URL da Imagem de Fundo (Login/Jogo)</label>
                     <input type="url" value={mainBgUrl} onChange={(e) => setMainBgUrl(e.target.value)} className="w-full text-sm p-2 bg-gray-700 border border-gray-600 rounded text-gray-300" />
                     <label className="font-semibold text-gray-200 mb-2 block">URL da Imagem de Fundo (Boas-vindas)</label>

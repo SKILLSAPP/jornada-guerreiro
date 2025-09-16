@@ -4,8 +4,8 @@ export const MAIN_BACKGROUND_URL = 'https://i.imgur.com/0XH0wzI_d.png?maxwidth=5
 export const WELCOME_BACKGROUND_URL = 'https://i.imgur.com/rGAEiCz_d.jpeg?maxwidth=520&shape=thumb&fidelity=high';
 export const CHALLENGE_PATH_BACKGROUND_URL = 'https://i.imgur.com/goUCezZ.jpeg';
 export const STORYTELLING_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSdwY8SXcMGaSTvQ50zh2_gudQEnDmCWGBwKnL3-ZhHTrzNFDQ/viewform';
-export const MANUAL_URL = '#'; // TODO: Substituir pelo link real do PDF do Manual
-export const MENTOR_EMAIL = 'seu-email-aqui@exemplo.com'; // IMPORTANTE: Substituir pelo e-mail real do mentor
+export const MANUAL_URL = 'https://drive.google.com/file/d/1cr7-WOKSNmc6wys2eIgA6Kr97b0Bm4Ex/view?usp=drive_link';
+export const MENTOR_EMAIL = 'pergaminho_do_guerreiro@guideway.com.br';
 
 export const ISLANDS: Island[] = [
   {
@@ -23,9 +23,21 @@ export const ISLANDS: Island[] = [
         "description": "Estude os materiais fornecidos (artigo, áudio e podcast) e depois responda ao quiz para testar seu conhecimento sobre a arte da comunicação.",
         "points": 150,
         "resources": [
-          { "type": "article", "label": "Artigo Técnico", "url": "https://drive.google.com/file/d/1Tmjj-xU-nMESN_6J-z1JtRMm0ZCzmyBR/view?usp=drive_link" },
-          { "type": "audio", "label": "Áudio Artigo", "url": "https://drive.google.com/file/d/1yiSvwqc8oVdiJ6fG2Ulc66dT_f50Hir4/view?usp=drive_link" },
-          { "type": "podcast", "label": "PODCAST 1", "url": "https://drive.google.com/file/d/1QVBcuOmrPykJu-tei8QyNFd-8YGxL-dM/view?usp=drive_link" }
+          {
+            "type": "article",
+            "label": "Artigo Técnico",
+            "url": "https://drive.google.com/file/d/1Tmjj-xU-nMESN_6J-z1JtRMm0ZCzmyBR/view?usp=drive_link"
+          },
+          {
+            "type": "audio",
+            "label": "Áudio Artigo",
+            "url": "https://drive.google.com/file/d/1yiSvwqc8oVdiJ6fG2Ulc66dT_f50Hir4/view?usp=drive_link"
+          },
+          {
+            "type": "podcast",
+            "label": "PODCAST 1",
+            "url": "https://drive.google.com/file/d/1QVBcuOmrPykJu-tei8QyNFd-8YGxL-dM/view?usp=drive_link"
+          }
         ],
         "quizId": "island-1-challenge-1"
       },
@@ -35,10 +47,26 @@ export const ISLANDS: Island[] = [
         "description": "Estude os materiais sobre oratória (resumo do livro, áudio e análise) e prove seu conhecimento no quiz.",
         "points": 200,
         "resources": [
-          { "type": "audio", "label": "Áudio Livro - Parte I", "url": "https://drive.google.com/file/d/1w9OvRUVW1GT7GTnA68ZLcz8PKk5Rbh7g/view?usp=drive_link" },
-          { "type": "audio", "label": "Áudio Livro - Parte II", "url": "https://drive.google.com/file/d/1Y0IzRsC3CgHxf5SLYmg8JPYYkrD6VX7x/view?usp=drive_link" },
-          { "type": "book", "label": "Livro", "url": "https://drive.google.com/file/d/1AZUF7PbwLXTp2G9iRXwAoLcf2PF335bb/view?usp=drive_link" },
-          { "type": "podcast", "label": "PODCAST 2", "url": "https://drive.google.com/file/d/1i_4qaYW_QNXde25gqAvI3mQU7oqBGcBX/view?usp=drive_link" }
+          {
+            "type": "audio",
+            "label": "Áudio Livro - Parte I",
+            "url": "https://drive.google.com/file/d/1w9OvRUVW1GT7GTnA68ZLcz8PKk5Rbh7g/view?usp=drive_link"
+          },
+          {
+            "type": "audio",
+            "label": "Áudio Livro - Parte II",
+            "url": "https://drive.google.com/file/d/1Y0IzRsC3CgHxf5SLYmg8JPYYkrD6VX7x/view?usp=drive_link"
+          },
+          {
+            "type": "book",
+            "label": "Livro",
+            "url": "https://drive.google.com/file/d/1AZUF7PbwLXTp2G9iRXwAoLcf2PF335bb/view?usp=drive_link"
+          },
+          {
+            "type": "podcast",
+            "label": "PODCAST 2",
+            "url": "https://drive.google.com/file/d/1i_4qaYW_QNXde25gqAvI3mQU7oqBGcBX/view?usp=drive_link"
+          }
         ],
         "quizId": "island-1-challenge-2"
       },
@@ -48,9 +76,21 @@ export const ISLANDS: Island[] = [
         "description": "Absorva a sabedoria de um TEDx, um podcast e um estudo de caso corporativo, depois faça um quiz completo.",
         "points": 250,
         "resources": [
-          { "type": "video", "label": "TEDx", "url": "https://drive.google.com/file/d/1ZkwQ5c6Obp8rq9KM5N-XbQe_5pW7mmWo/view?usp=drive_link" },
-          { "type": "podcast", "label": "PODCAST 3", "url": "https://drive.google.com/file/d/177JKThSSfIZhsmS4Ontph_fwbLbAorXA/view?usp=drive_link" },
-          { "type": "case_study", "label": "Estudo de Caso", "url": "https://drive.google.com/file/d/11celUoNeQ8H2fGWFu_hqaRrsxfEfW9bj/view?usp=drive_link" }
+          {
+            "type": "video",
+            "label": "TEDx",
+            "url": "https://drive.google.com/file/d/1ZkwQ5c6Obp8rq9KM5N-XbQe_5pW7mmWo/view?usp=drive_link"
+          },
+          {
+            "type": "podcast",
+            "label": "PODCAST 3",
+            "url": "https://drive.google.com/file/d/177JKThSSfIZhsmS4Ontph_fwbLbAorXA/view?usp=drive_link"
+          },
+          {
+            "type": "case_study",
+            "label": "Estudo de Caso",
+            "url": "https://drive.google.com/file/d/11celUoNeQ8H2fGWFu_hqaRrsxfEfW9bj/view?usp=drive_link"
+          }
         ],
         "quizId": "island-1-challenge-3"
       },
@@ -84,9 +124,21 @@ export const ISLANDS: Island[] = [
         "description": "Estude os materiais sobre os fundamentos da inteligência emocional e teste seus conhecimentos no quiz.",
         "points": 150,
         "resources": [
-          { "type": "article", "label": "Artigo Técnico", "url": "https://drive.google.com/file/d/1IY6S8JkamvdaXMRvzfT-bRrjnyIhEqep/view?usp=drive_link" },
-          { "type": "audio", "label": "Áudio Artigo", "url": "https://drive.google.com/file/d/1E8qVqOTE-gfJkXcc2EzdRumePl8TO_6v/view?usp=drive_link" },
-          { "type": "podcast", "label": "PODCAST 1", "url": "https://drive.google.com/file/d/149Rt4WYlTniUlASP2equF-WLQZrf-2We/view?usp=drive_link" }
+          {
+            "type": "article",
+            "label": "Artigo Técnico",
+            "url": "https://drive.google.com/file/d/1IY6S8JkamvdaXMRvzfT-bRrjnyIhEqep/view?usp=drive_link"
+          },
+          {
+            "type": "audio",
+            "label": "Áudio Artigo",
+            "url": "https://drive.google.com/file/d/1E8qVqOTE-gfJkXcc2EzdRumePl8TO_6v/view?usp=drive_link"
+          },
+          {
+            "type": "podcast",
+            "label": "PODCAST 1",
+            "url": "https://drive.google.com/file/d/149Rt4WYlTniUlASP2equF-WLQZrf-2We/view?usp=drive_link"
+          }
         ]
       },
       {
@@ -95,10 +147,26 @@ export const ISLANDS: Island[] = [
         "description": "Aprenda a gerenciar emoções com os materiais de estudo e responda ao quiz.",
         "points": 200,
         "resources": [
-          { "type": "audio", "label": "Áudio Livro - Parte I", "url": "https://drive.google.com/file/d/15ajjbZjbhtI_A2AqDuxs43t8E3gk3QIR/view?usp=drive_link" },
-          { "type": "audio", "label": "Áudio Livro - Parte II", "url": "https://drive.google.com/file/d/1hmjGXxxcwiAnz9XmihKL5cEpnX-xkpvC/view?usp=drive_link" },
-          { "type": "book", "label": "Livro", "url": "https://drive.google.com/file/d/1LbwzsM9sFLjOQb4MbKmJoOi0QFaGjpEq/view?usp=drive_link" },
-          { "type": "podcast", "label": "PODCAST 2", "url": "https://drive.google.com/file/d/1-6tMIj9mKukAtbCSSZZl6CbmzaJIhdsb/view?usp=drive_link" }
+          {
+            "type": "audio",
+            "label": "Áudio Livro - Parte I",
+            "url": "https://drive.google.com/file/d/15ajjbZjbhtI_A2AqDuxs43t8E3gk3QIR/view?usp=drive_link"
+          },
+          {
+            "type": "audio",
+            "label": "Áudio Livro - Parte II",
+            "url": "https://drive.google.com/file/d/1hmjGXxxcwiAnz9XmihKL5cEpnX-xkpvC/view?usp=drive_link"
+          },
+          {
+            "type": "book",
+            "label": "Livro",
+            "url": "https://drive.google.com/file/d/1LbwzsM9sFLjOQb4MbKmJoOi0QFaGjpEq/view?usp=drive_link"
+          },
+          {
+            "type": "podcast",
+            "label": "PODCAST 2",
+            "url": "https://drive.google.com/file/d/1-6tMIj9mKukAtbCSSZZl6CbmzaJIhdsb/view?usp=drive_link"
+          }
         ]
       },
       {
@@ -107,9 +175,21 @@ export const ISLANDS: Island[] = [
         "description": "Engaje-se com um vídeo, podcast e estudo de caso sobre empatia no trabalho.",
         "points": 250,
         "resources": [
-          { "type": "video", "label": "TEDx", "url": "https://drive.google.com/file/d/1qvMJsYHef02Z-IP_KACcffTrHf9LfMn4/view?usp=drive_link" },
-          { "type": "podcast", "label": "PODCAST 3", "url": "https://drive.google.com/file/d/17vynwLyEkSyhl-R3Ljyv044WYg7E2Ofw/view?usp=drive_link" },
-          { "type": "case_study", "label": "Estudo de Caso", "url": "https://drive.google.com/file/d/1u5hEZAZTUoicXEyYjkCoqRWSp834cb2f/view?usp=drive_link" }
+          {
+            "type": "video",
+            "label": "TEDx",
+            "url": "https://drive.google.com/file/d/1qvMJsYHef02Z-IP_KACcffTrHf9LfMn4/view?usp=drive_link"
+          },
+          {
+            "type": "podcast",
+            "label": "PODCAST 3",
+            "url": "https://drive.google.com/file/d/17vynwLyEkSyhl-R3Ljyv044WYg7E2Ofw/view?usp=drive_link"
+          },
+          {
+            "type": "case_study",
+            "label": "Estudo de Caso",
+            "url": "https://drive.google.com/file/d/1u5hEZAZTUoicXEyYjkCoqRWSp834cb2f/view?usp=drive_link"
+          }
         ]
       },
       {

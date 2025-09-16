@@ -239,8 +239,11 @@ const getAllPlayersData = async (): Promise<PlayerData[]> => {
         return [];
     }
     
-    // FIX: Cast to unknown first to satisfy TypeScript's strict type checking.
-    return data.map(p => p.player_data as unknown as PlayerData).sort((a, b) => a.name.localeCompare(b.name));
+    // FIX: Filter out null/malformed player_data entries to prevent crashes during rendering.
+    return data
+        .map(p => p.player_data as unknown as PlayerData)
+        .filter(p => p && p.name) // Ensures the player object and its name exist
+        .sort((a, b) => a.name.localeCompare(b.name));
 };
 
 const getFullPlayerData = async (name: string): Promise<any | null> => {
