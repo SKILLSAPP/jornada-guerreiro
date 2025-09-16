@@ -2,720 +2,1080 @@ import { Quiz } from './types';
 
 export const ALL_QUIZZES: Quiz[] = [
   {
-    "id": "island-1-challenge-1",
-    "name": "COMUNICAÇÃO E ORATÓRIA - Artigo Técnico",
-    "islandId": 1,
+    "id": "island-2-challenge-1",
+    "name": "Desafio 1 - Inteligência Emocional",
+    "islandId": 2,
     "challengeId": 1,
     "questions": [
       {
-        "questionText": "Qual é a principal característica da escuta ativa, conforme descrito no material?",
+        "questionText": "Qual dos seguintes conceitos é descrito como a \"capacidade de identificar nossos próprios sentimentos e dos outros, de nos motivarmos e gerirmos os impulsos dentro de nós e em nossos relacionamentos\" no material de estudo?",
         "difficulty": "Fácil",
         "points": 5,
         "options": [
           {
-            "text": "Focar em preparar uma resposta convincente enquanto o outro fala.",
+            "text": "Quociente de Inteligência (QI)",
             "isCorrect": false
           },
           {
-            "text": "Processar integralmente a mensagem, incluindo linguagem corporal e tom de voz.",
+            "text": "Inteligência Emocional (IE)",
             "isCorrect": true
           },
           {
-            "text": "Interromper o orador para oferecer soluções imediatas ao problema.",
+            "text": "Inteligência Lógica",
             "isCorrect": false
           }
         ],
-        "rationale": "A escuta ativa vai além de apenas ouvir palavras, tratando-se de processar integralmente a mensagem do interlocutor, incluindo sua linguagem corporal, tom de voz e expressões faciais, para compreender o significado e as emoções subjacentes."
+        "rationale": "A definição apresentada é a de Inteligência Emocional, conforme popularizada por Daniel Goleman no texto."
       },
       {
-        "questionText": "Para garantir clareza e concisão na comunicação, o que é crucial fazer antes de qualquer interação, segundo o guia?",
+        "questionText": "Segundo o material, qual psicólogo popularizou o conceito de Inteligência Emocional com seu \"modelo misto\", integrando habilidades emocionais com traços de personalidade?",
         "difficulty": "Fácil",
         "points": 5,
         "options": [
           {
-            "text": "Utilizar jargões técnicos para demonstrar conhecimento aprofundado.",
+            "text": "Charles Darwin",
             "isCorrect": false
           },
           {
-            "text": "Definir os objetivos e o público-alvo da mensagem a ser transmitida.",
+            "text": "Daniel Goleman",
             "isCorrect": true
           },
           {
-            "text": "Incluir o máximo de detalhes possível para evitar qualquer tipo de dúvida.",
+            "text": "Howard Gardner",
             "isCorrect": false
           }
         ],
-        "rationale": "O material indica que definir os objetivos e o público antes de qualquer comunicação ajuda a garantir que todas as informações necessárias sejam incluídas e que detalhes irrelevantes sejam eliminados."
+        "rationale": "O texto afirma que Daniel Goleman popularizou o conceito com seu \"modelo misto\", integrando habilidades emocionais com traços de personalidade."
       },
       {
-        "questionText": "Segundo os pilares da retórica clássica (Ethos, Páthos, Logos), qual elemento se refere à credibilidade do orador?",
+        "questionText": "Qual dos pilares da Inteligência Emocional é considerado a base fundamental, descrito como a capacidade de reconhecer e compreender seus próprios sentimentos, valores e reações?",
         "difficulty": "Fácil",
         "points": 5,
         "options": [
           {
-            "text": "Páthos, que busca a conexão emocional com a audiência.",
+            "text": "Empatia",
             "isCorrect": false
           },
           {
-            "text": "Logos, que se baseia na lógica e razão por trás dos argumentos.",
-            "isCorrect": false
-          },
-          {
-            "text": "Ethos, que constrói a percepção de autoridade e confiabilidade do orador.",
+            "text": "Autoconsciência",
             "isCorrect": true
+          },
+          {
+            "text": "Autorregulação",
+            "isCorrect": false
           }
         ],
-        "rationale": "O material define Ethos como a construção da percepção de autoridade, veracidade e confiabilidade do orador, sendo um dos pilares da persuasão."
+        "rationale": "O material define a Autoconsciência como o primeiro e mais fundamental pilar, sendo a capacidade de reconhecer e compreender os próprios sentimentos."
       },
       {
-        "questionText": "De acordo com o estudo de Harvard mencionado no material, qual percentual da comunicação é atribuído à expressão corporal?",
+        "questionText": "No contexto corporativo, a Inteligência Emocional é apresentada como um diferencial que molda o futuro das organizações. Qual dos benefícios abaixo é diretamente associado à IE no trabalho, segundo o texto?",
         "difficulty": "Fácil",
         "points": 5,
         "options": [
           {
-            "text": "7%, correspondente ao conteúdo verbal da mensagem.",
+            "text": "Aumento exclusivo do conhecimento técnico.",
             "isCorrect": false
           },
           {
-            "text": "38%, relacionado ao tom de voz utilizado pelo comunicador.",
-            "isCorrect": false
-          },
-          {
-            "text": "55%, referente à expressão corporal e gestos do indivíduo.",
+            "text": "Melhoria da Comunicação Clara e Eficaz.",
             "isCorrect": true
+          },
+          {
+            "text": "Redução da necessidade de interações humanas.",
+            "isCorrect": false
           }
         ],
-        "rationale": "O estudo de Harvard citado no material mostra que 55% da comunicação é expressão corporal, 38% é tom de voz e apenas 7% é o conteúdo verbal, demonstrando a força da comunicação não verbal."
+        "rationale": "O texto menciona que um dos benefícios da IE no trabalho é a melhoria da Comunicação Clara e Eficaz, minimizando mal-entendidos."
       },
       {
-        "questionText": "Qual dos seguintes elementos é considerado central para o desenvolvimento do carisma, conforme o material de estudo?",
+        "questionText": "O conceito de \"Otimismo Aprendido\" é descrito no material como a capacidade de manter uma atitude positiva e perseverar diante das adversidades. Qual exemplo prático é citado para ilustrar a importância dessa habilidade?",
         "difficulty": "Fácil",
         "points": 5,
         "options": [
           {
-            "text": "A capacidade de fingir interesse em todas as interações sociais para agradar.",
+            "text": "Aumento do QI em testes de lógica.",
             "isCorrect": false
           },
           {
-            "text": "A demonstração de arrogância para impor respeito e autoridade.",
-            "isCorrect": false
-          },
-          {
-            "text": "A presença, fazendo com que os outros se sintam a pessoa mais importante na sala.",
+            "text": "Aumento das vendas e menor rotatividade na MetLife.",
             "isCorrect": true
+          },
+          {
+            "text": "Melhoria na capacidade de memorização de dados.",
+            "isCorrect": false
           }
         ],
-        "rationale": "O material lista Presença como um dos elementos centrais do carisma, significando estar totalmente presente nas conversas e fazer com que os outros se sintam a pessoa mais importante na sala."
+        "rationale": "O texto usa o exemplo da MetLife, onde vendedores com alta pontuação em otimismo venderam mais e tiveram menor rotatividade, para ilustrar o Otimismo Aprendido."
       },
       {
-        "questionText": "Um colega de trabalho está visivelmente frustrado com um projeto e desabafa sobre as dificuldades. Você quer demonstrar empatia genuína e construir uma conexão mais profunda.",
+        "questionText": "Um jovem profissional se depara com uma situação em que um colega de equipe constantemente interrompe suas falas durante reuniões, gerando frustração. Em vez de reagir impulsivamente, ele decide refletir sobre a situação e buscar uma abordagem construtiva. Qual pilar da Inteligência Emocional está sendo mais evidente na atitude desse profissional?",
         "difficulty": "Médio",
         "points": 20,
         "options": [
           {
-            "text": "Oferecer imediatamente uma solução técnica para o problema do projeto, mostrando sua competência e agilidade.",
+            "text": "Automotivação, pois ele está focado em superar o obstáculo para alcançar seus objetivos.",
             "isCorrect": false
           },
           {
-            "text": "Dizer 'Imagino que isso deva ser frustrante' e validar o sentimento dele, antes de qualquer outra coisa.",
+            "text": "Autorregulação, pois ele demonstra a habilidade de lidar com suas emoções de forma ponderada.",
             "isCorrect": true
           },
           {
-            "text": "Mudar de assunto rapidamente para algo mais positivo, a fim de animá-lo e desviar o foco do problema.",
+            "text": "Habilidades Sociais, pois ele está buscando gerenciar o relacionamento de forma produtiva.",
             "isCorrect": false
           }
         ],
-        "rationale": "Os passos-chave para a empatia eficaz incluem expressar a percepção do sentimento do outro ('Imagino que isso deva ser...') e validar esse sentimento, respeitando o esforço da pessoa para lidar com a situação, sem oferecer soluções imediatas."
+        "rationale": "A Autorregulação é a habilidade de lidar com as emoções de forma construtiva, acalmando-se antes de responder impulsivamente, o que é demonstrado pela reflexão antes da reação."
       },
       {
-        "questionText": "Você está prestes a iniciar uma apresentação importante para um público que não conhece bem e sente um leve nervosismo. Seu objetivo é transmitir confiança desde o início.",
+        "questionText": "Em uma empresa, há um conflito entre duas equipes sobre a alocação de recursos para um projeto. O gerente, ao invés de impor uma solução, decide reunir as equipes para que expressem seus pontos de vista e necessidades. Ele demonstra uma escuta ativa e busca entender as perspectivas de ambos os lados. Qual benefício da Inteligência Emocional no mundo corporativo essa atitude do gerente exemplifica?",
         "difficulty": "Médio",
         "points": 20,
         "options": [
           {
-            "text": "Começar a apresentação pedindo desculpas pelo nervosismo, para ser transparente e humano com a audiência.",
+            "text": "Aumento da Resiliência e Gestão do Estresse, pois o gerente está sob pressão.",
             "isCorrect": false
           },
           {
-            "text": "Respirar fundo, usar uma âncora mental para se centrar e simplesmente iniciar a apresentação sem mencionar o nervosismo.",
+            "text": "Melhoria da Tomada de Decisão, pois ele está evitando uma escolha impulsiva.",
+            "isCorrect": false
+          },
+          {
+            "text": "Gestão de Conflitos Produtiva, transformando a divergência em oportunidade de aprendizado.",
             "isCorrect": true
-          },
-          {
-            "text": "Fazer uma piada sobre seu próprio nervosismo para quebrar o gelo e mostrar que você é descontraído.",
-            "isCorrect": false
           }
         ],
-        "rationale": "O material aconselha a não pedir desculpas pelo nervosismo, pois a audiência muitas vezes não percebe e isso pode te deixar ainda mais ansioso. A técnica da âncora é recomendada para mudar o estado mental e iniciar com confiança."
+        "rationale": "O texto afirma que a IE facilita a Gestão de Conflitos Produtiva, enxergando o conflito como uma oportunidade de crescimento e aprendizado, o que a atitude do gerente reflete."
       },
       {
-        "questionText": "Você precisa iniciar uma apresentação de vendas para um novo cliente e quer capturar a atenção deles imediatamente, gerando identificação com a necessidade que sua solução atende.",
+        "questionText": "Um novo líder assume uma equipe desmotivada e com baixa produtividade. Em vez de focar apenas em metas e prazos, ele começa a dedicar tempo para conversas individuais, buscando entender as preocupações e aspirações de cada membro. Ele também incentiva a colaboração e a troca de ideias, criando um ambiente onde todos se sentem à vontade para contribuir. Qual pilar da Inteligência Emocional esse líder está priorizando para transformar a cultura da equipe?",
         "difficulty": "Médio",
         "points": 20,
         "options": [
           {
-            "text": "Começar com uma citação famosa, mesmo que seja um pouco clichê, para inspirar a audiência com uma ideia universal.",
+            "text": "Autoconsciência, pois ele está refletindo sobre seus próprios sentimentos como líder.",
             "isCorrect": false
           },
           {
-            "text": "Iniciar com uma pergunta retórica que faça o público refletir sobre um problema comum que sua solução resolve.",
+            "text": "Empatia e Habilidades Sociais, pois ele busca compreender os outros e gerenciar relacionamentos.",
             "isCorrect": true
           },
           {
-            "text": "Compartilhar uma vulnerabilidade pessoal excessiva para mostrar autenticidade e criar empatia imediata.",
+            "text": "Automotivação, pois ele está demonstrando sua força interna para superar o desafio.",
             "isCorrect": false
           }
         ],
-        "rationale": "Fazer uma pergunta retórica é uma das 7 maneiras estratégicas de iniciar uma apresentação, pois faz o público se identificar e refletir sobre um problema ou situação, despertando o interesse e conectando-o diretamente ao tema."
+        "rationale": "O líder está se colocando no lugar dos membros da equipe (Empatia) e gerenciando os relacionamentos para criar um ambiente produtivo (Habilidades Sociais), o que o material descreve como essencial para liderança e trabalho em equipe."
       },
       {
-        "questionText": "Você está em uma reunião de networking e deseja estabelecer uma conexão rápida e genuína com uma pessoa que acabou de conhecer, indo além das formalidades.",
+        "questionText": "Uma startup está enfrentando um período de incerteza financeira e vários projetos foram adiados. Apesar das dificuldades, o CEO mantém uma postura otimista e transparente com a equipe, comunicando os desafios, mas também as oportunidades de aprendizado e as estratégias para superá-los. Ele inspira a todos a persistir e a buscar soluções inovadoras. Qual conceito, fundamental para o sucesso empreendedor, está sendo demonstrado pelo CEO?",
         "difficulty": "Médio",
         "points": 20,
         "options": [
           {
-            "text": "Espelhar os gestos e a velocidade da fala da pessoa de forma exagerada para que ela perceba a semelhança e se sinta à vontade.",
+            "text": "Apenas a Autoconsciência, ao reconhecer a situação difícil da empresa.",
             "isCorrect": false
           },
           {
-            "text": "Encontrar algo na pessoa que te faça gostar dela genuinamente, como uma semelhança com alguém que você já admira.",
+            "text": "O Otimismo Aprendido e a Resiliência Emocional, transformando o revés em motivação.",
             "isCorrect": true
           },
           {
-            "text": "Contar uma história pessoal impressionante para mostrar suas qualidades e cativar a atenção da outra pessoa.",
+            "text": "Somente as Habilidades Sociais, ao comunicar-se de forma transparente com a equipe.",
             "isCorrect": false
           }
         ],
-        "rationale": "O 'Rapport Invertido' é uma técnica avançada que consiste em encontrar na outra pessoa algo que te faça gostar dela genuinamente, talvez uma semelhança com alguém que você já admira, criando um interesse real e positivo que facilita a conexão."
+        "rationale": "O texto descreve o Otimismo Aprendido como a capacidade de manter uma atitude positiva e perseverar, e a Resiliência Emocional como a capacidade de transformar o fracasso em aprendizado, ambos exemplificados pela atitude do CEO."
       },
       {
-        "questionText": "Uma gerente de projetos, Ana, precisa apresentar um novo plano estratégico para a diretoria, que está cética quanto à viabilidade de grandes mudanças. Ela tem 20 minutos e precisa não só informar, mas também persuadir a diretoria a apoiar a iniciativa, que envolve uma reestruturação significativa e investimentos consideráveis. Ana sabe que a audiência valoriza dados, mas também precisa de uma visão inspiradora para abraçar a mudança.",
+        "questionText": "Em uma grande corporação, o departamento de desenvolvimento de produtos estava enfrentando um problema crônico: os projetos frequentemente excediam o orçamento e o prazo, e a equipe demonstrava baixa moral e alta rotatividade. O diretor do departamento, um profissional com um QI elevado e vasta experiência técnica, tentou implementar novos softwares de gestão e processos rígidos, mas os resultados não melhoraram significativamente. Ao invés de focar na raiz emocional dos problemas, como a falta de comunicação efetiva, o medo de falhar e a ausência de um ambiente de segurança psicológica, ele insistia que a equipe precisava apenas de mais disciplina e ferramentas técnicas. Qual a principal falha na abordagem do diretor, considerando os princípios da Inteligência Emocional no contexto organizacional?",
         "difficulty": "Difícil",
         "points": 45,
         "options": [
           {
-            "text": "Iniciar com o Ato 1 (Setup) apresentando dados surpreendentes sobre o problema atual (Logos), seguir com o Ato 2 (Confronto) detalhando a reestruturação e os investimentos (Logos), e finalizar no Ato 3 (Resolução) com um apelo emocional à visão futura da empresa (Páthos), enquanto mantém uma postura de especialista (Ethos).",
+            "text": "A falha principal reside na subestimação da importância do conhecimento técnico e da experiência, pois ele deveria ter investido em treinamentos mais avançados em softwares de gestão para a equipe. O foco em aspectos emocionais é secundário quando a base técnica não está solidificada, e a disciplina é crucial para o cumprimento de prazos e orçamentos.",
             "isCorrect": false
           },
           {
-            "text": "Começar com o Ato 1 (Setup) usando uma história pessoal de superação para criar conexão (Páthos), desenvolver o Ato 2 (Confronto) explicando as etapas do plano de forma lógica (Logos), e concluir no Ato 3 (Resolução) reforçando sua credibilidade como líder de projeto (Ethos), sem focar excessivamente em dados iniciais para não sobrecarregar.",
+            "text": "A falha principal está em não reconhecer a Inteligência Emocional como um alicerce para uma cultura organizacional resiliente e inovadora, priorizando apenas soluções técnicas e disciplinares. Ele negligenciou que a IE capacita líderes mais humanos e equipes coesas, essenciais para a inovação, retenção de talentos e gestão de conflitos que impactam diretamente o desempenho.",
+            "isCorrect": true
+          },
+          {
+            "text": "A falha principal foi a ausência de um plano de contingência para os projetos, o que demonstra uma falta de planejamento estratégico e de visão de risco. A implementação de processos rígidos sem flexibilidade para imprevistos técnicos é uma limitação gerencial que não pode ser resolvida apenas com abordagens emocionais ou de comunicação.",
+            "isCorrect": false
+          }
+        ],
+        "rationale": "O texto enfatiza que a IE é o \"alicerce de uma cultura organizacional resiliente e inovadora\", capacitando líderes e equipes. A abordagem do diretor, focada apenas em aspectos técnicos e disciplinares, negligenciou o impacto da IE na comunicação, resolução de conflitos, engajamento e segurança psicológica, que são cruciais para o desempenho e a retenção de talentos, conforme o material."
+      }
+    ]
+  },
+  {
+    "id": "island-2-challenge-2",
+    "name": "Desafio 2 - Inteligência Emocional",
+    "islandId": 2,
+    "challengeId": 2,
+    "questions": [
+      {
+        "questionText": "Qual é o principal desafio que a citação de Aristóteles sobre a raiva, mencionada por Goleman, estabelece para a inteligência emocional?",
+        "difficulty": "Fácil",
+        "points": 8,
+        "options": [
+          {
+            "text": "A dificuldade de sentir raiva em qualquer situação.",
             "isCorrect": false
           },
           {
-            "text": "Abrir com o Ato 1 (Setup) estabelecendo sua credibilidade e experiência (Ethos), prosseguir no Ato 2 (Confronto) apresentando os dados e análises que justificam a mudança (Logos), e encerrar no Ato 3 (Resolução) com um apelo à ação que ressoe com os valores e aspirações da diretoria (Páthos), garantindo que a lógica dos dados seja o pilar central.",
+            "text": "A complexidade de gerir a raiva de forma apropriada.",
+            "isCorrect": true
+          },
+          {
+            "text": "A impossibilidade de controlar qualquer tipo de emoção intensa.",
+            "isCorrect": false
+          }
+        ],
+        "rationale": "A citação de Aristóteles destaca que zangar-se da maneira certa não é fácil, estabelecendo a gestão da raiva como um desafio central da inteligência emocional."
+      },
+      {
+        "questionText": "Segundo Goleman, quais são as \"duas mentes\" que operam no cérebro humano, conforme descrito no Capítulo 1?",
+        "difficulty": "Fácil",
+        "points": 8,
+        "options": [
+          {
+            "text": "A mente consciente e a mente subconsciente.",
+            "isCorrect": false
+          },
+          {
+            "text": "A mente racional e a mente emocional.",
+            "isCorrect": true
+          },
+          {
+            "text": "A mente lógica e a mente intuitiva.",
+            "isCorrect": false
+          }
+        ],
+        "rationale": "Goleman ressalta a existência de \"nossas duas mentes\": a mente racional, que pensa, e a mente emocional, que sente, operando em harmonia na maior parte do tempo."
+      },
+      {
+        "questionText": "O que Goleman descreve como a marca registrada de um \"sequestro emocional\"?",
+        "difficulty": "Fácil",
+        "points": 8,
+        "options": [
+          {
+            "text": "Uma reação calma e calculada a uma ameaça percebida.",
+            "isCorrect": false
+          },
+          {
+            "text": "Uma resposta impulsiva e explosiva seguida de arrependimento.",
+            "isCorrect": true
+          },
+          {
+            "text": "A capacidade de controlar as emoções em situações de alto estresse.",
+            "isCorrect": false
+          }
+        ],
+        "rationale": "A marca registrada de um sequestro emocional é a reação impulsiva e explosiva seguida por um sentimento posterior de arrependimento ou de não reconhecimento da própria ação."
+      },
+      {
+        "questionText": "Qual é o primeiro e mais fundamental pilar da inteligência emocional, conforme abordado no Capítulo 4?",
+        "difficulty": "Fácil",
+        "points": 8,
+        "options": [
+          {
+            "text": "A capacidade de motivar os outros.",
+            "isCorrect": false
+          },
+          {
+            "text": "O controle dos impulsos e desejos.",
+            "isCorrect": false
+          },
+          {
+            "text": "A autoconsciência, que é reconhecer os próprios sentimentos.",
             "isCorrect": true
           }
         ],
-        "rationale": "Para persuadir uma diretoria cética, a abordagem mais eficaz é iniciar estabelecendo credibilidade (Ethos), fundamental para ganhar a confiança. Em seguida, apresentar os dados e análises lógicas (Logos) que justificam a mudança. Por fim, finalizar com um apelo emocional (Páthos) que ressoe com os valores e aspirações da diretoria, motivando o apoio à iniciativa. Esta sequência otimiza a persuasão para o cenário apresentado."
+        "rationale": "A autoconsciência, definida como a capacidade de reconhecer os próprios sentimentos no momento em que ocorrem, é o primeiro e mais fundamental pilar da inteligência emocional."
+      },
+      {
+        "questionText": "Segundo Goleman, qual a porcentagem aproximada que o QI contribui para o sucesso na vida, deixando o restante por conta de outras variáveis?",
+        "difficulty": "Fácil",
+        "points": 8,
+        "options": [
+          {
+            "text": "Cerca de 50%.",
+            "isCorrect": false
+          },
+          {
+            "text": "Cerca de 20%.",
+            "isCorrect": true
+          },
+          {
+            "text": "Cerca de 80%.",
+            "isCorrect": false
+          }
+        ],
+        "rationale": "Goleman aponta que \"na melhor das hipóteses, o QI contribui com cerca de 20% para os fatores que determinam o sucesso na vida, o que deixa os 80% restantes por conta de outras variáveis.\""
+      },
+      {
+        "questionText": "Um colega de trabalho, após receber um feedback negativo, começa a reclamar fervorosamente com outros colegas, revivendo cada detalhe da situação e expressando sua indignação. Segundo Goleman, qual o efeito mais provável dessa atitude?",
+        "difficulty": "Médio",
+        "points": 25,
+        "options": [
+          {
+            "text": "A raiva será dissipada de forma eficaz, permitindo que ele se acalme mais rapidamente.",
+            "isCorrect": false
+          },
+          {
+            "text": "A ruminação sobre o que o irritou alimentará ainda mais a raiva, intensificando o sentimento.",
+            "isCorrect": true
+          },
+          {
+            "text": "A expressão da raiva fortalecerá seu sistema imunológico, aliviando o estresse.",
+            "isCorrect": false
+          }
+        ],
+        "rationale": "Goleman desmascara o mito da catarse, citando pesquisas que mostram que dar vazão à raiva raramente a dissipa; na verdade, a ruminação sobre o que nos irritou alimenta ainda mais as chamas."
+      },
+      {
+        "questionText": "Em uma equipe de projeto, um membro constantemente adia tarefas complexas para se dedicar a atividades mais fáceis e de gratificação imediata, comprometendo os prazos finais. Qual aptidão mestra, ilustrada pelo \"Teste do Marshmallow\", esse comportamento demonstra falta?",
+        "difficulty": "Médio",
+        "points": 25,
+        "options": [
+          {
+            "text": "A capacidade de realizar múltiplas tarefas simultaneamente para otimizar o tempo.",
+            "isCorrect": false
+          },
+          {
+            "text": "A habilidade de adiar a gratificação e controlar a impulsividade em prol de um objetivo maior.",
+            "isCorrect": true
+          },
+          {
+            "text": "A competência de delegar responsabilidades para evitar sobrecarga de trabalho.",
+            "isCorrect": false
+          }
+        ],
+        "rationale": "A capacidade de adiar a gratificação e controlar a impulsividade é a essência da autorregulação emocional, sendo a \"aptidão mestra\" que possibilita e potencializa todas as outras, conforme o \"Teste do Marshmallow\"."
+      },
+      {
+        "questionText": "Durante uma reunião de equipe, um gerente apresenta uma nova estratégia. Embora todos os membros acenem positivamente, um deles mantém os braços cruzados e uma expressão facial ligeiramente tensa. Um líder com alta empatia faria o quê?",
+        "difficulty": "Médio",
+        "points": 25,
+        "options": [
+          {
+            "text": "Ignoraria os sinais não-verbais, focando apenas nas palavras de concordância expressas.",
+            "isCorrect": false
+          },
+          {
+            "text": "Interpretaria os sinais não-verbais para entender a verdade emocional por trás das palavras.",
+            "isCorrect": true
+          },
+          {
+            "text": "Interromperia a reunião para questionar diretamente a postura do membro, buscando esclarecimentos imediatos.",
+            "isCorrect": false
+          }
+        ],
+        "rationale": "A empatia é a capacidade de interpretar canais não-verbais, como gestos e expressões faciais, que revelam a verdade emocional por trás das palavras, permitindo ao líder compreender o verdadeiro sentimento do membro."
+      },
+      {
+        "questionText": "Um gerente precisa dar feedback a um engenheiro cujo projeto apresentou falhas. Em vez de dizer \"Você é incompetente e seu projeto é um desastre\", o gerente decide focar nos pontos específicos que precisam de melhoria e discutir as próximas etapas. Qual é a principal diferença entre essas duas abordagens, segundo Goleman?",
+        "difficulty": "Médio",
+        "points": 25,
+        "options": [
+          {
+            "text": "A primeira foca na personalidade do engenheiro, enquanto a segunda se concentra na ação e no que pode ser feito para melhorar.",
+            "isCorrect": true
+          },
+          {
+            "text": "A primeira é mais direta e honesta, enquanto a segunda é evasiva e menos eficaz para a correção.",
+            "isCorrect": false
+          },
+          {
+            "text": "A primeira gera uma resposta imediata de defesa, enquanto a segunda não produz impacto algum no desempenho.",
+            "isCorrect": false
+          }
+        ],
+        "rationale": "Goleman destaca que \"a crítica feita de forma hábil se concentra no que a pessoa fez e no que pode fazer, em vez de identificar um traço do caráter da pessoa num trabalho malfeito.\" A crítica destrutiva, por sua vez, é um ataque ao caráter."
+      },
+      {
+        "questionText": "A empresa \"InovaTech\" está enfrentando um período de alta pressão para lançar um novo produto. A equipe de desenvolvimento é composta por indivíduos altamente qualificados e com excelente QI técnico, mas o clima interno está tenso: há constantes desentendimentos sobre prioridades, e-mails ríspidos são trocados, e a colaboração parece forçada. O líder da equipe, apesar de ser um especialista na área, tem dificuldade em mediar conflitos e em inspirar um senso de união, resultando em atrasos e desmotivação. Diante do cenário na InovaTech, e considerando os conceitos de Goleman sobre \"QI de Grupo\" e \"contágio social\", qual das seguintes ações do líder seria a mais eficaz para reverter a situação e otimizar o desempenho da equipe a longo prazo?",
+        "difficulty": "Difícil",
+        "points": 60,
+        "options": [
+          {
+            "text": "O líder deve focar em reorganizar as tarefas e estabelecer métricas de desempenho individuais mais rigorosas, incentivando a competição saudável para que os membros mais produtivos inspirem os demais a superar os desafios técnicos. Isso garantirá que a expertise individual seja plenamente utilizada.",
+            "isCorrect": false
+          },
+          {
+            "text": "O líder precisa investir em treinamentos técnicos avançados para aprimorar as habilidades individuais dos membros, pois o problema reside na complexidade do produto e na falta de conhecimento específico para lidar com os desafios, o que naturalmente levará a uma melhor colaboração.",
+            "isCorrect": false
+          },
+          {
+            "text": "O líder deve priorizar a construção de uma cultura de harmonia e colaboração, mediando ativamente os conflitos, promovendo a empatia entre os membros e modelando uma comunicação emocionalmente inteligente para que o contágio social positivo eleve o \"QI de Grupo\".",
+            "isCorrect": true
+          }
+        ],
+        "rationale": "Goleman afirma que a chave para um alto QI de grupo é a harmonia existente entre os membros, e que o contágio social demonstra o poder das emoções na qualidade dos relacionamentos. A liderança que foca na construção de uma cultura de colaboração e empatia, mediando conflitos e modelando a inteligência emocional, é a mais eficaz para otimizar o desempenho da equipe a longo prazo, superando a mera competência técnica individual."
+      }
+    ]
+  },
+  {
+    "id": "island-2-challenge-3",
+    "name": "Desafio 3 - Inteligência Emocional",
+    "islandId": 2,
+    "challengeId": 3,
+    "questions": [
+      {
+        "questionText": "Segundo Roberto Shinyashiki, qual é a definição prática de Inteligência Emocional?",
+        "difficulty": "Fácil",
+        "points": 10,
+        "options": [
+          {
+            "text": "Dominar completamente o que se sente para evitar reações negativas.",
+            "isCorrect": false
+          },
+          {
+            "text": "Definir um resultado e elaborar as emoções para atingir esse resultado.",
+            "isCorrect": true
+          },
+          {
+            "text": "Controlar impulsos emocionais através de técnicas de respiração e meditação.",
+            "isCorrect": false
+          }
+        ],
+        "rationale": "O texto afirma que Shinyashiki define IE como 'você define o resultado E você elabora Suas Emoções para atingir aquele resultado'."
+      },
+      {
+        "questionText": "Quais são as cinco emoções autênticas mencionadas por Roberto Shinyashiki, referenciando o filme 'Divertida Mente'?",
+        "difficulty": "Fácil",
+        "points": 10,
+        "options": [
+          {
+            "text": "Felicidade, surpresa, nojo, raiva e tristeza.",
+            "isCorrect": false
+          },
+          {
+            "text": "Medo, tristeza, raiva, afeto e alegria.",
+            "isCorrect": true
+          },
+          {
+            "text": "Amor, esperança, gratidão, frustração e paz.",
+            "isCorrect": false
+          }
+        ],
+        "rationale": "O texto lista explicitamente as cinco emoções autênticas como 'medo, tristeza, raiva, afeto e alegria'."
+      },
+      {
+        "questionText": "De acordo com Brené Brown, como ela define a vergonha em sua pesquisa sobre conexão humana?",
+        "difficulty": "Fácil",
+        "points": 10,
+        "options": [
+          {
+            "text": "A sensação de culpa por cometer um erro grave em público.",
+            "isCorrect": false
+          },
+          {
+            "text": "O medo da desconexão, a ideia de não ser digno de conexão.",
+            "isCorrect": true
+          },
+          {
+            "text": "A incapacidade de expressar sentimentos verdadeiros em situações sociais.",
+            "isCorrect": false
+          }
+        ],
+        "rationale": "Brené Brown define vergonha como 'o medo da desconexão: 'Existe algo em mim que, se outras pessoas souberem ou virem, não serei digno de conexão?''."
+      },
+      {
+        "questionText": "Qual característica principal Brené Brown identificou nas 'pessoas de coração inteiro' (whole-hearted) que as diferenciava?",
+        "difficulty": "Fácil",
+        "points": 10,
+        "options": [
+          {
+            "text": "A capacidade de controlar suas emoções e evitar a vulnerabilidade.",
+            "isCorrect": false
+          },
+          {
+            "text": "A crença de que são dignas de amor e pertencimento.",
+            "isCorrect": true
+          },
+          {
+            "text": "A habilidade de esconder suas imperfeições para manter a imagem social.",
+            "isCorrect": false
+          }
+        ],
+        "rationale": "O texto afirma que 'As pessoas que têm um forte senso de amor e pertencimento acreditam que são dignas de amor e pertencimento'."
+      },
+      {
+        "questionText": "Caio Carneiro faz uma distinção importante entre 'ajuda' e 'apoio'. Qual é essa distinção?",
+        "difficulty": "Fácil",
+        "points": 10,
+        "options": [
+          {
+            "text": "Ele oferece ajuda a quem precisa e apoio a quem pede.",
+            "isCorrect": false
+          },
+          {
+            "text": "Ele é contra ajudar quem não quer, mas oferece apoio a quem merece e já deu o primeiro passo.",
+            "isCorrect": true
+          },
+          {
+            "text": "Ele acredita que ajuda é para problemas financeiros e apoio para questões emocionais.",
+            "isCorrect": false
+          }
+        ],
+        "rationale": "Caio Carneiro afirma: 'eu sou um cara contra ajuda eu não ofereço ajuda para quem precisa é oferece apoio para quem merece'."
+      },
+      {
+        "questionText": "Um colega de trabalho demonstra constantemente uma alegria exagerada e forçada em todas as situações, mesmo após receber uma notícia desfavorável. De acordo com o conceito de Roberto Shinyashiki sobre emoções autênticas e falsas, como essa atitude poderia ser interpretada?",
+        "difficulty": "Médio",
+        "points": 30,
+        "options": [
+          {
+            "text": "Como um sinal de resiliência emocional, indicando que ele superou a adversidade rapidamente.",
+            "isCorrect": false
+          },
+          {
+            "text": "Como uma 'falsa alegria', uma emoção inadequada em intensidade e qualidade, treinada para mascarar sentimentos.",
+            "isCorrect": true
+          },
+          {
+            "text": "Como uma estratégia eficaz para manter o ambiente de trabalho positivo, apesar dos desafios.",
+            "isCorrect": false
+          }
+        ],
+        "rationale": "O texto explica que emoções falsas são 'inadequadas em intensidade, duração ou qualidade', citando a 'alegria forçada' como exemplo de 'falsa alegria'."
+      },
+      {
+        "questionText": "Um gerente de equipe percebe que seus colaboradores, apesar de expressarem o desejo de melhorar o desempenho, não conseguem implementar as mudanças necessárias. Segundo Roberto Shinyashiki, qual seria a principal razão para essa dificuldade em mudar?",
+        "difficulty": "Médio",
+        "points": 30,
+        "options": [
+          {
+            "text": "A falta de motivação intrínseca, que não pode ser influenciada por fatores externos.",
+            "isCorrect": false
+          },
+          {
+            "text": "A ausência de um compromisso genuíno e de um método claro, preferencialmente com um mentor.",
+            "isCorrect": true
+          },
+          {
+            "text": "O medo inerente ao novo, que impede qualquer tipo de transformação pessoal e profissional.",
+            "isCorrect": false
+          }
+        ],
+        "rationale": "Roberto Shinyashiki afirma que 'a pessoa não muda porque quer ele muda quando ele assume um compromisso e tem um método principalmente se ele tem um mentor'."
+      },
+      {
+        "questionText": "Uma pessoa, ao enfrentar uma situação de grande incerteza e medo em sua vida, decide se isolar e evitar qualquer tipo de sentimento intenso, seja positivo ou negativo. De acordo com a pesquisa de Brené Brown, qual é a consequência dessa tentativa de entorpecer a vulnerabilidade?",
+        "difficulty": "Médio",
+        "points": 30,
+        "options": [
+          {
+            "text": "Ela consegue controlar seletivamente as emoções negativas, preservando as positivas para momentos oportunos.",
+            "isCorrect": false
+          },
+          {
+            "text": "Ao entorpecer sentimentos como medo e tristeza, ela também entorpece a alegria e a gratidão, gerando um ciclo de miséria.",
+            "isCorrect": true
+          },
+          {
+            "text": "Essa é uma estratégia eficaz para se proteger de futuras decepções, garantindo um estado de equilíbrio emocional.",
+            "isCorrect": false
+          }
+        ],
+        "rationale": "Brené Brown explica que 'Não se pode entorpecer seletivamente as emoções. Ao tentar evitar sentimentos como vulnerabilidade, tristeza, vergonha, medo e decepção, acabamos entorpecendo também a alegria, a gratidão e a felicidade'."
+      },
+      {
+        "questionText": "Após receber uma crítica inesperada no trabalho, um profissional reage imediatamente com raiva e frustração, antes mesmo de analisar o conteúdo da crítica. Considerando a 'janela de 5 segundos' mencionada por Roberto Shinyashiki, qual é a implicação dessa reação impulsiva?",
+        "difficulty": "Médio",
+        "points": 30,
+        "options": [
+          {
+            "text": "A reação imediata demonstra autenticidade, pois reflete o sentimento real do momento.",
+            "isCorrect": false
+          },
+          {
+            "text": "O significado dado ao evento nesses primeiros 5 segundos determinará grande parte da influência do acontecimento sobre ele.",
+            "isCorrect": true
+          },
+          {
+            "text": "É uma resposta natural do cérebro ao estresse, que não pode ser controlada sem treinamento intensivo.",
+            "isCorrect": false
+          }
+        ],
+        "rationale": "A dica prática de Shinyashiki é que 'a janela mais importante emocionalmente em um acontecimento é cinco segundos depois que ele acontece. O significado que se dá nesses 5 segundos determina a influência do evento'."
+      },
+      {
+        "questionText": "Uma líder de equipe, Maria, sempre se esforçou para apresentar uma imagem de perfeição e controle absoluto, acreditando que isso a tornaria mais respeitada e inspiradora para seus colaboradores. Ela evita compartilhar suas incertezas ou desafios pessoais, temendo que isso a faça parecer fraca. No entanto, sua equipe parece distante e pouco engajada, e ela sente uma pressão constante para manter essa fachada, o que a exausta. Com base nos conceitos de Brené Brown sobre vulnerabilidade e o caminho para uma vida plena, qual seria a abordagem mais alinhada para Maria transformar essa dinâmica?",
+        "difficulty": "Difícil",
+        "points": 80,
+        "options": [
+          {
+            "text": "Maria deve continuar buscando a perfeição em suas entregas e na gestão da equipe, pois a liderança exige uma postura impecável, e a vulnerabilidade poderia minar sua autoridade e a confiança de seus liderados, levando a um ambiente de trabalho menos produtivo e mais caótico.",
+            "isCorrect": false
+          },
+          {
+            "text": "Maria precisa reconhecer que a autenticidade e a crença de 'Eu sou o suficiente' são fundamentais, permitindo-se ser vista de forma mais vulnerável, o que pode fortalecer a conexão com a equipe, inspirar a coragem da imperfeição nos outros e criar um ambiente de maior pertencimento.",
+            "isCorrect": true
+          },
+          {
+            "text": "Maria deveria implementar um sistema de feedback 360 graus para identificar as áreas onde sua imagem de perfeição está falhando e, assim, ajustar sua postura para atender às expectativas da equipe, garantindo que sua liderança seja percebida como forte e inabalável.",
+            "isCorrect": false
+          }
+        ],
+        "rationale": "Brené Brown enfatiza que o caminho para uma vida plena envolve 'deixar-nos ser vistos, profundamente vistos, vulneravelmente vistos' e a crença de 'Eu sou o suficiente', o que leva a uma maior conexão e gentileza. A tentativa de perfeição e o entorpecimento da vulnerabilidade são descritos como obstáculos."
+      }
+    ]
+  },
+  {
+    "id": "island-1-challenge-1",
+    "name": "Desafio 1 - Comunicação ",
+    "islandId": 1,
+    "challengeId": 1,
+    "questions": [
+      {
+        "questionText": "Qual das seguintes opções melhor descreve a comunicação interpessoal, conforme o material de estudo?",
+        "difficulty": "Fácil",
+        "points": 5,
+        "options": [
+          {
+            "text": "A troca de informações e sentimentos apenas por meio da fala e da escrita entre duas ou mais pessoas.",
+            "isCorrect": false
+          },
+          {
+            "text": "A troca de informações, ideias e sentimentos entre duas ou mais pessoas, de forma direta e recíproca, incluindo fala, escrita, linguagem corporal e tom de voz.",
+            "isCorrect": true
+          },
+          {
+            "text": "A transmissão unilateral de mensagens de uma pessoa para um grupo, focando na persuasão e no impacto.",
+            "isCorrect": false
+          }
+        ],
+        "rationale": "A comunicação interpessoal abrange a troca direta e recíproca de informações, ideias e sentimentos, utilizando tanto a fala e a escrita quanto a linguagem corporal e o tom de voz."
+      },
+      {
+        "questionText": "De acordo com as dicas práticas sobre escuta ativa, qual ação é crucial para mostrar que se está ouvindo ativamente?",
+        "difficulty": "Fácil",
+        "points": 5,
+        "options": [
+          {
+            "text": "Interromper o orador para oferecer soluções imediatas ao problema apresentado.",
+            "isCorrect": false
+          },
+          {
+            "text": "Manter a mente aberta e suspender críticas para uma compreensão completa da mensagem.",
+            "isCorrect": true
+          },
+          {
+            "text": "Focar apenas nas palavras ditas, ignorando a linguagem corporal do interlocutor.",
+            "isCorrect": false
+          }
+        ],
+        "rationale": "Uma dica crucial para a escuta ativa é manter a mente aberta e suspender críticas para uma compreensão completa da mensagem, evitando julgar ou dar soluções imediatas."
+      },
+      {
+        "questionText": "Para garantir clareza e concisão na comunicação, o material sugere uma prática fundamental. Qual é ela?",
+        "difficulty": "Fácil",
+        "points": 5,
+        "options": [
+          {
+            "text": "Utilizar jargões técnicos para demonstrar profundidade no assunto abordado.",
+            "isCorrect": false
+          },
+          {
+            "text": "Definir os objetivos e o público antes de qualquer comunicação para incluir informações necessárias e eliminar irrelevantes.",
+            "isCorrect": true
+          },
+          {
+            "text": "Abordar múltiplos tópicos em uma única mensagem para otimizar o tempo da audiência.",
+            "isCorrect": false
+          }
+        ],
+        "rationale": "Definir os objetivos e o público antes de qualquer comunicação é fundamental para garantir clareza e concisão, assegurando que todas as informações necessárias sejam incluídas e que detalhes irrelevantes sejam eliminados."
+      },
+      {
+        "questionText": "Qual é a principal característica dos vícios de linguagem, conforme descrito no material?",
+        "difficulty": "Fácil",
+        "points": 5,
+        "options": [
+          {
+            "text": "Palavras e gestos que enriquecem a comunicação, tornando-a mais expressiva.",
+            "isCorrect": false
+          },
+          {
+            "text": "Palavras desnecessárias ou gestos repetitivos que poluem e atrapalham a comunicação.",
+            "isCorrect": true
+          },
+          {
+            "text": "Técnicas de oratória para preencher pausas e manter a fluidez do discurso.",
+            "isCorrect": false
+          }
+        ],
+        "rationale": "Vícios de linguagem são palavras desnecessárias (como 'hum', 'é', 'né') ou gestos repetitivos que poluem e atrapalham a comunicação, tornando a mensagem menos clara e profissional."
+      },
+      {
+        "questionText": "O que é a glossofobia, mencionada no contexto de falar em público?",
+        "difficulty": "Fácil",
+        "points": 5,
+        "options": [
+          {
+            "text": "A habilidade de persuadir a audiência com argumentos lógicos e bem fundamentados.",
+            "isCorrect": false
+          },
+          {
+            "text": "O medo de falar em público, que é comum e pode ser superado com técnicas e prática.",
+            "isCorrect": true
+          },
+          {
+            "text": "A técnica de usar pausas estratégicas para enfatizar pontos importantes no discurso.",
+            "isCorrect": false
+          }
+        ],
+        "rationale": "Glossofobia é o termo para o medo de falar em público, uma condição comum que, segundo o material, pode ser superada com técnicas e prática."
+      },
+      {
+        "questionText": "Durante uma conversa com um colega que parece frustrado com um projeto, você percebe que ele está desabafando sobre as dificuldades. De acordo com o conceito de empatia, qual seria a melhor abordagem?",
+        "difficulty": "Médio",
+        "points": 20,
+        "options": [
+          {
+            "text": "Interromper o colega para oferecer imediatamente uma solução prática para o problema que ele descreveu.",
+            "isCorrect": false
+          },
+          {
+            "text": "Expressar sua percepção do sentimento dele, utilizando uma frase como 'Parece que você está chateado com a situação do projeto', e validar esse sentimento.",
+            "isCorrect": true
+          },
+          {
+            "text": "Compartilhar uma experiência pessoal semelhante, mostrando que você já passou por algo pior para que ele se sinta melhor.",
+            "isCorrect": false
+          }
+        ],
+        "rationale": "Cultivar a empatia envolve reconhecer e expressar a percepção dos sentimentos do outro, validando-os, em vez de oferecer soluções imediatas ou 'superar a história' da pessoa."
+      },
+      {
+        "questionText": "Em uma apresentação importante, um profissional está explicando um novo plano de ação com palavras entusiasmadas, mas sua postura é curvada e ele evita contato visual com a audiência. Qual o impacto dessa situação, segundo o material?",
+        "difficulty": "Médio",
+        "points": 20,
+        "options": [
+          {
+            "text": "A audiência provavelmente se sentirá mais conectada, pois o conteúdo verbal é o mais importante para a persuasão.",
+            "isCorrect": false
+          },
+          {
+            "text": "A inconsistência entre as pistas verbais e não verbais pode gerar confusão e desmotivação na audiência, comprometendo a eficácia da mensagem.",
+            "isCorrect": true
+          },
+          {
+            "text": "A linguagem corporal curvada e a falta de contato visual são técnicas para criar um senso de humildade e acessibilidade.",
+            "isCorrect": false
+          }
+        ],
+        "rationale": "O material enfatiza que a inconsistência entre as pistas verbais e não verbais pode gerar confusão e desmotivação na audiência, comprometendo a eficácia da mensagem, pois o corpo e o tom de voz comunicam muito."
+      },
+      {
+        "questionText": "Um jovem profissional está se preparando para sua primeira apresentação em um grande evento da empresa. Ele está muito nervoso. Qual estratégia de preparação o material sugere para superar o nervosismo e proferir um discurso impactante?",
+        "difficulty": "Médio",
+        "points": 20,
+        "options": [
+          {
+            "text": "Focar exclusivamente na memorização do roteiro para evitar qualquer desvio e garantir a perfeição.",
+            "isCorrect": false
+          },
+          {
+            "text": "Praticar o discurso várias vezes, idealmente gravando-se em vídeo ou em frente a um espelho, e buscar feedback.",
+            "isCorrect": true
+          },
+          {
+            "text": "Chegar no último minuto para não ter tempo de pensar demais e assim evitar o nervosismo inicial.",
+            "isCorrect": false
+          }
+        ],
+        "rationale": "Uma preparação minuciosa é a maneira mais eficaz de superar o nervosismo, e isso inclui praticar o discurso várias vezes, gravando-se e buscando feedback para autoavaliação e melhoria."
+      },
+      {
+        "questionText": "Você precisa iniciar uma apresentação sobre um novo processo de gestão de projetos. Você decide usar a técnica de 'vulnerabilidade controlada'. Como você aplicaria essa técnica de forma eficaz?",
+        "difficulty": "Médio",
+        "points": 20,
+        "options": [
+          {
+            "text": "Começar confessando que você não domina completamente o assunto, pedindo desculpas por possíveis falhas.",
+            "isCorrect": false
+          },
+          {
+            "text": "Iniciar contando uma dificuldade pessoal que você tinha com a gestão de projetos e como a superou, gerando identificação e engajamento.",
+            "isCorrect": true
+          },
+          {
+            "text": "Apresentar uma estatística surpreendente sobre falhas em projetos para chocar a audiência e capturar a atenção.",
+            "isCorrect": false
+          }
+        ],
+        "rationale": "A vulnerabilidade controlada consiste em confessar uma dificuldade que foi superada, mostrando a jornada de aprendizado e resolução, o que gera identificação e engajamento da audiência."
+      },
+      {
+        "questionText": "Em uma reunião de equipe, a gerente Ana percebe que um novo membro, Pedro, está tendo dificuldades para se integrar e contribuir ativamente, apesar de ter boas ideias. Ana decide aplicar os princípios de carisma e storytelling para ajudar Pedro a se sentir mais à vontade e engajado, e para que suas ideias sejam melhor recebidas. Qual das seguintes abordagens Ana deveria priorizar para maximizar o impacto positivo de Pedro na equipe, conforme o material?",
+        "difficulty": "Difícil",
+        "points": 45,
+        "options": [
+          {
+            "text": "Ana deve focar em demonstrar sua própria autoridade e competência, apresentando o projeto com convicção e clareza, para que Pedro se sinta inspirado a seguir seu exemplo e aprimore sua comunicação.",
+            "isCorrect": false
+          },
+          {
+            "text": "Ana deve priorizar a construção de rapport, usando o nome de Pedro e validando seus sentimentos ao ouvir suas ideias, evitando 'superar a história' dele, para que ele se sinta valorizado e conectado.",
+            "isCorrect": true
+          },
+          {
+            "text": "Ana deve contar uma história pessoal inspiradora sobre como superou desafios de integração no início de sua carreira, para motivar Pedro a ser mais proativo e a compartilhar suas ideias com maior confiança.",
+            "isCorrect": false
+          }
+        ],
+        "rationale": "O material destaca que o carisma envolve fazer o outro se sentir a pessoa mais importante, usando o nome, e que o rapport é construído por meio de espelhamento e validação, evitando 'superar a história'. Essas ações diretas promovem a integração e a contribuição de Pedro."
       }
     ]
   },
   {
     "id": "island-1-challenge-2",
-    "name": "COMUNICAÇÃO E ORATÓRIA - Livro",
+    "name": "Desafio 2 - Comunicação",
     "islandId": 1,
     "challengeId": 2,
     "questions": [
       {
-        "questionText": "De acordo com Carmine Gallo em \"TED: Falar, Convencer, Emocionar\", qual é o alicerce fundamental para qualquer apresentação inspiradora?",
+        "questionText": "De acordo com o prefácio, qual é a principal razão pela qual a comunicação eficaz de ideias se tornou uma habilidade essencial no século 21?",
         "difficulty": "Fácil",
         "points": 8,
         "options": [
           {
-            "text": "A capacidade de memorizar o roteiro integralmente.",
+            "text": "A capacidade de memorizar grandes volumes de informações complexas.",
             "isCorrect": false
           },
           {
-            "text": "A paixão genuína pelo tema abordado.",
+            "text": "A necessidade de dominar múltiplas línguas para interagir globalmente.",
+            "isCorrect": false
+          },
+          {
+            "text": "As ideias são consideradas a \"moeda do século 21\", exigindo comunicação eficaz.",
             "isCorrect": true
-          },
-          {
-            "text": "O uso exclusivo de dados e estatísticas concretas.",
-            "isCorrect": false
           }
         ],
-        "rationale": "O Capítulo 1 estabelece que a paixão é o alicerce de qualquer apresentação inspiradora e o mais fundamental segredo dos grandes oradores, pois inspira o próprio apresentador e contagia a plateia."
+        "rationale": "O prefácio afirma claramente que \"as ideias são a moeda do século 21\", tornando a capacidade de comunicá-las de forma eficaz uma habilidade essencial."
       },
       {
-        "questionText": "Qual é a principal função do Storytelling em uma apresentação, conforme descrito no livro?",
+        "questionText": "Conforme o Capítulo 1 (\"Liberte o seu Mestre Interior\"), qual é o alicerce fundamental de qualquer apresentação inspiradora?",
         "difficulty": "Fácil",
         "points": 8,
         "options": [
           {
-            "text": "Aumentar a quantidade de dados técnicos apresentados.",
+            "text": "A habilidade de memorizar o roteiro completo sem falhas.",
             "isCorrect": false
           },
           {
-            "text": "Criar uma conexão emocional e persuadir a plateia.",
+            "text": "A paixão genuína e pessoal do orador pelo tema.",
             "isCorrect": true
           },
           {
-            "text": "Reduzir o tempo total da apresentação para ser mais conciso.",
+            "text": "O uso de dados e estatísticas complexas para impressionar o público.",
             "isCorrect": false
           }
         ],
-        "rationale": "O Capítulo 2 destaca o Storytelling como a ferramenta mais poderosa para tocar o coração e a mente da plateia, criando uma conexão emocional essencial para a persuasão."
+        "rationale": "O Capítulo 1 estabelece a paixão como o alicerce de qualquer apresentação inspiradora, sendo o primeiro e mais fundamental segredo dos grandes oradores."
       },
       {
-        "questionText": "Qual é a principal razão pela qual a \"Regra dos 18 Minutos\" é considerada ideal para uma apresentação eficaz?",
+        "questionText": "Segundo o Capítulo 2 (\"Domine a Arte do Storytelling\"), qual é o principal efeito neurocientífico das histórias no cérebro dos ouvintes?",
         "difficulty": "Fácil",
         "points": 8,
         "options": [
           {
-            "text": "É o tempo mínimo necessário para cobrir qualquer assunto complexo.",
+            "text": "Elas ativam exclusivamente a área lógica do cérebro, facilitando a memorização de dados.",
             "isCorrect": false
           },
           {
-            "text": "Evita a sobrecarga cognitiva da plateia e mantém a atenção.",
+            "text": "Elas causam um \"acoplamento cérebro a cérebro\", sincronizando o orador e os ouvintes.",
             "isCorrect": true
           },
           {
-            "text": "Permite ao orador apresentar o máximo de informações detalhadas.",
+            "text": "Elas diminuem a atividade cerebral, permitindo que o público relaxe e absorva a informação passivamente.",
             "isCorrect": false
           }
         ],
-        "rationale": "O Capítulo 7 explica que apresentações longas criam um \"backlog cognitivo\", sobrecarregando a mente dos ouvintes, e que 18 minutos são suficientes para ser sério e breve para manter a atenção."
+        "rationale": "O capítulo 2 menciona que estudos mostram que as histórias \"sincronizam\" os cérebros do orador e dos ouvintes, um processo chamado \"acoplamento cérebro a cérebro\"."
       },
       {
-        "questionText": "Segundo o livro, o que o cérebro humano é programado para notar e que, portanto, cativa irresistivelmente a atenção em uma apresentação?",
+        "questionText": "No Capítulo 7 (\"Atenha-se à Regra dos 18 Minutos\"), qual é a principal razão pela qual apresentações longas são desaconselhadas?",
         "difficulty": "Fácil",
         "points": 8,
         "options": [
           {
-            "text": "Informações que confirmam crenças pré-existentes.",
+            "text": "Elas demonstram falta de preparação e planejamento por parte do orador.",
             "isCorrect": false
           },
           {
-            "text": "Conteúdo que é previsível e familiar.",
-            "isCorrect": false
-          },
-          {
-            "text": "O que é novo, diferente e surpreendente.",
+            "text": "O cérebro humano é um \"devorador de energia\" e apresentações longas criam um \"backlog cognitivo\".",
             "isCorrect": true
+          },
+          {
+            "text": "A duração excessiva impede que o orador explore todos os detalhes do tema.",
+            "isCorrect": false
           }
         ],
-        "rationale": "O Capítulo 4 afirma que o cérebro humano é programado para notar o que é novo e diferente, liberando dopamina e tornando a apresentação irresistivelmente cativante."
+        "rationale": "O Capítulo 7 explica que o cérebro humano é um \"devorador de energia\" e que apresentações longas criam um \"backlog cognitivo\", sobrecarregando a mente dos ouvintes."
       },
       {
-        "questionText": "O que o \"Efeito de Superioridade da Imagem\" (ESI) demonstra sobre a retenção de informações em apresentações?",
+        "questionText": "De acordo com o Capítulo 8 (\"Crie uma Representação Mental com Experiências Multissensoriais\"), o que é o \"Efeito de Superioridade da Imagem\" (ESI)?",
         "difficulty": "Fácil",
         "points": 8,
         "options": [
           {
-            "text": "A retenção é maior quando apenas palavras são usadas.",
+            "text": "A tendência de as pessoas preferirem apresentações com mais texto do que imagens.",
             "isCorrect": false
           },
           {
-            "text": "A retenção de informações é significativamente maior quando imagens são adicionadas às palavras.",
+            "text": "A demonstração de que a retenção de informação aumenta drasticamente quando imagens são adicionadas às palavras.",
             "isCorrect": true
           },
           {
-            "text": "Imagens e palavras competem pela atenção, diminuindo a retenção geral.",
+            "text": "A preferência natural do público por oradores que utilizam apenas slides com gráficos complexos.",
             "isCorrect": false
           }
         ],
-        "rationale": "O Capítulo 8 explica que o ESI demonstra que, ao ouvir informações, a retenção é de 10% após três dias, mas sobe para 65% se uma imagem for adicionada."
+        "rationale": "O Capítulo 8 define o ESI como a demonstração de que, ao ouvir informações, lembramos de 10% após três dias; se uma imagem for adicionada, a retenção sobe para 65%."
       },
       {
-        "questionText": "Mariana precisa apresentar um relatório técnico complexo para a diretoria, um tema que ela considera árido. Seguindo os princípios de Carmine Gallo, como ela deveria abordar a preparação para tornar sua apresentação mais inspiradora e envolvente?",
+        "questionText": "Em uma reunião de equipe, um jovem profissional precisa apresentar os resultados de um projeto complexo. Ele decide começar a apresentação compartilhando uma história pessoal sobre os desafios inesperados que ele e sua equipe superaram para atingir as metas, antes de mostrar os dados. Qual princípio dos grandes oradores do TED ele está aplicando?",
         "difficulty": "Médio",
         "points": 25,
         "options": [
           {
-            "text": "Focar exclusivamente na precisão dos dados e na metodologia, para demonstrar rigor técnico.",
+            "text": "A Regra dos 18 Minutos, focando na concisão para evitar sobrecarga cognitiva.",
             "isCorrect": false
           },
           {
-            "text": "Identificar o \"porquê\" por trás do projeto, conectando-o a uma paixão pessoal ou a um benefício maior que a entusiasme.",
+            "text": "A criação de momentos surpreendentes, utilizando uma estatística chocante para prender a atenção.",
+            "isCorrect": false
+          },
+          {
+            "text": "A arte do Storytelling, que cria conexão emocional e torna os dados mais memoráveis.",
             "isCorrect": true
-          },
-          {
-            "text": "Memorizar o relatório na íntegra para evitar qualquer hesitação e transmitir total domínio do assunto.",
-            "isCorrect": false
           }
         ],
-        "rationale": "O Capítulo 1 enfatiza que a paixão é o alicerce e que o orador deve se perguntar \"O que faz o seu coração bater mais forte?\" sobre o tema, construindo a apresentação em torno desse \"porquê\" para gerar energia contagiante."
+        "rationale": "O Capítulo 2 (\"Domine a Arte do Storytelling\") enfatiza que as histórias são a ferramenta mais poderosa para tocar o coração e a mente da plateia, criando conexão emocional antes mesmo da apresentação de dados."
       },
       {
-        "questionText": "João está nervoso com sua próxima apresentação importante e tende a falar de forma muito formal e robótica. Para se assemelhar mais a uma \"conversa\" e transmitir autenticidade, qual estratégia ele deveria priorizar, de acordo com o livro?",
+        "questionText": "Um gerente está prestes a fazer um pitch importante para investidores. Ele está nervoso, mas antes de entrar na sala, ele vai ao banheiro e fica por dois minutos em uma \"pose de poder\", com as mãos na cintura e o peito estufado. Qual é o objetivo dessa técnica, conforme as \"Dicas do Mentor\" do Capítulo 3?",
         "difficulty": "Médio",
         "points": 25,
         "options": [
           {
-            "text": "Improvisar no momento, acreditando que a espontaneidade natural é a chave para a autenticidade.",
-            "isCorrect": false
-          },
-          {
-            "text": "Focar em gestos amplos e dramáticos para compensar a falta de naturalidade na fala.",
-            "isCorrect": false
-          },
-          {
-            "text": "Praticar o conteúdo exaustivamente até interiorizá-lo, permitindo uma entrega descontraída e natural.",
+            "text": "Aumentar a testosterona e diminuir o cortisol, fazendo-o sentir e parecer mais confiante.",
             "isCorrect": true
+          },
+          {
+            "text": "Aquecer a voz e praticar a velocidade ideal de fala, que é de cerca de 190 palavras por minuto.",
+            "isCorrect": false
+          },
+          {
+            "text": "Revisar mentalmente os \"Três Ps\" (Paixão, Prática, Presença) para garantir a autenticidade.",
+            "isCorrect": false
           }
         ],
-        "rationale": "O Capítulo 3 destaca que a autenticidade não ocorre naturalmente no palco, mas é fruto de prática exaustiva, ensaiando incansavelmente para interiorizar o conteúdo e fazer a apresentação da maneira mais descontraída possível."
+        "rationale": "As \"Dicas do Mentor\" do Capítulo 3 mencionam a \"pose de poder\" de Amy Cuddy, explicando que a ciência mostra que isso aumenta a testosterona e diminui o cortisol, fazendo a pessoa se sentir e parecer mais confiante."
       },
       {
-        "questionText": "Durante uma apresentação sobre o impacto da reciclagem, um palestrante quer criar um \"momento caramba\" para chocar e engajar a plateia. Qual das seguintes abordagens seria mais alinhada com as táticas de Carmine Gallo para criar um momento surpreendente?",
+        "questionText": "Durante uma apresentação sobre a importância da inovação, um palestrante começa dizendo: \"Sabiam que nossa empresa gasta o equivalente a 500 horas por ano em tarefas manuais que poderiam ser automatizadas?\". Ele então prossegue para explicar como uma nova ferramenta pode resolver isso. Qual segredo dos oradores do TED ele está utilizando para engajar a plateia?",
         "difficulty": "Médio",
         "points": 25,
         "options": [
           {
-            "text": "Apresentar uma série de gráficos complexos sobre a taxa de reciclagem em diferentes países.",
+            "text": "Fazer uma apresentação leve, utilizando humor e anedotas para descontrair o ambiente.",
             "isCorrect": false
           },
           {
-            "text": "Usar um adereço, como uma montanha de lixo real no palco, ou uma estatística inesperada sobre o tempo de decomposição do plástico.",
+            "text": "Libertar o seu mestre interior, começando com a paixão pessoal pelo tema da inovação.",
+            "isCorrect": false
+          },
+          {
+            "text": "Ensinar algo novo, revelando uma informação surpreendente para prender a atenção do cérebro.",
             "isCorrect": true
-          },
-          {
-            "text": "Ler longos trechos de artigos científicos que detalham os benefícios ambientais da reciclagem.",
-            "isCorrect": false
           }
         ],
-        "rationale": "O Capítulo 5 lista cinco táticas para criar \"momentos caramba\", incluindo \"adereços e demonstrações\" e \"estatísticas inesperadas e chocantes\", que criam um \"evento emocionalmente carregado\" para o cérebro."
+        "rationale": "O Capítulo 4 (\"Quero Aprender Algo Novo\") destaca que a novidade é a maneira mais eficaz de prender a atenção do cérebro, revelando informações completamente novas ou uma nova perspectiva sobre um problema antigo, como o exemplo das horas gastas em tarefas manuais."
       },
       {
-        "questionText": "Um gerente precisa apresentar uma nova política de compliance, um tema geralmente percebido como árido e burocrático. Para tornar a apresentação mais leve e receptiva, sem perder a seriedade do assunto, qual estratégia ele poderia adotar com base nos princípios de Gallo?",
+        "questionText": "Uma jovem profissional está preparando uma apresentação sobre os resultados de vendas do último trimestre. Em vez de usar slides cheios de números e gráficos complexos, ela decide criar um slide com uma única imagem impactante de um cliente satisfeito e uma frase curta que resume o sucesso. Qual princípio do material ela está aplicando para tornar sua apresentação mais eficaz?",
         "difficulty": "Médio",
         "points": 25,
         "options": [
           {
-            "text": "Contar uma série de piadas prontas no início para quebrar o gelo e garantir risadas.",
+            "text": "A Regra dos 18 Minutos, garantindo que a apresentação seja concisa e direta ao ponto.",
             "isCorrect": false
           },
           {
-            "text": "Utilizar analogias engraçadas para explicar conceitos complexos ou compartilhar uma anedota pessoal sobre um erro que cometeu.",
+            "text": "A criação de uma representação mental com experiências multissensoriais, utilizando imagens em vez de texto.",
             "isCorrect": true
           },
           {
-            "text": "Evitar qualquer tipo de humor, pois a seriedade do tema exige uma abordagem estritamente formal.",
+            "text": "A autenticidade, mostrando sua vulnerabilidade ao admitir os desafios do trimestre.",
             "isCorrect": false
           }
         ],
-        "rationale": "O Capítulo 6 sugere que o humor não é sobre contar piadas, mas sobre não se levar a sério demais. Ele lista alternativas como anedotas, observações, histórias pessoais e analogias/metáforas para criar um humor mais natural e autêntico, que derruba defesas."
+        "rationale": "O Capítulo 8 (\"Crie uma Representação Mental com Experiências Multissensoriais\") enfatiza o uso de imagens em vez de texto e o \"Efeito de Superioridade da Imagem\" para tornar a mensagem mais memorável e engajadora, transformando slides em uma trilha sonora visual."
       },
       {
-        "questionText": "Uma startup de tecnologia está se preparando para um pitch crucial para investidores, buscando financiamento para uma inovadora plataforma de inteligência artificial. O CEO, um engenheiro brilhante, tende a focar excessivamente nos detalhes técnicos e dados complexos. Considerando os princípios de \"TED: Falar, Convencer, Emocionar\", qual das seguintes abordagens seria a mais eficaz para o CEO garantir que seu pitch seja não apenas informativo, mas também inspirador e memorável para os investidores, que geralmente têm pouco tempo e buscam uma conexão mais profunda?",
+        "questionText": "Em uma startup de tecnologia, a CEO Maria precisa apresentar um novo projeto inovador para uma equipe de engenheiros céticos. O projeto é complexo e envolve uma mudança significativa nos processos atuais. Maria sabe que a equipe valoriza a lógica e os dados, mas também percebe que há uma resistência inicial. Para superar essa barreira, ela decide iniciar sua apresentação com uma história pessoal sobre como uma experiência de frustração com um problema similar no passado a motivou a buscar essa nova solução. Em seguida, ela apresenta uma estatística chocante sobre a ineficiência atual, seguida por uma demonstração ao vivo da nova tecnologia, transformando dados complexos em um infográfico simples e impactante. Por fim, ela encerra compartilhando sua visão apaixonada sobre o futuro que o projeto pode construir para a empresa e para a equipe, admitindo que o caminho será desafiador, mas recompensador. Qual combinação de estratégias dos oradores do TED Maria utilizou para maximizar a persuasão e o engajamento de sua equipe, considerando o contexto de ceticismo e a complexidade do projeto?",
         "difficulty": "Difícil",
         "points": 60,
         "options": [
           {
-            "text": "O CEO deve priorizar uma explanação exaustiva dos dados técnicos, das métricas de desempenho e da arquitetura complexa da plataforma, utilizando gráficos detalhados e um vocabulário especializado para demonstrar o rigor científico e a superioridade tecnológica do produto.",
-            "isCorrect": false
-          },
-          {
-            "text": "O CEO deve estruturar o pitch para 18 minutos, contando uma história pessoal sobre a origem da ideia, incorporando visuais impactantes e uma demonstração interativa para criar um \"momento caramba\", e mantendo uma linguagem corporal autêntica para gerar conexão emocional.",
+            "text": "Maria combinou Storytelling para criar conexão emocional, momentos surpreendentes com a estatística e a demonstração ao vivo, e a paixão para inspirar a equipe, reconhecendo que a vulnerabilidade inicial pode derrubar barreiras de resistência.",
             "isCorrect": true
           },
           {
-            "text": "O CEO deve iniciar com um panorama completo das estatísticas de mercado e projeções financeiras, seguido por um detalhamento das qualificações da equipe e de todas as funcionalidades da plataforma, assegurando que todas as dúvidas técnicas e de negócio sejam respondidas com dados.",
+            "text": "Maria priorizou a Regra dos 18 Minutos para evitar a sobrecarga cognitiva, utilizou o humor para aliviar a tensão inicial da equipe cética, e focou em ensinar algo novo com a demonstração da tecnologia, garantindo a leveza da apresentação.",
+            "isCorrect": false
+          },
+          {
+            "text": "Maria empregou a estratégia de conversar com a plateia, ensaiando exaustivamente para parecer natural, criou uma representação mental com o infográfico para facilitar a compreensão, e manteve a autenticidade para construir confiança, evitando qualquer tipo de performance.",
             "isCorrect": false
           }
         ],
-        "rationale": "A abordagem correta integra múltiplos princípios: a Regra dos 18 Minutos (Cap. 7) para concisão, Storytelling pessoal (Cap. 2 e 9) para conexão emocional e autenticidade, uso de visuais e linguagem corporal (Cap. 8 e 3) para multissensorialidade e presença, e a criação de um \"momento caramba\" (Cap. 5) com a demonstração interativa para surpreender e memorizar. As outras opções focam em aspectos isolados (dados/técnica ou estatísticas/funcionalidades) sem a integração de elementos emocionais e de engajamento que Gallo defende como cruciais para inspirar e persuadir."
+        "rationale": "Maria utilizou o Storytelling (Capítulo 2) ao começar com uma história pessoal para criar conexão emocional. Ela criou momentos surpreendentes (Capítulo 5) com a estatística chocante e a demonstração ao vivo. E, finalmente, ela usou a paixão (Capítulo 1) ao compartilhar sua visão e a autenticidade/vulnerabilidade (Capítulo 9) ao admitir os desafios, o que gera confiança e inspiração, sendo crucial para uma equipe cética."
       }
     ]
   },
   {
     "id": "island-1-challenge-3",
-    "name": "Desafio 3 - TEDx + PODCAST: Comunicação e Oratória",
+    "name": "Desafio 3 - Comunicação",
     "islandId": 1,
     "challengeId": 3,
     "questions": [
       {
-        "questionText": "Segundo Lena Souza, o que ela transformou em força em sua jornada pessoal, conforme narrado em sua palestra?",
+        "questionText": "Segundo Nicholas Butman, quais são os três passos fundamentais para uma comunicação eficaz?",
         "difficulty": "Fácil",
         "points": 10,
         "options": [
           {
-            "text": "Apenas suas habilidades técnicas de oratória, desenvolvidas em cursos especializados.",
+            "text": "Focar na mensagem, usar linguagem corporal e manter contato visual.",
             "isCorrect": false
           },
           {
-            "text": "Suas maiores fraquezas, dores e traumas de infância e problemas de autoestima.",
+            "text": "Encontrar a pessoa, gerar afinidade (rapport) e comunicar.",
             "isCorrect": true
           },
           {
-            "text": "As expectativas de sua família e amigos sobre sua carreira profissional e acadêmica.",
+            "text": "Apresentar o produto, negociar o preço e fechar a venda.",
             "isCorrect": false
           }
         ],
-        "rationale": "O texto afirma: 'A palestrante revela que suas 'maiores fraquezas, a minha maior dor, meus maiores traumas de infância, o que eu não gostava em mim, eu transformei força.'"
+        "rationale": "O material destaca que a comunicação eficaz, segundo Butman, envolve encontrar a pessoa, gerar afinidade e, por fim, comunicar."
       },
       {
-        "questionText": "Qual foi um dos principais obstáculos de autoestima que Lena Souza enfrentou, que a levou a ter vergonha de sorrir, conforme mencionado em sua palestra?",
+        "questionText": "De acordo com o material, quantos encontros positivos são necessários para reverter uma primeira impressão negativa?",
         "difficulty": "Fácil",
         "points": 10,
         "options": [
           {
-            "text": "A dificuldade em memorizar textos complexos para apresentações em público.",
+            "text": "Três encontros positivos.",
             "isCorrect": false
           },
-          {
-            "text": "A vergonha de sorrir devido a falhas nos dentes e a comentários negativos de terceiros.",
-            "isCorrect": true
-          },
-          {
-            "text": "A incapacidade de improvisar em situações inesperadas durante suas palestras.",
-            "isCorrect": false
-          }
-        ],
-        "rationale": "O material detalha: 'A vergonha de sorrir devido a falhas nos dentes foi um obstáculo significativo.'"
-      },
-      {
-        "questionText": "Qual organização Lena Souza se juntou, que a levou a descobrir e participar de um concurso de oratória, marcando um ponto de virada em sua vida?",
-        "difficulty": "Fácil",
-        "points": 10,
-        "options": [
-          {
-            "text": "Uma associação de dança contemporânea, onde encontrou sua expressividade corporal.",
-            "isCorrect": false
-          },
-          {
-            "text": "A JCI (Jovens Líderes Empreendedores), buscando mudanças positivas e novas oportunidades.",
-            "isCorrect": true
-          },
-          {
-            "text": "Um grupo de teatro amador local, onde desenvolveu suas habilidades de atuação e improviso.",
-            "isCorrect": false
-          }
-        ],
-        "rationale": "O texto menciona: 'Juntou-se à JCI (Jovens Líderes Empreendedores)... Foi através da JCI que descobriu o concurso de oratória.'"
-      },
-      {
-        "questionText": "De acordo com Nicholas Butman, em sua obra 'Como Convencer Alguém em 90 Segundos', qual dos três passos fundamentais da comunicação a maioria das pessoas foca, negligenciando os outros?",
-        "difficulty": "Fácil",
-        "points": 10,
-        "options": [
-          {
-            "text": "Encontrar a Pessoa, focando intensamente na apresentação inicial e no primeiro contato.",
-            "isCorrect": false
-          },
-          {
-            "text": "Gerar Afinidade (Rapport), priorizando a criação de uma conexão e um senso de conforto.",
-            "isCorrect": false
-          },
-          {
-            "text": "Comunicar, deixando de lado a etapa de encontrar a pessoa e a de gerar afinidade.",
-            "isCorrect": true
-          }
-        ],
-        "rationale": "O briefing afirma: \"'A maioria das pessoas foca só no se comunicar, esquece os dois primeiros passos.'\""
-      },
-      {
-        "questionText": "Segundo a regra 7-38-55 mencionada no briefing sobre a comunicação, qual porcentagem da mensagem é composta por elementos não verbais, como linguagem corporal e tom de voz?",
-        "difficulty": "Fácil",
-        "points": 10,
-        "options": [
-          {
-            "text": "Apenas 7% da comunicação total, sendo a parte verbal a mais relevante.",
-            "isCorrect": false
-          },
-          {
-            "text": "38% da comunicação total, referente exclusivamente ao tom de voz.",
-            "isCorrect": false
-          },
-          {
-            "text": "93% da comunicação total, englobando postura, tom de voz e gestos.",
-            "isCorrect": true
-          }
-        ],
-        "rationale": "O material especifica: 'Apenas '7% da sua comunicação é verbal, 93% é tua postura, tom de voz, a maneira como você esticula.''"
-      },
-      {
-        "questionText": "Uma jovem palestrante, Maria, está frustrada com a rigidez dos cursos de oratória tradicionais, que a fazem sentir-se artificial e insegura, inibindo sua identidade. Baseando-se na visão de Lena Souza sobre a oratória, qual seria a melhor abordagem para Maria superar essa dificuldade?",
-        "difficulty": "Médio",
-        "points": 30,
-        "options": [
-          {
-            "text": "Ignorar completamente as técnicas de oratória e focar apenas na espontaneidade, sem qualquer preparo, para ser mais autêntica.",
-            "isCorrect": false
-          },
-          {
-            "text": "Buscar uma abordagem que integre ferramentas da psicologia e neurociência, focando na aceitação e autenticidade pessoal, em vez de regras estritas e padrões rígidos.",
-            "isCorrect": true
-          },
-          {
-            "text": "Persistir nos métodos tradicionais, pois a rigidez e a padronização são fundamentais para o domínio da oratória e para evitar erros em público.",
-            "isCorrect": false
-          }
-        ],
-        "rationale": "Lena Souza 'ficou 'incomodada' com a rigidez dos cursos de oratória... Buscou ferramentas da psicologia, neurociência... A principal lição que ela aprendeu e ensina é a aceitação. 'Não tem padrão. Padrão é você.''"
-      },
-      {
-        "questionText": "João tem uma entrevista de emprego crucial para a vaga dos seus sonhos. Ele sabe que a primeira impressão é vital para o sucesso. Qual das seguintes atitudes, baseada na 'Fórmula para uma Boa Primeira Impressão' de Nicholas Butman, ele deveria priorizar nos primeiros segundos da interação?",
-        "difficulty": "Médio",
-        "points": 30,
-        "options": [
-          {
-            "text": "Começar a falar imediatamente sobre suas qualificações e experiências mais relevantes para impressionar o entrevistador com seu currículo.",
-            "isCorrect": false
-          },
-          {
-            "text": "Manter uma postura neutra e aguardar que o entrevistador inicie a conversa e o contato visual, para não parecer excessivamente ansioso.",
-            "isCorrect": false
-          },
-          {
-            "text": "Olhar nos olhos do entrevistador, sorrir, inclinar-se levemente para frente, estender a mão e cumprimentar pelo nome, demonstrando interesse.",
-            "isCorrect": true
-          }
-        ],
-        "rationale": "A 'Fórmula' de Butman inclui: 'Olhar no olho. Sorrir. Inclinar-se levemente para frente... Estender a mão. Falar 'Oi' e o nome da pessoa.'"
-      },
-      {
-        "questionText": "Uma empresa está lançando um novo produto inovador, mas um de seus vendedores, Carlos, demonstra pouco entusiasmo e suas vendas estão abaixo da média, apesar de o produto ser tecnicamente bom. Ele argumenta que o produto é bom, mas não consegue convencer os clientes. De acordo com o briefing, qual é a provável causa do baixo desempenho de Carlos?",
-        "difficulty": "Médio",
-        "points": 30,
-        "options": [
-          {
-            "text": "A falta de um script de vendas detalhado e rígido que o guie em cada interação com o cliente, tornando-o menos preparado para objeções.",
-            "isCorrect": false
-          },
-          {
-            "text": "A sua falta de crença genuína no produto, que se manifesta em microexpressões e sinais não verbais, comunicando desconfiança aos clientes.",
-            "isCorrect": true
-          },
-          {
-            "text": "A pressão excessiva da gerência por resultados, que o impede de se conectar de forma autêntica com os clientes e suas necessidades.",
-            "isCorrect": false
-          }
-        ],
-        "rationale": "O texto afirma: 'Um Bom Vendedor Vende Qualquer Coisa? Sim, 'contanto que ele acredite que funcione.' A falta de crença no produto se manifesta em 'microexpressões e dar pequenos sinais dentro da tua comunicação não verbal que mostra que você não confia tanto nisso.'"
-      },
-      {
-        "questionText": "Em uma reunião com um cliente potencial, Ana percebe que ele está hesitante em compartilhar detalhes sobre os desafios de sua empresa. Para construir rapport e encorajá-lo a se abrir, qual estratégia Ana deveria adotar, baseada nas técnicas de rapport e escuta ativa?",
-        "difficulty": "Médio",
-        "points": 30,
-        "options": [
-          {
-            "text": "Dominar a conversa, apresentando todas as soluções possíveis para os problemas que ela imagina que o cliente possa ter, mostrando seu conhecimento.",
-            "isCorrect": false
-          },
-          {
-            "text": "Utilizar a escuta ativa, parando tudo para focar 100% no que ele diz, parafraseando suas falas para demonstrar compreensão e fazendo perguntas abertas.",
-            "isCorrect": true
-          },
-          {
-            "text": "Interromper o cliente para corrigir qualquer informação que pareça imprecisa, mostrando seu conhecimento técnico e sua atenção aos detalhes.",
-            "isCorrect": false
-          }
-        ],
-        "rationale": "O briefing destaca a 'Escuta Ativa: Parar tudo, focar 100% no que o outro diz e parafrasear para demonstrar interesse e compreensão' e 'Perguntas Abertas: Criam conexões mais profundas'."
-      },
-      {
-        "questionText": "Sofia, uma nova líder de projeto, teve um início desastroso em sua equipe. No primeiro dia, devido a um mal-entendido e sua postura inicialmente reservada, foi percebida como arrogante e desinteressada. Agora, a equipe demonstra resistência às suas ideias e a comunicação está comprometida. Sofia precisa reverter essa primeira impressão negativa e construir confiança. Considerando as informações do briefing sobre a primeira impressão e as técnicas de persuasão, qual a estratégia mais completa e eficaz que Sofia deveria implementar para superar esse desafio complexo?",
-        "difficulty": "Difícil",
-        "points": 80,
-        "options": [
-          {
-            "text": "Sofia deve focar em apresentar resultados excepcionais de forma isolada, demonstrando sua competência técnica e esperando que os números falem por si, sem se preocupar excessivamente com a interação pessoal. Essa abordagem, embora demorada, eventualmente provará seu valor e mudará a percepção da equipe sobre sua capacidade.",
-            "isCorrect": false
-          },
-          {
-            "text": "Sofia deve realizar uma reunião formal para pedir desculpas pelo mal-entendido inicial e, em seguida, adotar uma postura de liderança mais assertiva, impondo suas decisões para mostrar que está no comando e que a equipe deve seguir suas diretrizes, visando reverter a percepção de desinteresse e falta de controle.",
-            "isCorrect": false
-          },
-          {
-            "text": "Sofia precisa iniciar um processo contínuo de 'oito encontros positivos', aplicando a 'fórmula da boa primeira impressão' em cada interação: contato visual genuíno, sorriso, postura aberta e uso do nome de cada membro. Além disso, deve praticar a escuta ativa e o espelhamento sutil para gerar rapport, buscando intencionalmente demonstrar empatia e uma 'atitude útil' em todas as oportunidades.",
-            "isCorrect": true
-          }
-        ],
-        "rationale": "O briefing afirma que 'são necessários oito encontros positivos para reverter uma primeira impressão negativa' e detalha a 'Fórmula para uma Boa Primeira Impressão' (olhar no olho, sorrir, inclinar-se, estender a mão, falar o nome). Adicionalmente, enfatiza a importância da linguagem corporal aberta, 'atitude útil', escuta ativa e espelhamento para construir rapport, todos elementos cruciais para uma estratégia completa de reversão de imagem e construção de confiança. As outras opções são incompletas ou contraproducentes."
-      }
-    ]
-  },
-  {
-    "id": "island-1-challenge-4-redemption",
-    "name": "COMUNICAÇÃO & ORATÓRIA - QUIZ DE RECUPERAÇÃO",
-    "islandId": 1,
-    "challengeId": 4,
-    "questions": [
-      {
-        "questionText": "De acordo com Nicholas Butman, qual é a etapa da comunicação onde a maioria das pessoas foca, mas que é ineficaz sem os dois primeiros passos?",
-        "difficulty": "Médio",
-        "points": 20,
-        "options": [
-          {
-            "text": "Encontrar a Pessoa.",
-            "isCorrect": false
-          },
-          {
-            "text": "Gerar Afinidade (Rapport).",
-            "isCorrect": false
-          },
-          {
-            "text": "Comunicar.",
-            "isCorrect": true
-          }
-        ],
-        "rationale": "O texto afirma que 'A maioria das pessoas foca só no se comunicar, esquece os dois primeiros passos', tornando essa etapa ineficaz sem as anteriores."
-      },
-      {
-        "questionText": "Qual é a porcentagem da comunicação que, segundo a '7-38-55 Rule', é composta pela linguagem corporal?",
-        "difficulty": "Médio",
-        "points": 20,
-        "options": [
-          {
-            "text": "7%.",
-            "isCorrect": false
-          },
-          {
-            "text": "38%.",
-            "isCorrect": false
-          },
-          {
-            "text": "55%.",
-            "isCorrect": true
-          }
-        ],
-        "rationale": "O texto especifica que '55% expressão corporal e 38% tom de voz', e '7% da sua comunicação é verbal', de acordo com a regra."
-      },
-      {
-        "questionText": "Segundo o texto, qual é a principal característica do 'Sistema 1' do nosso cérebro ao formar primeiras impressões?",
-        "difficulty": "Médio",
-        "points": 20,
-        "options": [
-          {
-            "text": "É um sistema lento e analítico, focado na lógica.",
-            "isCorrect": false
-          },
-          {
-            "text": "É um sistema rápido e intuitivo, que forma preconceitos em segundos.",
-            "isCorrect": true
-          },
-          {
-            "text": "É um sistema que avalia conscientemente as ameaças e oportunidades.",
-            "isCorrect": false
-          }
-        ],
-        "rationale": "O texto descreve o 'Sistema 1 (Rápido e Intuitivo)' como aquele que 'toma decisões em segundos, formando preconceitos baseados em experiências passadas'."
-      },
-      {
-        "questionText": "Qual das seguintes atitudes é considerada 'útil' para a comunicação, de acordo com o briefing?",
-        "difficulty": "Médio",
-        "points": 20,
-        "options": [
-          {
-            "text": "Sarcasmo.",
-            "isCorrect": false
-          },
-          {
-            "text": "Curiosidade.",
-            "isCorrect": true
-          },
-          {
-            "text": "Impaciência.",
-            "isCorrect": false
-          }
-        ],
-        "rationale": "O texto menciona que uma 'atitude útil' inclui 'curiosidade, entusiasmo, encorajadora, afetuosa', em contraste com 'inútil' como 'impaciência, sarcasmo, ceticismo, raiva'."
-      },
-      {
-        "questionText": "Para reverter uma primeira impressão negativa, o texto sugere que são necessários quantos encontros positivos?",
-        "difficulty": "Médio",
-        "points": 20,
-        "options": [
           {
             "text": "Cinco encontros positivos.",
             "isCorrect": false
@@ -723,113 +1083,169 @@ export const ALL_QUIZZES: Quiz[] = [
           {
             "text": "Oito encontros positivos.",
             "isCorrect": true
-          },
-          {
-            "text": "Três encontros positivos.",
-            "isCorrect": false
           }
         ],
-        "rationale": "O texto afirma explicitamente: 'São necessários oito encontros positivos para reverter uma primeira impressão negativa'."
+        "rationale": "O briefing afirma que 'São necessários oito encontros positivos para reverter uma primeira impressão negativa.'"
       },
       {
-        "questionText": "No contexto da comunicação não verbal, qual é a microexpressão ou ação específica que o texto sugere para tornar o contato visual mais 'qualificado' e aumentar o rapport?",
-        "difficulty": "Difícil",
-        "points": 45,
+        "questionText": "A '7-38-55 Rule' descreve a proporção da comunicação. Qual é a porcentagem atribuída à linguagem corporal?",
+        "difficulty": "Fácil",
+        "points": 10,
         "options": [
           {
-            "text": "Manter o olhar fixo por um período prolongado para demonstrar seriedade.",
+            "text": "7% da comunicação.",
             "isCorrect": false
           },
           {
-            "text": "Reparar na cor dos olhos da pessoa para forçar um contato visual mais intenso.",
-            "isCorrect": true
-          },
-          {
-            "text": "Desviar o olhar ocasionalmente para não parecer invasivo ou intimidador.",
-            "isCorrect": false
-          }
-        ],
-        "rationale": "O texto especifica que 'Reparar na cor dos olhos da pessoa força um contato visual mais intenso e qualificado, aumentando o rapport'."
-      },
-      {
-        "questionText": "De acordo com o modelo SPIN Selling, qual tipo de pergunta tem o objetivo de motivar a mudança ao explorar as consequências dos problemas?",
-        "difficulty": "Difícil",
-        "points": 45,
-        "options": [
-          {
-            "text": "Perguntas de Situação, que abordam o contexto atual.",
+            "text": "38% da comunicação.",
             "isCorrect": false
           },
           {
-            "text": "Perguntas de Implicação, que focam nas consequências dos desafios.",
-            "isCorrect": true
-          },
-          {
-            "text": "Perguntas de Necessidade de Solução, que levam à imaginação do futuro desejado.",
-            "isCorrect": false
-          }
-        ],
-        "rationale": "O texto descreve as 'Perguntas de Implicação' como aquelas sobre 'as consequências dos problemas (motivam a mudança)'."
-      },
-      {
-        "questionText": "Qual dos seguintes elementos é crucial para o 'Ethos' na retórica de Aristóteles, conforme descrito no briefing?",
-        "difficulty": "Difícil",
-        "points": 45,
-        "options": [
-          {
-            "text": "A capacidade de emocionar a pessoa.",
-            "isCorrect": false
-          },
-          {
-            "text": "A coerência lógica da linha de raciocínio.",
-            "isCorrect": false
-          },
-          {
-            "text": "A transmissão de confiança, credibilidade e autoridade.",
+            "text": "55% da comunicação.",
             "isCorrect": true
           }
         ],
-        "rationale": "O texto define 'Ethos' como 'Transmitir confiança, credibilidade e autoridade (ex: vestimenta, experiência)'."
+        "rationale": "O material explica que '7% da sua comunicação é verbal, 93% é tua postura, tom de voz, a maneira como você esticula' e detalha que '55% expressão corporal e 38% tom de voz'."
       },
       {
-        "questionText": "O briefing menciona que um script de vendas deve ser uma 'estrutura base' que o vendedor ensaia tanto até se tornar 'inútil'. Qual é o objetivo final dessa prática?",
-        "difficulty": "Difícil",
-        "points": 45,
+        "questionText": "No contexto de gerar rapport, o que significa a técnica de 'espelhamento'?",
+        "difficulty": "Fácil",
+        "points": 10,
         "options": [
           {
-            "text": "Garantir que o vendedor siga o script rigidamente em todas as interações.",
+            "text": "Refletir as ideias da pessoa para mostrar concordância.",
             "isCorrect": false
           },
           {
-            "text": "Permitir uma adaptação fluida e não robótica da comunicação.",
+            "text": "Imitar sutilmente a postura, gestos e velocidade da fala do outro.",
             "isCorrect": true
           },
           {
-            "text": "Reduzir a necessidade de personalização, padronizando a abordagem.",
+            "text": "Apresentar argumentos que espelhem os valores do interlocutor.",
             "isCorrect": false
           }
         ],
-        "rationale": "O texto explica que o script deve ser ensaiado até se tornar 'inútil' para 'permitir uma adaptação fluida e não robótica' da comunicação."
+        "rationale": "O material define espelhamento como 'Imitar sutilmente a postura, gestos, velocidade da fala e respiração da outra pessoa para enviar uma mensagem inconsciente de semelhança.'"
       },
       {
-        "questionText": "Qual é a principal desvantagem de vendas baseadas apenas em pressão excessiva, como exemplificado pelo mercado de time share, de acordo com o texto?",
-        "difficulty": "Difícil",
-        "points": 45,
+        "questionText": "Lena Souza, em sua palestra, defende que a oratória não deve seguir um padrão rígido. Qual é a sua principal mensagem sobre identidade na oratória?",
+        "difficulty": "Fácil",
+        "points": 10,
         "options": [
           {
-            "text": "A dificuldade em mensurar a eficácia da abordagem a longo prazo.",
+            "text": "Que a oratória exige a adaptação a um modelo ideal de performance.",
             "isCorrect": false
           },
           {
-            "text": "A quebra de expectativa imediata após a compra e baixa satisfação do cliente.",
+            "text": "Que não há um padrão, e o padrão é você mesmo, aceitando sua autenticidade.",
             "isCorrect": true
           },
           {
-            "text": "A impossibilidade de aplicar técnicas de espelhamento e escuta ativa.",
+            "text": "Que a identidade do orador deve ser moldada conforme o público.",
             "isCorrect": false
           }
         ],
-        "rationale": "O texto afirma que vendas baseadas em pressão podem levar a uma 'quebra de expectativa imediata após a compra' e 'baixa satisfação do cliente, prejudicando o valor de longo prazo (LTV)'."
+        "rationale": "Lena Souza afirma: 'Não tem padrão. Padrão é você,' enfatizando a importância da aceitação e autenticidade."
+      },
+      {
+        "questionText": "Um novo estagiário, João, está prestes a conhecer seu supervisor pela primeira vez. Ele se lembra da 'Fórmula para uma Boa Primeira Impressão' de Nicholas Butman. Qual das seguintes ações João deve priorizar para aplicar essa fórmula de forma eficaz?",
+        "difficulty": "Médio",
+        "points": 30,
+        "options": [
+          {
+            "text": "Focar em apresentar suas qualificações detalhadamente e demonstrar todo o seu conhecimento técnico.",
+            "isCorrect": false
+          },
+          {
+            "text": "Manter uma postura neutra para evitar parecer ansioso e esperar que o supervisor inicie a conversa.",
+            "isCorrect": false
+          },
+          {
+            "text": "Olhar nos olhos, sorrir, inclinar-se levemente para frente, estender a mão e cumprimentar a pessoa pelo nome.",
+            "isCorrect": true
+          }
+        ],
+        "rationale": "A fórmula de Butman para uma boa primeira impressão inclui olhar no olho, sorrir, inclinar-se levemente para frente, estender a mão e falar 'Oi' e o nome da pessoa."
+      },
+      {
+        "questionText": "Uma vendedora de software, Ana, está conversando com um cliente potencial que expressou frustração com a lentidão de seus processos atuais. Para avançar na negociação usando a etapa de 'Implicação' do modelo SPIN Selling, qual tipo de pergunta Ana deveria fazer?",
+        "difficulty": "Médio",
+        "points": 30,
+        "options": [
+          {
+            "text": "Quais são os principais desafios que sua equipe enfrenta com o sistema atual?",
+            "isCorrect": false
+          },
+          {
+            "text": "Como essa lentidão afeta a produtividade da sua equipe e os prazos de entrega dos projetos?",
+            "isCorrect": true
+          },
+          {
+            "text": "Você já considerou outras soluções de software para resolver esse problema?",
+            "isCorrect": false
+          }
+        ],
+        "rationale": "A etapa de Implicação no SPIN Selling foca em perguntar sobre as consequências dos problemas, motivando a mudança. A pergunta sobre como a lentidão afeta a produtividade e os prazos explora diretamente as implicações do problema."
+      },
+      {
+        "questionText": "Um gerente precisa motivar sua equipe a adotar uma nova metodologia de trabalho que exigirá um esforço extra inicial. Ele decide aplicar os princípios da retórica de Aristóteles (Ethos, Pathos, Logos). Qual abordagem seria a mais completa e eficaz?",
+        "difficulty": "Médio",
+        "points": 30,
+        "options": [
+          {
+            "text": "Apresentar apenas dados e gráficos que comprovem a eficiência da nova metodologia, focando na lógica.",
+            "isCorrect": false
+          },
+          {
+            "text": "Compartilhar sua própria experiência de sucesso com a metodologia, explicar os benefícios emocionais para a equipe e apresentar um plano lógico de implementação.",
+            "isCorrect": true
+          },
+          {
+            "text": "Focar em inspirar a equipe com histórias de superação e conquistas de outras empresas que usaram a metodologia.",
+            "isCorrect": false
+          }
+        ],
+        "rationale": "O material afirma que 'O grande segredo do Aristóteles era você usar os três' (Ethos, Pathos, Logos). A opção correta combina a credibilidade do gerente (Ethos), o apelo emocional dos benefícios (Pathos) e a lógica do plano de implementação (Logos)."
+      },
+      {
+        "questionText": "Maria tem um grande medo de falar em público, mas precisa apresentar um projeto importante. Inspirada pela jornada de Lena Souza, que transformou suas fraquezas em força, qual seria a atitude mais alinhada com a filosofia de Lena para Maria enfrentar esse desafio?",
+        "difficulty": "Médio",
+        "points": 30,
+        "options": [
+          {
+            "text": "Focar exaustivamente em memorizar o roteiro e praticar gestos padronizados para evitar qualquer erro.",
+            "isCorrect": false
+          },
+          {
+            "text": "Aceitar que sentirá medo, mas decidir agir com coragem, vendo a apresentação como uma oportunidade de se aceitar e ser autêntica, mesmo com suas limitações.",
+            "isCorrect": true
+          },
+          {
+            "text": "Tentar imitar um orador famoso que ela admira, buscando replicar sua confiança e estilo de fala.",
+            "isCorrect": false
+          }
+        ],
+        "rationale": "Lena Souza enfatiza a 'coragem em ação', a aceitação das limitações ('aceitar que quando a gente está aqui na frente, uns vão gostar de você e outros não. E está tudo bem. Isso é libertador') e a autenticidade ('Padrão é você'), transformando o medo em oportunidade."
+      },
+      {
+        "questionText": "Camila, uma jovem empreendedora com uma ideia inovadora para um aplicativo de impacto social, precisa apresentar seu projeto a um grupo de investidores céticos. Ela sabe que a primeira impressão é crucial e que precisa construir rapport rapidamente, mas também teme que sua inexperiência a faça parecer menos credível. Em sua pesquisa, ela se deparou com os ensinamentos de Nicholas Butman sobre comunicação em 90 segundos e a experiência de Lena Souza sobre transformar o medo em força. Considerando a necessidade de persuasão rápida e a superação da insegurança, qual seria a abordagem mais estratégica para Camila?",
+        "difficulty": "Difícil",
+        "points": 80,
+        "options": [
+          {
+            "text": "Camila deve focar em um discurso técnico e detalhado, usando gráficos complexos para provar o valor do aplicativo. Ela deve manter uma postura formal e reservada, minimizando o contato visual e as interações pessoais para evitar demonstrar nervosismo, priorizando a lógica do negócio acima de tudo para transmitir seriedade e profissionalismo aos investidores.",
+            "isCorrect": false
+          },
+          {
+            "text": "Camila deve priorizar a conexão genuína, iniciando com contato visual direto, um sorriso autêntico e cumprimentando os investidores pelo nome, inclinando-se levemente. Durante a apresentação, ela deve manter uma linguagem corporal aberta, espelhar sutilmente os gestos e usar um tom de voz envolvente, aceitando sua autenticidade e paixão como força, focando nos impactos emocionais e lógicos do projeto.",
+            "isCorrect": true
+          },
+          {
+            "text": "Camila deve preparar um roteiro de vendas rigoroso, memorizando cada frase para evitar erros, e usar perguntas fechadas para controlar a conversa. Ela precisa adotar uma postura de autoridade, com gestos amplos e vestimenta imponente, para compensar a inexperiência e garantir que os investidores percebam seu total domínio sobre o assunto, forçando a aceitação da proposta.",
+            "isCorrect": false
+          }
+        ],
+        "rationale": "A abordagem correta integra a 'Fórmula para uma Boa Primeira Impressão' de Butman (contato visual, sorriso, inclinação, nome) e técnicas de rapport como linguagem corporal aberta e espelhamento, com a filosofia de Lena Souza sobre aceitar a autenticidade e usar a paixão como força para superar o medo, focando nos aspectos emocionais e lógicos da mensagem."
       }
     ]
   }

@@ -50,6 +50,13 @@ export default function TaskGrading() {
         loadData();
     }, [loadData]);
 
+    const handleMarkMessageAsRead = async (player: PlayerData) => {
+        const updatedPlayer = JSON.parse(JSON.stringify(player));
+        delete updatedPlayer.pendingMentorMessage;
+        await gameService.savePlayerData(updatedPlayer);
+        await loadData();
+    };
+
     const handleApproveSummary = async (player: PlayerData, islandId: number) => {
         const updatedPlayer = JSON.parse(JSON.stringify(player));
         const progress: PlayerProgress[number] = updatedPlayer.progress[islandId];
@@ -227,6 +234,7 @@ export default function TaskGrading() {
         }
     };
 
+    const pendingMentorMessages = players.filter(p => p.pendingMentorMessage);
 
     const pendingSummaries = players.flatMap(player =>
         Object.entries(player.progress).map(([islandIdStr, islandProgress]) => {
@@ -331,7 +339,7 @@ export default function TaskGrading() {
         );
     }
     
-    const hasPendingTasks = pendingSummaries.length > 0 || pendingSubmissions.length > 0;
+    const hasPendingTasks = pendingMentorMessages.length > 0 || pendingSummaries.length > 0 || pendingSubmissions.length > 0;
 
     if (!hasPendingTasks) {
         return <p className="text-center text-gray-400 italic p-8">Nenhuma tarefa pendente de avaliação no momento.</p>
@@ -339,6 +347,32 @@ export default function TaskGrading() {
 
     return (
         <div className="space-y-6">
+            {pendingMentorMessages.length > 0 && (
+                <div className="space-y-4">
+                     <h2 className="text-xl font-cinzel text-red-400 border-b-2 border-red-500/30 pb-2">Mensagens Diretas dos Guerreiros</h2>
+                     {pendingMentorMessages.map(({ name, pendingMentorMessage }) => (
+                         <div key={`${name}-mentor-message`} className="bg-gray-800/50 p-4 rounded-lg border border-red-700/50">
+                            <div className="flex flex-col sm:flex-row justify-between items-start gap-4 mb-3">
+                                 <div>
+                                    <h3 className="font-bold text-lg text-red-300">{name}</h3>
+                                    <p className="text-sm text-gray-500 mt-1">Enviado em: {new Date(pendingMentorMessage!.submittedAt).toLocaleString()}</p>
+                                </div>
+                                <button
+                                    onClick={() => handleMarkMessageAsRead(players.find(p => p.name === name)!)}
+                                    className="w-full sm:w-auto py-2 px-4 bg-red-600 hover:bg-red-700 text-white font-bold rounded-lg transition-colors"
+                                >
+                                    Marcar como Lida
+                                </button>
+                             </div>
+                             <div className="mt-3 pt-3 border-t border-gray-600">
+                                 <p className="text-gray-300 whitespace-pre-wrap">{pendingMentorMessage!.message}</p>
+                                 <p className="text-xs text-red-400/80 italic mt-3">Para responder, vá para 'Gerenciar Alunos' e utilize o campo 'Feedback do Mestre'.</p>
+                             </div>
+                         </div>
+                     ))}
+                </div>
+            )}
+
             {pendingSummaries.length > 0 && (
                 <div className="space-y-4">
                     <h2 className="text-xl font-cinzel text-yellow-400 border-b-2 border-yellow-500/30 pb-2">Pergaminhos da Luz Aguardando Aprovação</h2>

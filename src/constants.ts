@@ -139,7 +139,8 @@ export const ISLANDS: Island[] = [
             "label": "PODCAST 1",
             "url": "https://drive.google.com/file/d/149Rt4WYlTniUlASP2equF-WLQZrf-2We/view?usp=drive_link"
           }
-        ]
+        ],
+        "quizId": "island-2-challenge-1"
       },
       {
         "id": 2,
@@ -167,7 +168,8 @@ export const ISLANDS: Island[] = [
             "label": "PODCAST 2",
             "url": "https://drive.google.com/file/d/1-6tMIj9mKukAtbCSSZZl6CbmzaJIhdsb/view?usp=drive_link"
           }
-        ]
+        ],
+        "quizId": "island-2-challenge-2"
       },
       {
         "id": 3,
@@ -190,7 +192,8 @@ export const ISLANDS: Island[] = [
             "label": "Estudo de Caso",
             "url": "https://drive.google.com/file/d/1u5hEZAZTUoicXEyYjkCoqRWSp834cb2f/view?usp=drive_link"
           }
-        ]
+        ],
+        "quizId": "island-2-challenge-3"
       },
       {
         "id": 4,

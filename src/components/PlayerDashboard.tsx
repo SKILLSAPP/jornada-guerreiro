@@ -55,11 +55,54 @@ const FeedbackModal = ({ task, onClose }: { task: TaskFeedback, onClose: () => v
     </div>
 );
 
+const MentorMessageModal = ({ onClose, onSubmit }: { onClose: () => void; onSubmit: (message: string) => void }) => {
+    const [message, setMessage] = useState('');
+
+    const handleSubmit = (e: React.FormEvent) => {
+        e.preventDefault();
+        if (message.trim()) {
+            onSubmit(message.trim());
+        }
+    };
+
+    return (
+        <div className="fixed inset-0 bg-black bg-opacity-85 flex items-center justify-center z-50 p-4">
+            <div className="bg-gray-800 rounded-lg shadow-2xl p-6 w-full max-w-2xl border-2 border-red-400/50">
+                <div className="flex justify-between items-center mb-4">
+                    <h3 className="text-2xl font-cinzel text-red-300">Mensagem para o Mestre</h3>
+                    <button onClick={onClose} className="text-gray-400 hover:text-white text-3xl leading-none">&times;</button>
+                </div>
+                <p className="text-gray-300 mb-4">
+                    Escreva sua dúvida, sugestão ou relate um problema que encontrou no reino. O Mestre lerá sua mensagem e, se necessário, responderá através do campo "Palavras do Mestre".
+                </p>
+                <form onSubmit={handleSubmit}>
+                    <textarea
+                        value={message}
+                        onChange={(e) => setMessage(e.target.value)}
+                        className="w-full h-40 p-3 bg-gray-900 border border-gray-600 rounded-md text-gray-200 focus:ring-red-500 focus:border-red-500"
+                        placeholder="Sua mensagem aqui..."
+                        required
+                    />
+                    <button
+                        type="submit"
+                        disabled={!message.trim()}
+                        className="mt-4 w-full bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-4 rounded transition-colors disabled:bg-gray-600 disabled:cursor-not-allowed"
+                    >
+                        Enviar Mensagem
+                    </button>
+                </form>
+            </div>
+        </div>
+    );
+};
+
+
 const PlayerDashboard = ({ playerData, onBackToMap, onUpdateProgress }: PlayerDashboardProps) => {
   const islands = useMemo(() => contentService.getIslands(), []);
   const [selectedFeedback, setSelectedFeedback] = useState<TaskFeedback | null>(null);
   const [trainingCode, setTrainingCode] = useState('');
   const [rewardMessage, setRewardMessage] = useState<{ type: 'success' | 'error', text: string } | null>(null);
+  const [isMentorModalOpen, setIsMentorModalOpen] = useState(false);
   
   const totalScore = Object.values(playerData.progress).reduce((acc, island: { score: number }) => acc + island.score, 0);
   
@@ -140,31 +183,23 @@ const PlayerDashboard = ({ playerData, onBackToMap, onUpdateProgress }: PlayerDa
     const finalUrl = `${trainingAppUrl}?token=${token}`;
     window.open(finalUrl, '_blank');
   };
-
-  const handleContactMentor = () => {
-    const email = contentService.getMentorEmail();
-    const subject = `Pergaminho Urgente do Guerreiro: ${playerData.name}`;
-    const bodyTemplate = `Saudações, Mestre.\n\nSou o guerreiro ${playerData.name} e preciso de sua ajuda.\n\n[Descreva sua dúvida ou problema aqui]\n\nAgradeço sua sabedoria.\n`;
-
-    if (navigator.clipboard) {
-        navigator.clipboard.writeText(bodyTemplate).then(() => {
-            alert('O modelo de texto do pergaminho foi copiado para sua área de transferência. Cole-o no corpo do e-mail.');
-        }).catch(err => {
-            console.error('Falha ao copiar texto: ', err);
-            prompt("Não foi possível copiar automaticamente. Por favor, copie este texto (Ctrl+C) e cole no seu e-mail:", bodyTemplate);
-        }).finally(() => {
-            window.location.href = `mailto:${email}?subject=${encodeURIComponent(subject)}`;
-        });
-    } else {
-        prompt("Copie este texto (Ctrl+C) e cole no seu e-mail:", bodyTemplate);
-        window.location.href = `mailto:${email}?subject=${encodeURIComponent(subject)}`;
-    }
+  
+  const handleSendMessageToMentor = (message: string) => {
+      const newPlayerData = JSON.parse(JSON.stringify(playerData));
+      newPlayerData.pendingMentorMessage = {
+          message,
+          submittedAt: new Date().toISOString(),
+      };
+      onUpdateProgress(newPlayerData);
+      setIsMentorModalOpen(false);
+      alert("Sua mensagem foi enviada ao Mestre!");
   };
 
 
   return (
     <>
     {selectedFeedback && <FeedbackModal task={selectedFeedback} onClose={() => setSelectedFeedback(null)} />}
+    {isMentorModalOpen && <MentorMessageModal onClose={() => setIsMentorModalOpen(false)} onSubmit={handleSendMessageToMentor} />}
     <div className="bg-gray-800/60 p-6 rounded-lg border border-yellow-500/20 backdrop-blur-sm">
       <button onClick={onBackToMap} className="mb-6 text-yellow-400 hover:text-yellow-300 font-semibold">
         &larr; Voltar ao Mapa-Múndi
@@ -190,10 +225,11 @@ const PlayerDashboard = ({ playerData, onBackToMap, onUpdateProgress }: PlayerDa
                 <h3 className="text-xl font-cinzel text-red-300 mb-2">Comunicação com o Mestre</h3>
                 <p className="text-xs text-gray-400 mb-4">Para dúvidas urgentes ou relatos de falhas no reino.</p>
                 <button
-                    onClick={handleContactMentor}
-                    className="w-full px-4 py-2 bg-red-800 hover:bg-red-700 text-white font-bold rounded-lg shadow-lg transition-transform transform hover:scale-105 font-cinzel tracking-wider"
+                    onClick={() => setIsMentorModalOpen(true)}
+                    disabled={!!playerData.pendingMentorMessage}
+                    className="w-full px-4 py-2 bg-red-800 hover:bg-red-700 text-white font-bold rounded-lg shadow-lg transition-transform transform hover:scale-105 font-cinzel tracking-wider disabled:bg-gray-600 disabled:cursor-not-allowed disabled:transform-none"
                 >
-                    Enviar Pergaminho Urgente
+                    {playerData.pendingMentorMessage ? 'Mensagem Enviada' : 'Enviar Mensagem ao Mestre'}
                 </button>
             </div>
         </div>

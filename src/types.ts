@@ -102,6 +102,10 @@ export interface PlayerData {
   isAdmin?: boolean;
   isTester?: boolean;
   mentorFeedback?: string; // General feedback
+  pendingMentorMessage?: {
+    message: string;
+    submittedAt: string;
+  };
   taskFeedback?: {
     [challengeId_islandId: string]: {
       challengeTitle: string;
