@@ -96,18 +96,31 @@ export default function ProgressMonitor() {
     const [players, setPlayers] = useState<PlayerData[]>([]);
     const [islands, setIslands] = useState<Island[]>([]);
     const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
         const fetchData = async () => {
             setLoading(true);
-            const playersData = await gameService.getAllPlayersData();
-            setPlayers(playersData);
+            setError(null);
+            
+            const playersResult = await gameService.getAllPlayersData();
+            if(playersResult.error) {
+                setError(playersResult.error);
+                setPlayers([]);
+            } else {
+                setPlayers(playersResult.data || []);
+            }
+            
             setIslands(contentService.getIslands());
             setLoading(false);
         };
         fetchData();
     }, []);
 
+    if (error) {
+        return <p className="text-center text-red-400 p-8">Falha ao carregar progresso: {error}</p>;
+    }
+    
     if (loading) {
         return <p className="text-center text-gray-400 italic p-8">Buscando progresso dos guerreiros...</p>;
     }

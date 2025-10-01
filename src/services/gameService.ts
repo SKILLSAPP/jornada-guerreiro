@@ -13,6 +13,17 @@ const TESTER_USER = {
   password: 'desbloqueado',
 };
 
+const formatSupabaseError = (error: any, context: string): string => {
+    console.error(`Supabase error (${context}):`, error);
+    if (error && typeof error.message === 'string') {
+        if (error.message.includes('Failed to fetch')) {
+            return `Não foi possível conectar à fortaleza de dados. Verifique sua conexão com a internet ou se o serviço de backend está ativo (pode estar em modo de suspensão por inatividade).`;
+        }
+        return `Erro na fortaleza de dados: ${error.message}`;
+    }
+    return `Ocorreu um erro desconhecido na fortaleza de dados durante: ${context}.`;
+};
+
 const createInitialPlayerData = (name: string, isTester = false): PlayerData => ({
   name: name,
   progress: {},
@@ -23,51 +34,53 @@ const createInitialPlayerData = (name: string, isTester = false): PlayerData => 
   taskFeedback: {},
 });
 
-const login = async (name: string, password: string): Promise<PlayerData | null> => {
+const login = async (name: string, password: string): Promise<{ data: PlayerData | null; error: string | null; }> => {
   if (supabaseInitializationError) {
-    console.error(supabaseInitializationError);
-    return null;
+    return { data: null, error: supabaseInitializationError };
   }
-  if (!name || !password) return null;
+  if (!name || !password) return { data: null, error: 'Nome e senha são obrigatórios.' };
 
-  let loggedInData: PlayerData | null = null;
+  try {
+    let loggedInData: PlayerData | null = null;
 
-  // Admin and Tester login remains local for now
-  if (name.toUpperCase() === ADMIN_USER.name) {
-    if (password === ADMIN_USER.password) {
-      loggedInData = { name: ADMIN_USER.name, isAdmin: true, progress: {} };
-    }
-  } else if (name.toUpperCase() === TESTER_USER.name) {
-    if (password === TESTER_USER.password) {
-        loggedInData = { ...createInitialPlayerData(TESTER_USER.name, true) };
-    }
-  } else {
-    // Regular player login now uses Supabase
-    const { data, error } = await supabase!
-      .from('players')
-      .select('password, player_data')
-      .eq('name_lowercase', name.toLowerCase())
-      .single();
+    // Admin and Tester login remains local for now
+    if (name.toUpperCase() === ADMIN_USER.name) {
+      if (password === ADMIN_USER.password) {
+        loggedInData = { name: ADMIN_USER.name, isAdmin: true, progress: {} };
+      }
+    } else if (name.toUpperCase() === TESTER_USER.name) {
+      if (password === TESTER_USER.password) {
+          loggedInData = { ...createInitialPlayerData(TESTER_USER.name, true) };
+      }
+    } else {
+      // Regular player login now uses Supabase
+      const { data, error } = await supabase!
+        .from('players')
+        .select('password, player_data')
+        .eq('name_lowercase', name.toLowerCase())
+        .single();
 
-    if (error) {
-      console.error('Supabase login error:', error);
-      return null;
-    }
+      if (error && error.code !== 'PGRST116') {
+        return { data: null, error: formatSupabaseError(error, 'login') };
+      }
 
-    if (data && data.password === password) {
-        loggedInData = data.player_data as unknown as PlayerData;
+      if (data && data.password === password) {
+          loggedInData = data.player_data as unknown as PlayerData;
+      }
     }
+    
+    if (loggedInData) {
+      // Session management remains in localStorage for simplicity
+      const sessionData = { name: loggedInData.name, isAdmin: loggedInData.isAdmin, isTester: loggedInData.isTester };
+      localStorage.setItem(LOGGED_IN_USER_KEY, JSON.stringify(sessionData));
+      return { data: loggedInData, error: null };
+    } else {
+      localStorage.removeItem(LOGGED_IN_USER_KEY);
+      return { data: null, error: null }; // Indicates wrong credentials but not a network error
+    }
+  } catch(error) {
+      return { data: null, error: formatSupabaseError(error, 'login') };
   }
-  
-  if (loggedInData) {
-    // Session management remains in localStorage for simplicity
-    const sessionData = { name: loggedInData.name, isAdmin: loggedInData.isAdmin, isTester: loggedInData.isTester };
-    localStorage.setItem(LOGGED_IN_USER_KEY, JSON.stringify(sessionData));
-  } else {
-    localStorage.removeItem(LOGGED_IN_USER_KEY);
-  }
-
-  return loggedInData;
 };
 
 const logout = (): void => {
@@ -85,23 +98,26 @@ const getLoggedInUser = (): Partial<PlayerData> | null => {
     }
 };
 
-const getPlayerData = async (name: string): Promise<PlayerData | null> => {
+const getPlayerData = async (name: string): Promise<{ data: PlayerData | null; error: string | null }> => {
     if (supabaseInitializationError) {
-        console.error(supabaseInitializationError);
-        return null;
+        return { data: null, error: supabaseInitializationError };
     }
-    const { data, error } = await supabase!
-        .from('players')
-        .select('player_data')
-        .eq('name_lowercase', name.toLowerCase())
-        .single();
-    
-    if (error) {
-        console.error('Supabase getPlayerData error:', error);
-        return null;
-    }
+    try {
+        const { data, error } = await supabase!
+            .from('players')
+            .select('player_data')
+            .eq('name_lowercase', name.toLowerCase())
+            .single();
+        
+        if (error && error.code !== 'PGRST116') {
+            return { data: null, error: formatSupabaseError(error, 'busca de dados do guerreiro') };
+        }
 
-    return data ? (data.player_data as unknown as PlayerData) : null;
+        const playerData = data ? (data.player_data as unknown as PlayerData) : null;
+        return { data: playerData, error: null };
+    } catch (error) {
+        return { data: null, error: formatSupabaseError(error, 'busca de dados do guerreiro') };
+    }
 }
 
 const createUser = async (name: string, password: string): Promise<{ success: boolean; message: string }> => {
@@ -114,37 +130,39 @@ const createUser = async (name: string, password: string): Promise<{ success: bo
   }
   
   const nameLowercase = name.toLowerCase();
-
-  // Check if user already exists
-  const { data: existingUser, error: checkError } = await supabase!
-    .from('players')
-    .select('id')
-    .eq('name_lowercase', nameLowercase)
-    .single();
-
-  if (checkError && checkError.code !== 'PGRST116') { // PGRST116 means no rows found, which is good
-    console.error('Error checking for existing user:', checkError);
-    return { success: false, message: `Erro ao verificar guerreiro: ${checkError.message}` };
-  }
-
-  if (existingUser) {
-    return { success: false, message: 'Um guerreiro com este nome já existe.' };
-  }
   
-  const initialData = createInitialPlayerData(name);
-  const { error: insertError } = await supabase!.from('players').insert({
-    name: name,
-    name_lowercase: nameLowercase,
-    password: password,
-    player_data: initialData as any,
-  });
+  try {
+    // Check if user already exists
+    const { data: existingUser, error: checkError } = await supabase!
+      .from('players')
+      .select('id')
+      .eq('name_lowercase', nameLowercase)
+      .single();
 
-  if (insertError) {
-    console.error('Error creating user:', insertError);
-    return { success: false, message: `Falha ao criar guerreiro no banco de dados: ${insertError.message}` };
+    if (checkError && checkError.code !== 'PGRST116') { // PGRST116 means no rows found, which is good
+      return { success: false, message: formatSupabaseError(checkError, 'verificação de guerreiro') };
+    }
+
+    if (existingUser) {
+      return { success: false, message: 'Um guerreiro com este nome já existe.' };
+    }
+    
+    const initialData = createInitialPlayerData(name);
+    const { error: insertError } = await supabase!.from('players').insert({
+      name: name,
+      name_lowercase: nameLowercase,
+      password: password,
+      player_data: initialData as any,
+    });
+
+    if (insertError) {
+      return { success: false, message: formatSupabaseError(insertError, 'criação de guerreiro') };
+    }
+
+    return { success: true, message: `Guerreiro ${name} criado com sucesso!` };
+  } catch (error) {
+      return { success: false, message: formatSupabaseError(error, 'criação de guerreiro') };
   }
-
-  return { success: true, message: `Guerreiro ${name} criado com sucesso!` };
 };
 
 const updateUser = async (payload: { originalName: string; newName: string; newPassword?: string; newFeedback: string }): Promise<{ success: boolean, message: string }> => {
@@ -155,57 +173,59 @@ const updateUser = async (payload: { originalName: string; newName: string; newP
     const originalKey = originalName.toLowerCase();
     const newKey = newName.toLowerCase();
     
-    // Check if new name is already taken
-    if (originalKey !== newKey) {
-        const { data: existingUser, error: checkError } = await supabase!
+    try {
+        // Check if new name is already taken
+        if (originalKey !== newKey) {
+            const { data: existingUser, error: checkError } = await supabase!
+                .from('players')
+                .select('id')
+                .eq('name_lowercase', newKey)
+                .single();
+            if (checkError && checkError.code !== 'PGRST116') {
+                 return { success: false, message: formatSupabaseError(checkError, 'verificação de nome') };
+            }
+            if (existingUser) {
+                return { success: false, message: `O nome '${newName}' já está em uso.` };
+            }
+        }
+
+        // Fetch current player data to update it
+        const { data, error: fetchError } = await supabase!.from('players').select('player_data').eq('name_lowercase', originalKey).single();
+        if (fetchError || !data) {
+            return { success: false, message: formatSupabaseError(fetchError, `busca de ${originalName}`) || `Guerreiro ${originalName} não encontrado.`};
+        }
+        
+        const playerData = data.player_data as unknown as PlayerData;
+        playerData.name = newName;
+        playerData.mentorFeedback = newFeedback;
+        
+        const updatePayload: any = {
+            name: newName,
+            name_lowercase: newKey,
+            player_data: playerData,
+        };
+        if (newPassword) {
+            updatePayload.password = newPassword;
+        }
+
+        const { error: updateError } = await supabase!
             .from('players')
-            .select('id')
-            .eq('name_lowercase', newKey)
-            .single();
-        if (checkError && checkError.code !== 'PGRST116') {
-             return { success: false, message: `Erro ao verificar nome: ${checkError.message}` };
+            .update(updatePayload)
+            .eq('name_lowercase', originalKey);
+
+        if (updateError) {
+            return { success: false, message: formatSupabaseError(updateError, 'atualização de guerreiro') };
         }
-        if (existingUser) {
-            return { success: false, message: `O nome '${newName}' já está em uso.` };
+
+        const loggedInUser = getLoggedInUser();
+        if(loggedInUser && loggedInUser.name === originalName) {
+            const sessionData = { ...loggedInUser, name: newName };
+            localStorage.setItem(LOGGED_IN_USER_KEY, JSON.stringify(sessionData));
         }
+        return { success: true, message: "Guerreiro atualizado com sucesso!" };
+    } catch (error) {
+        return { success: false, message: formatSupabaseError(error, 'atualização de guerreiro') };
     }
-
-    // Fetch current player data to update it
-    const { data, error: fetchError } = await supabase!.from('players').select('player_data').eq('name_lowercase', originalKey).single();
-    if (fetchError || !data) {
-        return { success: false, message: `Guerreiro ${originalName} não encontrado.`};
-    }
-    
-    // FIX: Cast to unknown first to satisfy TypeScript's strict type checking.
-    const playerData = data.player_data as unknown as PlayerData;
-    playerData.name = newName;
-    playerData.mentorFeedback = newFeedback;
-    
-    const updatePayload: any = {
-        name: newName,
-        name_lowercase: newKey,
-        player_data: playerData,
-    };
-    if (newPassword) {
-        updatePayload.password = newPassword;
-    }
-
-    const { error: updateError } = await supabase!
-        .from('players')
-        .update(updatePayload)
-        .eq('name_lowercase', originalKey);
-
-    if (updateError) {
-        console.error('Error updating user:', updateError);
-        return { success: false, message: `Erro ao atualizar guerreiro: ${updateError.message}` };
-    }
-
-    const loggedInUser = getLoggedInUser();
-    if(loggedInUser && loggedInUser.name === originalName) {
-        const sessionData = { ...loggedInUser, name: newName };
-        localStorage.setItem(LOGGED_IN_USER_KEY, JSON.stringify(sessionData));
-    }
-    return { success: true, message: "Guerreiro atualizado com sucesso!" };
 }
 
 const savePlayerData = async (playerData: PlayerData): Promise<void> => {
@@ -215,80 +235,96 @@ const savePlayerData = async (playerData: PlayerData): Promise<void> => {
   }
   if (playerData.isAdmin || playerData.isTester) return;
 
-  const { error } = await supabase!
-    .from('players')
-    .update({ player_data: playerData as any })
-    .eq('name_lowercase', playerData.name.toLowerCase());
+  try {
+      const { error } = await supabase!
+        .from('players')
+        .update({ player_data: playerData as any })
+        .eq('name_lowercase', playerData.name.toLowerCase());
 
-  if (error) {
-      console.error("Error saving player data to Supabase:", error);
+      if (error) {
+          console.error("Error saving player data to Supabase:", formatSupabaseError(error, 'salvamento de progresso'));
+      }
+  } catch (error) {
+      console.error("Error saving player data to Supabase:", formatSupabaseError(error, 'salvamento de progresso'));
   }
 };
 
-const getAllPlayersData = async (): Promise<PlayerData[]> => {
+const getAllPlayersData = async (): Promise<{ data: PlayerData[] | null; error: string | null }> => {
     if (supabaseInitializationError) {
-        console.error(supabaseInitializationError);
-        return [];
+        return { data: null, error: supabaseInitializationError };
     }
-    const { data, error } = await supabase!
-      .from('players')
-      .select('player_data');
+    try {
+        const { data, error } = await supabase!
+          .from('players')
+          .select('player_data');
 
-    if (error) {
-        console.error("Error fetching all players data:", error);
-        return [];
-    }
-    
-    // FIX: Filter out null/malformed player_data entries to prevent crashes during rendering.
-    return data
-        .map(p => p.player_data as unknown as PlayerData)
-        .filter(p => p && p.name) // Ensures the player object and its name exist
-        .sort((a, b) => a.name.localeCompare(b.name));
-};
-
-const getFullPlayerData = async (name: string): Promise<any | null> => {
-    if (supabaseInitializationError) {
-        console.error(supabaseInitializationError);
-        return null;
-    }
-    const { data, error } = await supabase!
-        .from('players')
-        .select('player_data, password')
-        .eq('name_lowercase', name.toLowerCase())
-        .single();
-    
-    if (error) {
-        console.error(`Error fetching full data for ${name}:`, error);
-        return null;
-    }
-
-    // Replicate the old structure for invocation logic
-    // FIX: Cast to unknown first to satisfy TypeScript's strict type checking.
-    const fullData = data.player_data as unknown as PlayerData;
-    return { ...fullData, password: data.password };
-};
-
-const getPlayerPasswords = async (): Promise<Record<string, string>> => {
-    if (supabaseInitializationError) {
-        console.error(supabaseInitializationError);
-        return {};
-    }
-    const { data, error } = await supabase!
-      .from('players')
-      .select('name, password');
-    
-    if (error) {
-        console.error("Error fetching player passwords:", error);
-        return {};
-    }
-
-    const passwords: Record<string, string> = {};
-    data.forEach(p => {
-        if (p.password) {
-            passwords[p.name] = p.password;
+        if (error) {
+            return { data: null, error: formatSupabaseError(error, 'busca de todos os guerreiros') };
         }
-    });
-    return passwords;
+        
+        const players = data
+            .map(p => p.player_data as unknown as PlayerData)
+            .filter(p => p && p.name)
+            .sort((a, b) => a.name.localeCompare(b.name));
+        
+        return { data: players, error: null };
+    } catch (error) {
+        return { data: null, error: formatSupabaseError(error, 'busca de todos os guerreiros') };
+    }
+};
+
+const getFullPlayerData = async (name: string): Promise<{ data: any | null; error: string | null }> => {
+    if (supabaseInitializationError) {
+        return { data: null, error: supabaseInitializationError };
+    }
+    try {
+        const { data, error } = await supabase!
+            .from('players')
+            .select('player_data, password')
+            .eq('name_lowercase', name.toLowerCase())
+            .single();
+        
+        if (error && error.code !== 'PGRST116') {
+            return { data: null, error: formatSupabaseError(error, `busca de dados de invocação para ${name}`) };
+        }
+
+        if (!data) {
+            return { data: null, error: null };
+        }
+
+        const fullData = {
+            ...(data.player_data as unknown as PlayerData),
+            password: data.password
+        };
+        return { data: fullData, error: null };
+    } catch(error) {
+        return { data: null, error: formatSupabaseError(error, `busca de dados de invocação para ${name}`) };
+    }
+};
+
+const getPlayerPasswords = async (): Promise<{ data: Record<string, string> | null, error: string | null }> => {
+    if (supabaseInitializationError) {
+        return { data: null, error: supabaseInitializationError };
+    }
+    try {
+        const { data, error } = await supabase!
+          .from('players')
+          .select('name, password');
+        
+        if (error) {
+            return { data: null, error: formatSupabaseError(error, 'busca de senhas') };
+        }
+
+        const passwords: Record<string, string> = {};
+        data.forEach(p => {
+            if (p.password) {
+                passwords[p.name] = p.password;
+            }
+        });
+        return { data: passwords, error: null };
+    } catch (error) {
+        return { data: null, error: formatSupabaseError(error, 'busca de senhas') };
+    }
 };
 
 const invokePlayer = async (code: string): Promise<{ success: boolean; message: string }> => {
@@ -316,8 +352,7 @@ const invokePlayer = async (code: string): Promise<{ success: boolean; message: 
         
         return { success: true, message: 'Guerreiro invocado com sucesso! Use suas credenciais para entrar na jornada.' };
     } catch (error) {
-        console.error("Falha na invocação:", error);
-        const errorMessage = (error instanceof Error) ? error.message : 'Erro desconhecido';
+        const errorMessage = formatSupabaseError(error, 'invocação');
         return { success: false, message: `Código de invocação inválido ou corrompido. Detalhes: ${errorMessage}` };
     }
 };
@@ -326,18 +361,21 @@ const deleteUser = async (name: string): Promise<{ success: boolean; message: st
   if (supabaseInitializationError) return { success: false, message: supabaseInitializationError };
   
   const nameLowercase = name.toLowerCase();
+  
+  try {
+      const { error } = await supabase!
+        .from('players')
+        .delete()
+        .eq('name_lowercase', nameLowercase);
 
-  const { error } = await supabase!
-    .from('players')
-    .delete()
-    .eq('name_lowercase', nameLowercase);
+      if (error) {
+        return { success: false, message: formatSupabaseError(error, 'exclusão de guerreiro') };
+      }
 
-  if (error) {
-    console.error('Error deleting user:', error);
-    return { success: false, message: `Erro ao excluir guerreiro: ${error.message}` };
+      return { success: true, message: `Guerreiro ${name} excluído com sucesso.` };
+  } catch (error) {
+      return { success: false, message: formatSupabaseError(error, 'exclusão de guerreiro') };
   }
-
-  return { success: true, message: `Guerreiro ${name} excluído com sucesso.` };
 };
 
 export const gameService = {

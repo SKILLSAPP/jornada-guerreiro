@@ -48,8 +48,15 @@ function App() {
                     storySeen: true,
                 });
             } else {
-                const fullPlayerData = await gameService.getPlayerData(sessionUser.name);
-                setPlayerData(fullPlayerData);
+                const result = await gameService.getPlayerData(sessionUser.name);
+                if (result.error) {
+                    console.error("Failed to restore session:", result.error);
+                    gameService.logout(); // Clear bad session
+                    setLoginError(result.error);
+                    setPlayerData(null);
+                } else {
+                    setPlayerData(result.data);
+                }
             }
         }
         setIsLoading(false);
@@ -60,16 +67,20 @@ function App() {
   const handleLogin = useCallback(async (name: string, password: string) => {
     setIsLoading(true);
     setLoginError(null);
-    const data = await gameService.login(name, password);
-    if (data) {
-      setPlayerData(data);
+    const result = await gameService.login(name, password);
+    
+    if (result.error) {
+        setLoginError(result.error);
+    } else if (result.data) {
+        setPlayerData(result.data);
     } else {
-      const adminName = gameService.ADMIN_USER.name;
-      const errorMsg = name.toUpperCase() === adminName.toUpperCase()
-        ? 'Senha do Mestre incorreta.'
-        : 'Guerreiro não encontrado ou senha incorreta.';
-      setLoginError(errorMsg);
+        const adminName = gameService.ADMIN_USER.name;
+        const errorMsg = name.toUpperCase() === adminName.toUpperCase()
+            ? 'Senha do Mestre incorreta.'
+            : 'Guerreiro não encontrado ou senha incorreta.';
+        setLoginError(errorMsg);
     }
+    
     setIsLoading(false);
   }, []);
 

@@ -57,14 +57,29 @@ export default function UserManagement() {
     const [loading, setLoading] = useState(true);
     const [invocationCode, setInvocationCode] = useState<string | null>(null);
     const [isCreatingUser, setIsCreatingUser] = useState(false);
+    const [error, setError] = useState<string | null>(null);
 
 
     const loadData = useCallback(async () => {
         setLoading(true);
-        const allPlayers = await gameService.getAllPlayersData();
-        const allPasswords = await gameService.getPlayerPasswords();
-        setPlayers(allPlayers);
-        setPasswords(allPasswords);
+        setError(null);
+        
+        const playersResult = await gameService.getAllPlayersData();
+        if (playersResult.error) {
+            setError(playersResult.error);
+            setPlayers([]);
+        } else {
+            setPlayers(playersResult.data || []);
+        }
+        
+        const passwordsResult = await gameService.getPlayerPasswords();
+        if (passwordsResult.error) {
+            setError(prev => prev ? `${prev}\n${passwordsResult.error}` : passwordsResult.error);
+            setPasswords({});
+        } else {
+            setPasswords(passwordsResult.data || {});
+        }
+
         setIslands(contentService.getIslands());
         setLoading(false);
     }, []);
@@ -78,15 +93,18 @@ export default function UserManagement() {
         if (isCreatingUser) return;
         setIsCreatingUser(true);
         setMessage(null);
+        setError(null);
         const result = await gameService.createUser(newUserName, newUserPassword);
-        setMessage({ type: result.success ? 'success' : 'error', text: result.message });
         if (result.success) {
+            setMessage({ type: 'success', text: result.message });
             setNewUserName('');
             setNewUserPassword('');
             await loadData();
+        } else {
+             setMessage({ type: 'error', text: result.message });
         }
         setIsCreatingUser(false);
-        setTimeout(() => setMessage(null), 4000);
+        setTimeout(() => setMessage(null), 5000);
     };
 
     const handleUpdateUser = useCallback(async (updatePayload: { originalName: string, newName: string, newPassword?: string, newFeedback: string }) => {
@@ -99,10 +117,16 @@ export default function UserManagement() {
     }, [loadData]);
     
     const handleInvoke = useCallback(async (name: string) => {
-        const fullPlayerData = await gameService.getFullPlayerData(name);
-        if (fullPlayerData) {
+        const result = await gameService.getFullPlayerData(name);
+        if (result.error) {
+            setMessage({ type: 'error', text: result.error });
+            setTimeout(() => setMessage(null), 4000);
+            return;
+        }
+
+        if (result.data) {
              try {
-                const jsonString = JSON.stringify(fullPlayerData);
+                const jsonString = JSON.stringify(result.data);
                 // Use a safe Base64 encoding method for UTF-8 characters
                 const base64Code = btoa(unescape(encodeURIComponent(jsonString)));
                 setInvocationCode(base64Code);
@@ -160,11 +184,13 @@ export default function UserManagement() {
             </div>
             
              {message && <p className={`-my-4 mb-4 text-center text-sm ${message.type === 'success' ? 'text-green-400' : 'text-red-400'}`}>{message.text}</p>}
-
+             
             <div className="space-y-4">
               <h2 className="text-xl font-cinzel text-yellow-400 mb-4">Guerreiros Ativos</h2>
               {loading ? (
                  <p className="text-gray-500 italic text-center p-8">Buscando guerreiros na fortaleza de dados...</p>
+              ) : error ? (
+                <div className="text-center text-sm p-4 rounded-md bg-red-900/50 text-red-300 border border-red-500/50" dangerouslySetInnerHTML={{ __html: error.replace(/\n/g, '<br />')}}></div>
               ) : players.length > 0 ? (
                 players.map(player => {
                   try {
