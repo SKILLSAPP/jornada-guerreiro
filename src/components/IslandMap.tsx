@@ -1,5 +1,3 @@
-
-
 import React, { useState, useEffect } from 'react';
 import { PlayerData, Island } from '../types';
 import { contentService } from '../services/contentService';
@@ -15,7 +13,8 @@ interface IslandCardProps {
   onClick: () => void;
 }
 
-function IslandCard({ island, status, onClick }: IslandCardProps) {
+// FIX: Changed component to be typed as React.FC to correctly handle the 'key' prop.
+const IslandCard: React.FC<IslandCardProps> = ({ island, status, onClick }) => {
   const baseClasses = "relative rounded-lg overflow-hidden shadow-lg transform transition-all duration-300 h-64 flex flex-col justify-end p-4 text-white";
   const statusStyles = {
     conquered: 'border-4 border-yellow-400 hover:scale-105 cursor-pointer shadow-yellow-400/30',

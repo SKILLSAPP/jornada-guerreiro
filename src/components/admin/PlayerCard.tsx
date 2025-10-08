@@ -10,7 +10,8 @@ interface PlayerCardProps {
     onDelete: (name: string) => void;
 }
 
-export default function PlayerCard({ player, password, status, onUpdate, onInvoke, onDelete }: PlayerCardProps) {
+// FIX: Changed to a const typed with React.FC to correctly handle the 'key' prop.
+const PlayerCard: React.FC<PlayerCardProps> = ({ player, password, status, onUpdate, onInvoke, onDelete }) => {
     const [isEditing, setIsEditing] = useState(false);
     const [editName, setEditName] = useState(player.name);
     const [editPassword, setEditPassword] = useState(password || '');
@@ -99,4 +100,6 @@ export default function PlayerCard({ player, password, status, onUpdate, onInvok
             </div>
         </div>
     )
-}
+};
+
+export default PlayerCard;

@@ -16,7 +16,8 @@ interface ResourceLinkProps {
   resource: Challenge['resources'][0];
 }
 
-function ResourceLink({ resource }: ResourceLinkProps) {
+// FIX: Changed to React.FC to correctly handle the 'key' prop and fix TypeScript errors.
+const ResourceLink: React.FC<ResourceLinkProps> = ({ resource }) => {
   return (
     <a
       href={resource.url}
@@ -32,7 +33,8 @@ function ResourceLink({ resource }: ResourceLinkProps) {
   );
 }
 
-const ChallengeCard = ({ island, challenge, isCompleted, isLocked, isPending, pendingSubmission, onSubmitForReview }: ChallengeCardProps) => {
+// FIX: Changed to React.FC to correctly handle the 'key' prop and fix TypeScript errors.
+const ChallengeCard: React.FC<ChallengeCardProps> = ({ island, challenge, isCompleted, isLocked, isPending, pendingSubmission, onSubmitForReview }) => {
   const [isQuizModalOpen, setQuizModalOpen] = useState(false);
   
   const isRedemptionQuizOffered = isPending && !!pendingSubmission?.redemptionQuizOffered;

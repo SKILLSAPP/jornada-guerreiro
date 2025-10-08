@@ -11,7 +11,8 @@ interface PlayerStatus {
     statusText: string;
 }
 
-const PlayerProgressCard = ({ player, islands }: { player: PlayerData, islands: Island[] }) => {
+// FIX: Changed component to be typed as React.FC to correctly handle the 'key' prop.
+const PlayerProgressCard: React.FC<{ player: PlayerData, islands: Island[] }> = ({ player, islands }) => {
     const [analysis, setAnalysis] = useState<{ loading: boolean; text: string | null }>({ loading: false, text: null });
 
     const status: PlayerStatus = useMemo(() => {
