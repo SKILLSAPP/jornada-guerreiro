@@ -104,6 +104,11 @@ export const ISLANDS: Island[] = [
             "type": "case_study",
             "label": "Estudo de Caso do Grande Desafio",
             "url": "https://drive.google.com/file/d/1xp3IhgoQRk7O9M5msGaUqel0M4dQbdCg/view?usp=drive_link"
+          },
+          {
+            "type": "audio",
+            "label": "Áudio Case do Grande Desafio",
+            "url": "#"
           }
         ]
       }
@@ -205,6 +210,11 @@ export const ISLANDS: Island[] = [
             "type": "case_study",
             "label": "Estudo de Caso de Conflito",
             "url": "https://drive.google.com/file/d/1OvIijU8FqsvEJTFkQLHotcuLJUZ-x443/view?usp=drive_link"
+          },
+          {
+            "type": "audio",
+            "label": "Áudio Case do Grande Desafio",
+            "url": "#"
           }
         ]
       }
@@ -262,6 +272,11 @@ export const ISLANDS: Island[] = [
           {
             "type": "case_study",
             "label": "Estudo de Caso de Crise",
+            "url": "#"
+          },
+          {
+            "type": "audio",
+            "label": "Áudio Case do Grande Desafio",
             "url": "#"
           }
         ]
@@ -321,6 +336,11 @@ export const ISLANDS: Island[] = [
             "type": "case_study",
             "label": "Estudo de Caso de Mercado",
             "url": "#"
+          },
+          {
+            "type": "audio",
+            "label": "Áudio Case do Grande Desafio",
+            "url": "#"
           }
         ]
       }
@@ -378,6 +398,11 @@ export const ISLANDS: Island[] = [
           {
             "type": "case_study",
             "label": "Estudo de Caso de Inovação",
+            "url": "#"
+          },
+          {
+            "type": "audio",
+            "label": "Áudio Case do Grande Desafio",
             "url": "#"
           }
         ]
@@ -437,6 +462,11 @@ export const ISLANDS: Island[] = [
             "type": "case_study",
             "label": "Estudo de Caso de Projeto",
             "url": "#"
+          },
+          {
+            "type": "audio",
+            "label": "Áudio Case do Grande Desafio",
+            "url": "#"
           }
         ]
       }
@@ -494,6 +524,11 @@ export const ISLANDS: Island[] = [
           {
             "type": "case_study",
             "label": "Estudo de Caso de Análise",
+            "url": "#"
+          },
+          {
+            "type": "audio",
+            "label": "Áudio Case do Grande Desafio",
             "url": "#"
           }
         ]
@@ -553,6 +588,11 @@ export const ISLANDS: Island[] = [
             "type": "case_study",
             "label": "Estudo de Caso Operacional",
             "url": "#"
+          },
+          {
+            "type": "audio",
+            "label": "Áudio Case do Grande Desafio",
+            "url": "#"
           }
         ]
       }
@@ -611,6 +651,11 @@ export const ISLANDS: Island[] = [
             "type": "case_study",
             "label": "Estudo de Caso de Equipe",
             "url": "#"
+          },
+          {
+            "type": "audio",
+            "label": "Áudio Case do Grande Desafio",
+            "url": "#"
           }
         ]
       }
@@ -668,6 +713,11 @@ export const ISLANDS: Island[] = [
           {
             "type": "case_study",
             "label": "Estudo de Caso de Negociação",
+            "url": "#"
+          },
+          {
+            "type": "audio",
+            "label": "Áudio Case do Grande Desafio",
             "url": "#"
           }
         ]

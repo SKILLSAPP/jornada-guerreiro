@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { PlayerData, Island, Challenge } from '../../types';
+import { PlayerData, Island, Challenge, PlayerProgress } from '../../types';
 import { gameService } from '../../services/gameService';
 import { contentService } from '../../services/contentService';
 import { geminiService } from '../../services/geminiService';
@@ -16,7 +16,8 @@ const PlayerProgressCard: React.FC<{ player: PlayerData, islands: Island[] }> = 
     const [analysis, setAnalysis] = useState<{ loading: boolean; text: string | null }>({ loading: false, text: null });
 
     const status: PlayerStatus = useMemo(() => {
-        const totalScore = Object.values(player.progress).reduce((acc, island) => acc + island.score, 0);
+        // FIX: Cast `island` to `PlayerProgress[number]` to resolve TypeScript error where `score` property is not found on type `unknown`.
+        const totalScore = Object.values(player.progress).reduce((acc, island) => acc + (island as PlayerProgress[number]).score, 0);
         const conqueredIslandsCount = Object.keys(player.progress).filter(id => player.progress[Number(id)].score >= contentService.TOTAL_POINTS_TO_CONQUER).length;
         const currentIslandId = conqueredIslandsCount + 1;
         const currentIsland = islands.find(i => i.id === currentIslandId) || null;
