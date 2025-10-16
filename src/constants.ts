@@ -108,7 +108,7 @@ export const ISLANDS: Island[] = [
           {
             "type": "audio",
             "label": "Áudio Case do Grande Desafio",
-            "url": "#"
+            "url": "https://drive.google.com/file/d/1e3V_vHDT1XbiP1g5ofTwCMoClxmFT9ud/view?usp=sharing"
           }
         ]
       }
