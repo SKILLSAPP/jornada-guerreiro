@@ -16,7 +16,7 @@ const PlayerProgressCard: React.FC<{ player: PlayerData, islands: Island[] }> = 
     const [analysis, setAnalysis] = useState<{ loading: boolean; text: string | null }>({ loading: false, text: null });
 
     const status: PlayerStatus = useMemo(() => {
-        // FIX: Explicitly type `island` to resolve TypeScript error where `score` property is not found on type `unknown`
+        // FIX: Explicitly type `island` to resolve TypeScript error where `score` property is not found on type `unknown`.
         const totalScore = Object.values(player.progress).reduce((acc, island: { score: number }) => acc + island.score, 0);
         const conqueredIslandsCount = Object.keys(player.progress).filter(id => player.progress[Number(id)].score >= contentService.TOTAL_POINTS_TO_CONQUER).length;
         const currentIslandId = conqueredIslandsCount + 1;

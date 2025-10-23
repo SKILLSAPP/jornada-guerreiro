@@ -116,7 +116,25 @@ const PlayerDashboard = ({ playerData, onBackToMap, onUpdateProgress }: PlayerDa
   
   const currentIslandId = conqueredIslands.length + 1;
 
-  const feedbacks: TaskFeedback[] = playerData.taskFeedback ? Object.values(playerData.taskFeedback) : [];
+  const feedbacks = useMemo(() => {
+    if (!playerData.taskFeedback) {
+        return [];
+    }
+
+    const enrichedFeedbacks = Object.entries(playerData.taskFeedback).map(([key, value]) => {
+        const keyParts = key.split('-');
+        const islandId = parseInt(keyParts[keyParts.length - 1], 10);
+        const island = islands.find(i => i.id === islandId);
+
+        return {
+            ...value,
+            islandSoftSkill: island ? island.softSkill : 'Habilidade Desconhecida'
+        };
+    });
+    
+    return enrichedFeedbacks.reverse();
+  }, [playerData.taskFeedback, islands]);
+
 
   const handleRedeemCode = () => {
     setRewardMessage(null);
@@ -271,8 +289,15 @@ const PlayerDashboard = ({ playerData, onBackToMap, onUpdateProgress }: PlayerDa
                <div className="space-y-2 max-h-[25vh] overflow-y-auto pr-3">
                     {feedbacks.length > 0 ? feedbacks.map((fb, index) => (
                         <div key={index} className="flex justify-between items-center bg-black/20 p-3 rounded-lg">
-                            <p className="font-semibold text-gray-200">{fb.challengeTitle}</p>
-                            <button onClick={() => setSelectedFeedback(fb)} className="px-3 py-1 bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold rounded-md">Ver Feedback</button>
+                            <div>
+                                <p className="font-semibold text-gray-200">{fb.challengeTitle}</p>
+                                <p className="text-sm text-gray-400">{fb.islandSoftSkill}</p>
+                            </div>
+                            <button 
+                                onClick={() => setSelectedFeedback(fb)} 
+                                className="px-3 py-1 bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold rounded-md flex-shrink-0 ml-4">
+                                Ver Feedback
+                            </button>
                         </div>
                     )) : (
                         <p className="text-gray-500 italic text-center p-4">Nenhum feedback de desafio recebido ainda.</p>
