@@ -1,0 +1,64 @@
+name: Supabase Keep-Alive (Evitar Pausa)
+
+on:
+  schedule:
+    # Cron job para rodar a cada 5 dias.
+    # Isto é um intervalo seguro, já que o Supabase pausa após 7 dias de inatividade.
+    - cron: '0 0 */5 * *'
+
+  # Permite rodar manualmente a partir da aba "Actions" do GitHub
+  workflow_dispatch:
+
+jobs:
+  ping_database:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v4
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Instalar o SDK do Supabase
+        run: npm install @supabase/supabase-js
+
+      - name: Rodar o Ping no Supabase
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
+        run: |
+          # Este código JavaScript faz uma consulta leve
+          # na tabela 'players' para manter o banco de dados ativo.
+          node -e "
+          const { createClient } = require('@supabase/supabase-js');
+
+          const supabase = createClient(
+            process.env.SUPABASE_URL, 
+            process.env.SUPABASE_SERVICE_KEY,
+            {
+              auth: {
+                persistSession: false // Não precisa de sessão persistente para esta tarefa
+              }
+            }
+          );
+
+          async function pingSupabase() {
+            console.log('Iniciando ping no Supabase para manter o projeto ativo...');
+
+            const { data, error } = await supabase
+              .from('players') // <<< IMPORTANTE: Ajustado para a nossa tabela 'players'
+              .select('id')
+              .limit(1); // Limita a 1 para ser super rápido e leve
+
+            if (error) {
+              console.error('ERRO ao pingar Supabase:', error.message);
+              process.exit(1); // Sair com erro para notificar o GitHub
+            } else {
+              console.log('Ping no Supabase concluído com sucesso. Projeto Ativo!');
+            }
+          }
+
+          pingSupabase();
+          "
