@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { PlayerData } from '../../types';
 
@@ -5,21 +6,31 @@ interface PlayerCardProps {
     player: PlayerData;
     password?: string;
     status: { totalScore: number; currentIslandName: string };
-    onUpdate: (payload: { originalName: string, newName: string, newPassword?: string, newFeedback: string }) => void;
+    onUpdate: (payload: { originalName: string, newName: string, newPassword?: string, newFeedback: string, customIslandOrder?: number[] }) => void;
     onInvoke: (name: string) => void;
     onDelete: (name: string) => void;
 }
 
-// FIX: Changed to a const typed with React.FC to correctly handle the 'key' prop.
 const PlayerCard: React.FC<PlayerCardProps> = ({ player, password, status, onUpdate, onInvoke, onDelete }) => {
     const [isEditing, setIsEditing] = useState(false);
     const [editName, setEditName] = useState(player.name);
     const [editPassword, setEditPassword] = useState(password || '');
     const [showPassword, setShowPassword] = useState(false);
     const [editFeedback, setEditFeedback] = useState(player.mentorFeedback || '');
+    const [editOrder, setEditOrder] = useState(player.customIslandOrder ? player.customIslandOrder.join(', ') : '');
 
     const handleSave = () => {
-        onUpdate({ originalName: player.name, newName: editName, newPassword: editPassword, newFeedback: editFeedback });
+        const orderArray = editOrder.split(',')
+            .map(s => parseInt(s.trim()))
+            .filter(n => !isNaN(n) && n >= 1 && n <= 10);
+        
+        onUpdate({ 
+            originalName: player.name, 
+            newName: editName, 
+            newPassword: editPassword, 
+            newFeedback: editFeedback,
+            customIslandOrder: orderArray.length > 0 ? orderArray : undefined
+        });
         setIsEditing(false);
     };
 
@@ -27,6 +38,7 @@ const PlayerCard: React.FC<PlayerCardProps> = ({ player, password, status, onUpd
         setEditName(player.name);
         setEditPassword(password || '');
         setEditFeedback(player.mentorFeedback || '');
+        setEditOrder(player.customIslandOrder ? player.customIslandOrder.join(', ') : '');
         setIsEditing(false);
     };
 
@@ -36,9 +48,15 @@ const PlayerCard: React.FC<PlayerCardProps> = ({ player, password, status, onUpd
                 <div className="flex flex-wrap justify-between items-start gap-4">
                     <div className="flex-grow">
                         {isEditing ? (
-                            <div className="flex flex-col sm:flex-row gap-4">
-                                <input value={editName} onChange={e => setEditName(e.target.value)} className="px-2 py-1 bg-gray-700 border border-gray-600 rounded text-white" placeholder="Nome"/>
-                                <input value={editPassword} onChange={e => setEditPassword(e.target.value)} className="px-2 py-1 bg-gray-700 border border-gray-600 rounded text-white" placeholder="Senha"/>
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                <div>
+                                    <label className="text-xs text-gray-400">Nome do Guerreiro</label>
+                                    <input value={editName} onChange={e => setEditName(e.target.value)} className="w-full px-2 py-1 bg-gray-700 border border-gray-600 rounded text-white" placeholder="Nome"/>
+                                </div>
+                                <div>
+                                    <label className="text-xs text-gray-400">Palavra Sagrada</label>
+                                    <input value={editPassword} onChange={e => setEditPassword(e.target.value)} className="w-full px-2 py-1 bg-gray-700 border border-gray-600 rounded text-white" placeholder="Senha"/>
+                                </div>
                             </div>
                         ) : (
                             <div>
@@ -79,22 +97,45 @@ const PlayerCard: React.FC<PlayerCardProps> = ({ player, password, status, onUpd
                     </div>
                 </div>
                 
-                <div className="mt-2 pt-3 border-t border-gray-700/50">
+                <div className="mt-2 pt-3 border-t border-gray-700/50 grid grid-cols-1 md:grid-cols-2 gap-4">
                     {isEditing ? (
-                        <div>
-                            <label className="block text-sm font-medium text-gray-400">Feedback do Mestre</label>
-                            <textarea
-                                value={editFeedback}
-                                onChange={e => setEditFeedback(e.target.value)}
-                                className="w-full h-24 px-2 py-1 bg-gray-700 border border-gray-600 rounded text-white mt-1"
-                                placeholder="Escreva um feedback construtivo..."
-                            />
-                        </div>
+                        <>
+                            <div>
+                                <label className="block text-sm font-medium text-gray-400">Feedback do Mestre</label>
+                                <textarea
+                                    value={editFeedback}
+                                    onChange={e => setEditFeedback(e.target.value)}
+                                    className="w-full h-24 px-2 py-1 bg-gray-700 border border-gray-600 rounded text-white mt-1"
+                                    placeholder="Escreva um feedback construtivo..."
+                                />
+                            </div>
+                            <div>
+                                <label className="block text-sm font-medium text-gray-400">Ordem das Ilhas (Ex: 3, 1, 2, 4...)</label>
+                                <input
+                                    type="text"
+                                    value={editOrder}
+                                    onChange={e => setEditOrder(e.target.value)}
+                                    className="w-full px-2 py-1 bg-gray-700 border border-gray-600 rounded text-white mt-1"
+                                    placeholder="IDs separados por vírgula (1 a 10)"
+                                />
+                                <p className="text-[10px] text-gray-500 mt-1">Se vazio, usará a ordem padrão 1, 2, 3...</p>
+                            </div>
+                        </>
                     ) : (
-                        <div>
-                            <h4 className="font-semibold text-gray-400 text-sm">Feedback do Mestre:</h4>
-                            <p className="text-gray-300 italic whitespace-pre-wrap text-sm mt-1">{player.mentorFeedback || 'Nenhum feedback fornecido.'}</p>
-                        </div>
+                        <>
+                            <div>
+                                <h4 className="font-semibold text-gray-400 text-sm">Feedback do Mestre:</h4>
+                                <p className="text-gray-300 italic whitespace-pre-wrap text-sm mt-1">{player.mentorFeedback || 'Nenhum feedback fornecido.'}</p>
+                            </div>
+                            <div>
+                                <h4 className="font-semibold text-gray-400 text-sm">Trilha Personalizada:</h4>
+                                <p className="text-gray-300 text-sm mt-1">
+                                    {player.customIslandOrder && player.customIslandOrder.length > 0 
+                                        ? player.customIslandOrder.join(' → ') 
+                                        : 'Ordem Padrão (1 → 10)'}
+                                </p>
+                            </div>
+                        </>
                     )}
                 </div>
             </div>

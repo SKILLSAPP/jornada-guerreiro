@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect, useMemo } from 'react';
 import { PlayerData, Island, Challenge, PlayerProgress } from '../../types';
 import { gameService } from '../../services/gameService';
@@ -11,15 +12,14 @@ interface PlayerStatus {
     statusText: string;
 }
 
-// FIX: Changed component to be typed as React.FC to correctly handle the 'key' prop.
 const PlayerProgressCard: React.FC<{ player: PlayerData, islands: Island[] }> = ({ player, islands }) => {
     const [analysis, setAnalysis] = useState<{ loading: boolean; text: string | null }>({ loading: false, text: null });
 
     const status: PlayerStatus = useMemo(() => {
-        // FIX: Explicitly type `island` to resolve TypeScript error where `score` property is not found on type `unknown`.
-        const totalScore = Object.values(player.progress).reduce((acc, island: { score: number }) => acc + island.score, 0);
-        const conqueredIslandsCount = Object.keys(player.progress).filter(id => player.progress[Number(id)].score >= contentService.TOTAL_POINTS_TO_CONQUER).length;
-        const currentIslandId = conqueredIslandsCount + 1;
+        const totalScore = Object.values(player.progress).reduce((acc, island) => acc + (island as { score: number }).score, 0);
+        
+        // Lógica atualizada para usar a sequência personalizada no monitor do Mestre
+        const currentIslandId = contentService.getCurrentIslandId(player);
         const currentIsland = islands.find(i => i.id === currentIslandId) || null;
 
         if (!currentIsland) {

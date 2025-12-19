@@ -1,3 +1,4 @@
+
 export type Difficulty = 'Fácil' | 'Médio' | 'Difícil';
 
 export interface QuizQuestion {
@@ -101,6 +102,7 @@ export interface PlayerData {
   storySeen?: boolean;
   isAdmin?: boolean;
   isTester?: boolean;
+  customIslandOrder?: number[]; // Lista de IDs das ilhas na ordem personalizada
   mentorFeedback?: string; // General feedback
   pendingMentorMessage?: {
     message: string;

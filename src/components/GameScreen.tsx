@@ -1,3 +1,4 @@
+
 import React, { useState, useCallback } from 'react';
 import { PlayerData, Island } from '../types';
 import { contentService } from '../services/contentService';
@@ -32,11 +33,9 @@ const GameScreen = ({ playerData, onUpdateProgress, onLogout }: GameScreenProps)
 
   const handleShowChallengePath = useCallback(() => {
     const islands = contentService.getIslands();
-    const conqueredIslands = Object.keys(playerData.progress)
-        .filter(id => playerData.progress[Number(id)].score >= contentService.TOTAL_POINTS_TO_CONQUER)
-        .map(Number);
-    const currentIslandId = conqueredIslands.length + 1;
+    const currentIslandId = contentService.getCurrentIslandId(playerData);
     const currentIsland = islands.find(i => i.id === currentIslandId);
+    
     if (currentIsland) {
         setSelectedIsland(currentIsland);
         setCurrentView('challengePath');

@@ -1,3 +1,4 @@
+
 import { PlayerData } from '../types';
 import { supabase, supabaseInitializationError } from '../supabaseClient';
 
@@ -43,7 +44,6 @@ const login = async (name: string, password: string): Promise<{ data: PlayerData
   try {
     let loggedInData: PlayerData | null = null;
 
-    // Admin and Tester login remains local for now
     if (name.toUpperCase() === ADMIN_USER.name) {
       if (password === ADMIN_USER.password) {
         loggedInData = { name: ADMIN_USER.name, isAdmin: true, progress: {} };
@@ -53,7 +53,6 @@ const login = async (name: string, password: string): Promise<{ data: PlayerData
           loggedInData = { ...createInitialPlayerData(TESTER_USER.name, true) };
       }
     } else {
-      // Regular player login now uses Supabase
       const { data, error } = await supabase!
         .from('players')
         .select('password, player_data')
@@ -70,13 +69,12 @@ const login = async (name: string, password: string): Promise<{ data: PlayerData
     }
     
     if (loggedInData) {
-      // Session management remains in localStorage for simplicity
       const sessionData = { name: loggedInData.name, isAdmin: loggedInData.isAdmin, isTester: loggedInData.isTester };
       localStorage.setItem(LOGGED_IN_USER_KEY, JSON.stringify(sessionData));
       return { data: loggedInData, error: null };
     } else {
       localStorage.removeItem(LOGGED_IN_USER_KEY);
-      return { data: null, error: null }; // Indicates wrong credentials but not a network error
+      return { data: null, error: null };
     }
   } catch(error) {
       return { data: null, error: formatSupabaseError(error, 'login') };
@@ -132,14 +130,13 @@ const createUser = async (name: string, password: string): Promise<{ success: bo
   const nameLowercase = name.toLowerCase();
   
   try {
-    // Check if user already exists
     const { data: existingUser, error: checkError } = await supabase!
       .from('players')
       .select('id')
       .eq('name_lowercase', nameLowercase)
       .single();
 
-    if (checkError && checkError.code !== 'PGRST116') { // PGRST116 means no rows found, which is good
+    if (checkError && checkError.code !== 'PGRST116') {
       return { success: false, message: formatSupabaseError(checkError, 'verificação de guerreiro') };
     }
 
@@ -165,16 +162,15 @@ const createUser = async (name: string, password: string): Promise<{ success: bo
   }
 };
 
-const updateUser = async (payload: { originalName: string; newName: string; newPassword?: string; newFeedback: string }): Promise<{ success: boolean, message: string }> => {
+const updateUser = async (payload: { originalName: string; newName: string; newPassword?: string; newFeedback: string, customIslandOrder?: number[] }): Promise<{ success: boolean, message: string }> => {
     if (supabaseInitializationError) return { success: false, message: supabaseInitializationError };
-    const { originalName, newName, newPassword, newFeedback } = payload;
+    const { originalName, newName, newPassword, newFeedback, customIslandOrder } = payload;
     if (!newName) return { success: false, message: "O nome não pode estar vazio." };
 
     const originalKey = originalName.toLowerCase();
     const newKey = newName.toLowerCase();
     
     try {
-        // Check if new name is already taken
         if (originalKey !== newKey) {
             const { data: existingUser, error: checkError } = await supabase!
                 .from('players')
@@ -189,7 +185,6 @@ const updateUser = async (payload: { originalName: string; newName: string; newP
             }
         }
 
-        // Fetch current player data to update it
         const { data, error: fetchError } = await supabase!.from('players').select('player_data').eq('name_lowercase', originalKey).single();
         if (fetchError || !data) {
             return { success: false, message: formatSupabaseError(fetchError, `busca de ${originalName}`) || `Guerreiro ${originalName} não encontrado.`};
@@ -198,6 +193,7 @@ const updateUser = async (payload: { originalName: string; newName: string; newP
         const playerData = data.player_data as unknown as PlayerData;
         playerData.name = newName;
         playerData.mentorFeedback = newFeedback;
+        playerData.customIslandOrder = customIslandOrder;
         
         const updatePayload: any = {
             name: newName,

@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { PlayerData, Island } from '../types';
 import { contentService } from '../services/contentService';
@@ -16,10 +17,8 @@ const IslandView = ({ island, playerData, onUpdateProgress, onBackToMap }: Islan
   const islandProgress = playerData.progress[island.id] || { score: 0, completedChallenges: [], pendingSubmissions: {} };
   const isConquered = islandProgress.score >= contentService.TOTAL_POINTS_TO_CONQUER;
 
-  const conqueredIslands = Object.keys(playerData.progress)
-    .filter(id => playerData.progress[Number(id)].score >= contentService.TOTAL_POINTS_TO_CONQUER)
-    .map(Number);
-  const currentIslandId = conqueredIslands.length + 1;
+  // Lógica atualizada para respeitar a sequência personalizada
+  const currentIslandId = contentService.getCurrentIslandId(playerData);
   const isCurrentIsland = island.id === currentIslandId;
 
   const handleSubmitForReview = (challengeId: number, submission: string | number[], submissionType: 'quiz' | 'submission' | 'presentation') => {

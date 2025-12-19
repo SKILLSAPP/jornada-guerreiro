@@ -1,5 +1,6 @@
+
 import React, { useMemo, useState } from 'react';
-import { PlayerData, GradedQuiz } from '../types';
+import { PlayerData, GradedQuiz, Island } from '../types';
 import { contentService } from '../services/contentService';
 import Mandala from './Mandala';
 import GradedQuizView from './quiz/GradedQuizView';
@@ -98,7 +99,7 @@ const MentorMessageModal = ({ onClose, onSubmit }: { onClose: () => void; onSubm
 
 
 const PlayerDashboard = ({ playerData, onBackToMap, onUpdateProgress }: PlayerDashboardProps) => {
-  const islands = useMemo(() => contentService.getIslands(), []);
+  const allIslands = useMemo(() => contentService.getIslands(), []);
   const [selectedFeedback, setSelectedFeedback] = useState<TaskFeedback | null>(null);
   const [trainingCode, setTrainingCode] = useState('');
   const [rewardMessage, setRewardMessage] = useState<{ type: 'success' | 'error', text: string } | null>(null);
@@ -107,14 +108,19 @@ const PlayerDashboard = ({ playerData, onBackToMap, onUpdateProgress }: PlayerDa
   const totalScore = Object.values(playerData.progress).reduce((acc, island: { score: number }) => acc + island.score, 0);
   
   const petalsEarned = contentService.MANDALA_PETAL_THRESHOLDS.filter(threshold => totalScore >= threshold).length;
-  
   const nextPetalThreshold = contentService.MANDALA_PETAL_THRESHOLDS[petalsEarned];
 
   const conqueredIslands = Object.keys(playerData.progress)
     .filter(id => playerData.progress[Number(id)].score >= contentService.TOTAL_POINTS_TO_CONQUER)
     .map(Number);
   
-  const currentIslandId = conqueredIslands.length + 1;
+  const currentIslandId = contentService.getCurrentIslandId(playerData);
+  const sequence = contentService.getIslandSequence(playerData);
+
+  // Filtra e ordena as ilhas de acordo com a sequência do jogador
+  const orderedIslands = useMemo(() => {
+    return sequence.map(id => allIslands.find(i => i.id === id)).filter(Boolean) as Island[];
+  }, [sequence, allIslands]);
 
   const feedbacks = useMemo(() => {
     if (!playerData.taskFeedback) {
@@ -124,7 +130,7 @@ const PlayerDashboard = ({ playerData, onBackToMap, onUpdateProgress }: PlayerDa
     const enrichedFeedbacks = Object.entries(playerData.taskFeedback).map(([key, value]) => {
         const keyParts = key.split('-');
         const islandId = parseInt(keyParts[keyParts.length - 1], 10);
-        const island = islands.find(i => i.id === islandId);
+        const island = allIslands.find(i => i.id === islandId);
 
         return {
             ...value,
@@ -133,7 +139,7 @@ const PlayerDashboard = ({ playerData, onBackToMap, onUpdateProgress }: PlayerDa
     });
     
     return enrichedFeedbacks.reverse();
-  }, [playerData.taskFeedback, islands]);
+  }, [playerData.taskFeedback, allIslands]);
 
 
   const handleRedeemCode = () => {
@@ -163,7 +169,7 @@ const PlayerDashboard = ({ playerData, onBackToMap, onUpdateProgress }: PlayerDa
 
         // All checks passed, grant reward
         const newPlayerData = JSON.parse(JSON.stringify(playerData));
-        const islandForPoints = currentIslandId <= islands.length ? currentIslandId : islands.length;
+        const islandForPoints = currentIslandId;
         
         if (!newPlayerData.progress[islandForPoints]) {
             newPlayerData.progress[islandForPoints] = { score: 0, completedChallenges: [] };
@@ -187,17 +193,11 @@ const PlayerDashboard = ({ playerData, onBackToMap, onUpdateProgress }: PlayerDa
 
   const handleGoToTraining = () => {
     const trainingAppUrl = "https://warriorskills.netlify.app/";
-
-    // 1. Criar o payload (o conteúdo do token)
     const payload = {
         name: playerData.name,
-        timestamp: Date.now() // Timestamp em milissegundos
+        timestamp: Date.now()
     };
-
-    // 2. Converter para JSON e depois para Base64
     const token = btoa(JSON.stringify(payload));
-
-    // 3. Montar a URL final e abrir em uma nova aba
     const finalUrl = `${trainingAppUrl}?token=${token}`;
     window.open(finalUrl, '_blank');
   };
@@ -254,29 +254,50 @@ const PlayerDashboard = ({ playerData, onBackToMap, onUpdateProgress }: PlayerDa
 
         <div className="lg:col-span-2 lg:order-1 flex flex-col gap-8">
             <div className="bg-gray-900/40 p-6 rounded-xl border border-gray-700/50">
-              <h3 className="text-2xl font-cinzel text-yellow-300 mb-4">Progresso nas Ilhas</h3>
-              <div className="space-y-3 max-h-[40vh] overflow-y-auto pr-3">
-                {islands.map(island => {
+              <h3 className="text-2xl font-cinzel text-yellow-300 mb-4">Minha Trilha de Aprendizado</h3>
+              <p className="text-sm text-gray-400 mb-4">As ilhas abaixo seguem a ordem específica da sua jornada personalizada.</p>
+              <div className="space-y-3 max-h-[50vh] overflow-y-auto pr-3">
+                {orderedIslands.map((island, index) => {
                   const islandProgress = playerData.progress[island.id] || { score: 0 };
                   const isConquered = conqueredIslands.includes(island.id);
                   const isCurrent = island.id === currentIslandId;
                   
                   let statusIcon;
-                  if (isConquered) statusIcon = <span title="Conquistada" className="text-green-400">✔</span>;
-                  else if (isCurrent) statusIcon = <span title="Jornada Atual" className="text-blue-400">»</span>;
-                  else statusIcon = <span title="Bloqueada" className="text-gray-500">🔒</span>;
+                  let bgClass = "bg-black/20";
+                  let orderColor = "text-gray-500";
+
+                  if (isConquered) {
+                      statusIcon = <span title="Conquistada" className="text-green-400">✔</span>;
+                      bgClass = "bg-green-900/10 border border-green-500/20";
+                      orderColor = "text-green-500";
+                  } else if (isCurrent) {
+                      statusIcon = <span title="Objetivo Atual" className="text-blue-400 animate-pulse">»</span>;
+                      bgClass = "bg-blue-900/20 border-2 border-blue-500/40 shadow-lg shadow-blue-500/10";
+                      orderColor = "text-blue-400";
+                  } else {
+                      statusIcon = <span title="Bloqueada" className="text-gray-600">🔒</span>;
+                      bgClass = "bg-black/40 opacity-60";
+                  }
 
                   return (
-                    <div key={island.id} className="flex items-center justify-between bg-black/20 p-3 rounded-lg">
-                      <div className="flex items-center gap-3"><div className="text-lg font-bold">{statusIcon}</div>
+                    <div key={island.id} className={`flex items-center justify-between p-4 rounded-lg transition-all ${bgClass}`}>
+                      <div className="flex items-center gap-4">
+                        <div className={`text-lg font-cinzel font-bold w-8 ${orderColor}`}>
+                            {index + 1}º
+                        </div>
+                        <div className="text-lg font-bold">{statusIcon}</div>
                         <div>
-                          <p className="font-semibold text-gray-200">{island.name}</p>
-                          <p className="text-sm text-gray-400">{island.softSkill}</p>
+                          <p className={`font-semibold ${isCurrent ? 'text-white' : 'text-gray-300'}`}>
+                            {island.name}
+                          </p>
+                          <p className="text-xs text-gray-500 font-medium uppercase tracking-wider">{island.softSkill}</p>
                         </div>
                       </div>
                       <div className="text-right">
-                        <p className="font-bold text-lg text-yellow-400">{islandProgress.score.toLocaleString()}</p>
-                        <p className="text-xs text-gray-500">Moedas</p>
+                        <p className={`font-bold text-lg ${isConquered ? 'text-yellow-400' : 'text-gray-400'}`}>
+                            {islandProgress.score.toLocaleString()}
+                        </p>
+                        <p className="text-[10px] text-gray-500 uppercase">Moedas</p>
                       </div>
                     </div>
                   );
@@ -319,7 +340,6 @@ const PlayerDashboard = ({ playerData, onBackToMap, onUpdateProgress }: PlayerDa
               
               <div className="mt-6 pt-6 border-t border-green-500/20">
                 <h4 className="text-xl font-cinzel text-yellow-300 text-center mb-2">Resgatar Recompensa de Treino</h4>
-                <p className="text-xs text-center text-gray-400 mb-4">Treinou por 15 minutos ou mais? Cole seu código aqui para ganhar 5 moedas de ouro (recompensa diária).</p>
                 <div className="flex flex-col sm:flex-row gap-2 max-w-lg mx-auto">
                     <input 
                         type="text"
