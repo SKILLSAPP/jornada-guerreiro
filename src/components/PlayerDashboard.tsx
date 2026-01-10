@@ -117,7 +117,6 @@ const PlayerDashboard = ({ playerData, onBackToMap, onUpdateProgress }: PlayerDa
   const currentIslandId = contentService.getCurrentIslandId(playerData);
   const sequence = contentService.getIslandSequence(playerData);
 
-  // Filtra e ordena as ilhas de acordo com a sequência do jogador
   const orderedIslands = useMemo(() => {
     return sequence.map(id => allIslands.find(i => i.id === id)).filter(Boolean) as Island[];
   }, [sequence, allIslands]);
@@ -167,7 +166,6 @@ const PlayerDashboard = ({ playerData, onBackToMap, onUpdateProgress }: PlayerDa
             return;
         }
 
-        // All checks passed, grant reward
         const newPlayerData = JSON.parse(JSON.stringify(playerData));
         const islandForPoints = currentIslandId;
         
@@ -218,7 +216,8 @@ const PlayerDashboard = ({ playerData, onBackToMap, onUpdateProgress }: PlayerDa
     <>
     {selectedFeedback && <FeedbackModal task={selectedFeedback} onClose={() => setSelectedFeedback(null)} />}
     {isMentorModalOpen && <MentorMessageModal onClose={() => setIsMentorModalOpen(false)} onSubmit={handleSendMessageToMentor} />}
-    <div className="bg-gray-800/60 p-6 rounded-lg border border-yellow-500/20 backdrop-blur-sm">
+    
+    <div className="bg-gray-800/60 p-6 rounded-lg border border-yellow-500/20 backdrop-blur-sm no-print">
       <button onClick={onBackToMap} className="mb-6 text-yellow-400 hover:text-yellow-300 font-semibold">
         &larr; Voltar ao Mapa-Múndi
       </button>
@@ -293,7 +292,7 @@ const PlayerDashboard = ({ playerData, onBackToMap, onUpdateProgress }: PlayerDa
                           <p className="text-xs text-gray-500 font-medium uppercase tracking-wider">{island.softSkill}</p>
                         </div>
                       </div>
-                      <div className="text-right">
+                      <div className="text-right min-w-[60px]">
                         <p className={`font-bold text-lg ${isConquered ? 'text-yellow-400' : 'text-gray-400'}`}>
                             {islandProgress.score.toLocaleString()}
                         </p>

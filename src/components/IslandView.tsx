@@ -17,7 +17,6 @@ const IslandView = ({ island, playerData, onUpdateProgress, onBackToMap }: Islan
   const islandProgress = playerData.progress[island.id] || { score: 0, completedChallenges: [], pendingSubmissions: {} };
   const isConquered = islandProgress.score >= contentService.TOTAL_POINTS_TO_CONQUER;
 
-  // Lógica atualizada para respeitar a sequência personalizada
   const currentIslandId = contentService.getCurrentIslandId(playerData);
   const isCurrentIsland = island.id === currentIslandId;
 
@@ -31,14 +30,11 @@ const IslandView = ({ island, playerData, onUpdateProgress, onBackToMap }: Islan
 
     const existingSubmission = currentIslandProgress.pendingSubmissions[challengeId];
 
-    // Impede a nova submissão de um quiz que já foi respondido e está pendente
     if (existingSubmission && existingSubmission.answers) {
       alert("Você já enviou este quiz. Aguarde a avaliação do Mestre.");
       return;
     }
     
-    // Para um quiz de redenção, atualizamos a submissão pendente existente.
-    // Para um novo quiz, criamos uma nova.
     const baseSubmission = existingSubmission || {};
 
     if (submissionType === 'quiz' && Array.isArray(submission)) {
@@ -56,7 +52,6 @@ const IslandView = ({ island, playerData, onUpdateProgress, onBackToMap }: Islan
         submittedAt: new Date().toISOString(),
       };
     } else if (submissionType === 'presentation') {
-       // Isso também não deve poder ser reenviado, mas a UI já impede.
        if (existingSubmission) return;
        currentIslandProgress.pendingSubmissions[challengeId] = {
         ...baseSubmission,
@@ -72,7 +67,6 @@ const IslandView = ({ island, playerData, onUpdateProgress, onBackToMap }: Islan
   };
   
   return (
-    <>
     <div className="bg-gray-800/50 p-6 rounded-lg border border-yellow-500/20">
       <button onClick={onBackToMap} className="mb-4 text-yellow-400 hover:text-yellow-300 font-semibold">
         &larr; Voltar ao Mapa-Múndi
@@ -92,10 +86,11 @@ const IslandView = ({ island, playerData, onUpdateProgress, onBackToMap }: Islan
           <h3 className="font-cinzel text-xl text-gray-200 mb-2">Progresso para a Conquista</h3>
           <ProgressBar current={islandProgress.score} total={contentService.TOTAL_POINTS_TO_CONQUER} />
           <p className="text-center text-gray-300 mt-2">{islandProgress.score} / {contentService.TOTAL_POINTS_TO_CONQUER} Moedas de Ouro</p>
+          
           {isConquered && (
             <div className="mt-4 p-4 bg-yellow-400/20 border border-yellow-500 rounded-lg text-center">
-              <h4 className="font-bold text-yellow-300">PERGAMINHO DAS VIRTUDES OBTIDO!</h4>
-              <p className="text-yellow-400">Você dominou {island.softSkill}.</p>
+              <h4 className="font-bold text-yellow-300 uppercase tracking-wider">Ilha Conquistada!</h4>
+              <p className="text-yellow-400 text-sm italic">O Mestre emitirá seu certificado de conclusão em breve.</p>
             </div>
           )}
         </div>
@@ -136,7 +131,6 @@ const IslandView = ({ island, playerData, onUpdateProgress, onBackToMap }: Islan
         </div>
       </div>
     </div>
-    </>
   );
 };
 
