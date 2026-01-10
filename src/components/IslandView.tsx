@@ -1,10 +1,11 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { PlayerData, Island } from '../types';
 import { contentService } from '../services/contentService';
 import ChallengeCard from './ChallengeCard';
 import ProgressBar from './ProgressBar';
 import ExtraordinaryChallenge from './ExtraordinaryChallenge';
+import GuardianChallenge from './GuardianChallenge';
 
 interface IslandViewProps {
   island: Island;
@@ -14,13 +15,20 @@ interface IslandViewProps {
 }
 
 const IslandView = ({ island, playerData, onUpdateProgress, onBackToMap }: IslandViewProps) => {
+  const [activeGuardianChallenge, setActiveGuardianChallenge] = useState<boolean>(false);
   const islandProgress = playerData.progress[island.id] || { score: 0, completedChallenges: [], pendingSubmissions: {} };
-  const isConquered = islandProgress.score >= contentService.TOTAL_POINTS_TO_CONQUER;
+  const isConquered = contentService.isIslandConquered(playerData, island.id);
 
   const currentIslandId = contentService.getCurrentIslandId(playerData);
   const isCurrentIsland = island.id === currentIslandId;
 
   const handleSubmitForReview = (challengeId: number, submission: string | number[], submissionType: 'quiz' | 'submission' | 'presentation') => {
+    // Abrir o modal especial se for o desafio 4 (Guardião)
+    if (challengeId === 4 && !activeGuardianChallenge && submissionType === 'presentation') {
+        setActiveGuardianChallenge(true);
+        return;
+    }
+
     const newProgress = JSON.parse(JSON.stringify(playerData));
     const currentIslandProgress = newProgress.progress[island.id] || { score: 0, completedChallenges: [], pendingSubmissions: {} };
     
@@ -30,7 +38,7 @@ const IslandView = ({ island, playerData, onUpdateProgress, onBackToMap }: Islan
 
     const existingSubmission = currentIslandProgress.pendingSubmissions[challengeId];
 
-    if (existingSubmission && existingSubmission.answers) {
+    if (existingSubmission && existingSubmission.answers && submissionType === 'quiz') {
       alert("Você já enviou este quiz. Aguarde a avaliação do Mestre.");
       return;
     }
@@ -52,12 +60,13 @@ const IslandView = ({ island, playerData, onUpdateProgress, onBackToMap }: Islan
         submittedAt: new Date().toISOString(),
       };
     } else if (submissionType === 'presentation') {
-       if (existingSubmission) return;
        currentIslandProgress.pendingSubmissions[challengeId] = {
         ...baseSubmission,
         submissionType: 'presentation',
+        submission: typeof submission === 'string' ? submission : 'Plano de Ação do Guerreiro',
         submittedAt: new Date().toISOString(),
       };
+      setActiveGuardianChallenge(false); // Fecha o modal após envio
     }
     
     newProgress.progress[island.id] = currentIslandProgress;
@@ -130,6 +139,16 @@ const IslandView = ({ island, playerData, onUpdateProgress, onBackToMap }: Islan
           )}
         </div>
       </div>
+
+      {activeGuardianChallenge && (
+        <GuardianChallenge 
+            challenge={island.challenges.find(c => c.id === 4)!}
+            softSkill={island.softSkill}
+            playerData={playerData}
+            onClose={() => setActiveGuardianChallenge(false)}
+            onSubmitForReview={(cid, text) => handleSubmitForReview(cid, text, 'presentation')}
+        />
+      )}
     </div>
   );
 };

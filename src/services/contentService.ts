@@ -17,24 +17,35 @@ export const contentService = {
     return quiz ? JSON.parse(JSON.stringify(quiz)) : null;
   },
 
-  // Retorna os IDs das ilhas na ordem correta para o jogador
   getIslandSequence: (playerData: PlayerData): number[] => {
     if (playerData.customIslandOrder && playerData.customIslandOrder.length > 0) {
-      return playerData.customIslandOrder;
+      // Garante que todos os IDs na sequência sejam números
+      return playerData.customIslandOrder.map(id => Number(id));
     }
     return [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
   },
 
-  // Retorna o ID da ilha que o jogador deve estar enfrentando agora
+  isIslandConquered: (playerData: PlayerData, islandId: number): boolean => {
+    const id = Number(islandId);
+    const progress = playerData.progress[id];
+    if (!progress) return false;
+    
+    const score = progress.score || 0;
+    const hasMinScore = score >= TOTAL_POINTS_TO_CONQUER;
+    const finishedLastChallenge = progress.completedChallenges?.includes(4);
+    
+    // Ilha conquistada se atingiu a pontuação OU concluiu o desafio final (Guardião)
+    return hasMinScore || finishedLastChallenge || false;
+  },
+
   getCurrentIslandId: (playerData: PlayerData): number => {
     const sequence = contentService.getIslandSequence(playerData);
-    const conqueredIds = Object.keys(playerData.progress)
-      .filter(id => (playerData.progress[Number(id)]?.score || 0) >= TOTAL_POINTS_TO_CONQUER)
-      .map(Number);
     
-    // A primeira ilha da sequência que ainda não foi conquistada
-    const nextId = sequence.find(id => !conqueredIds.includes(id));
-    return nextId || sequence[sequence.length - 1]; // Se todas conquistadas, retorna a última
+    // A ilha atual é a primeira da sequência que ainda não foi conquistada
+    const currentId = sequence.find(id => !contentService.isIslandConquered(playerData, id));
+    
+    // Se não encontrou nenhuma (todas conquistadas), retorna a última da sequência
+    return currentId !== undefined ? currentId : sequence[sequence.length - 1];
   },
 
   getStorytellingUrl: (): string => STORYTELLING_URL,

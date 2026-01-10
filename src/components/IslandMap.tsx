@@ -32,7 +32,6 @@ const IslandCard: React.FC<IslandCardProps> = ({ island, status, sequenceOrder, 
       />
       <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
       
-      {/* Indicador de Ordem na Trilha */}
       {sequenceOrder !== undefined && (
           <div className="absolute top-2 left-2 w-8 h-8 rounded-full bg-black/60 border border-white/20 flex items-center justify-center font-cinzel text-sm font-bold text-gray-200">
             {sequenceOrder}
@@ -70,12 +69,9 @@ const IslandMap = ({ playerData, onSelectIsland }: IslandMapProps) => {
     setIslands(contentService.getIslands());
   }, []);
 
-  const conqueredIslands = Object.keys(playerData.progress)
-    .filter(id => playerData.progress[Number(id)].score >= contentService.TOTAL_POINTS_TO_CONQUER)
-    .map(Number);
-  
-  const currentIslandId = contentService.getCurrentIslandId(playerData);
   const sequence = contentService.getIslandSequence(playerData);
+  const currentIslandId = contentService.getCurrentIslandId(playerData);
+  const currentIndexInSequence = sequence.indexOf(currentIslandId);
 
   if (islands.length === 0) {
     return <div className="text-center p-8 text-yellow-300">Carregando Ilhas Sagradas...</div>;
@@ -87,26 +83,37 @@ const IslandMap = ({ playerData, onSelectIsland }: IslandMapProps) => {
       <p className="text-center text-gray-400 mb-8 text-sm">Identifique o selo de "Próximo Objetivo" para avançar em sua jornada personalizada.</p>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
         {islands.map((island) => {
+          const islandId = Number(island.id);
+          const isConquered = contentService.isIslandConquered(playerData, islandId);
+          const sequenceIndex = sequence.indexOf(islandId);
+          
           let status: 'conquered' | 'current' | 'locked';
-          const sequenceIndex = sequence.indexOf(island.id);
 
           if (playerData.isTester) {
-            status = 'current';
-            if (conqueredIslands.includes(island.id)) {
+            status = isConquered ? 'conquered' : 'current';
+          } else {
+            // 1. Se já foi conquistada, o status é obrigatoriamente "conquered"
+            if (isConquered) {
+              status = 'conquered';
+            } 
+            // 2. Se é a ilha atual (primeira não conquistada da sequência)
+            else if (islandId === currentIslandId) {
+              status = 'current';
+            }
+            // 3. Se a ilha está na sequência e seu índice é menor que o índice da atual,
+            // tratamos como conquistada (segurança extra para fluxo Lunna)
+            else if (sequenceIndex !== -1 && sequenceIndex < currentIndexInSequence) {
               status = 'conquered';
             }
-          } else {
-            status = 'locked';
-            if (conqueredIslands.includes(island.id)) {
-              status = 'conquered';
-            } else if (island.id === currentIslandId) {
-              status = 'current';
+            // 4. Caso contrário, está bloqueada
+            else {
+              status = 'locked';
             }
           }
 
           return (
             <IslandCard
-              key={island.id}
+              key={islandId}
               island={island}
               status={status}
               sequenceOrder={sequenceIndex !== -1 ? sequenceIndex + 1 : undefined}
