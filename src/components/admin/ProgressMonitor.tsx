@@ -23,8 +23,9 @@ const PlayerProgressCard: React.FC<{ player: PlayerData, islands: Island[], onEm
         const currentIslandId = contentService.getCurrentIslandId(player);
         const currentIsland = islands.find(i => i.id === currentIslandId) || null;
 
+        // CORREÇÃO: Utilizando a lógica centralizada que considera o Desafio 4 (Guardião) concluído
         const conquered = islands.filter(isl => 
-            (player.progress[isl.id]?.score || 0) >= contentService.TOTAL_POINTS_TO_CONQUER
+            contentService.isIslandConquered(player, isl.id)
         );
 
         if (!currentIsland) {
