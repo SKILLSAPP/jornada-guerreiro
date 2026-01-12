@@ -150,7 +150,7 @@ const CertificateModal: React.FC<CertificateModalProps> = ({ fullPlayerName, pro
                 <span className="font-bold text-yellow-700 italic text-3xl my-1 block">"{island.softSkill}"</span>
               </p>
 
-              {/* Selo de Proficiência com Fitas (Redimensionado para caber no A4) */}
+              {/* Selo de Proficiência com Fitas */}
               <div className="relative inline-flex flex-col items-center justify-center mt-2 scale-90">
                 <svg width="150" height="180" viewBox="0 0 100 120" className="ribbon-glow">
                   <defs>
@@ -189,10 +189,12 @@ const CertificateModal: React.FC<CertificateModalProps> = ({ fullPlayerName, pro
                   <circle cx="50" cy="41.5" r="23" fill="none" stroke="#fefce8" strokeWidth="0.8" strokeDasharray="1.5,1.5" />
                 </svg>
 
-                <div className="absolute top-[28px] w-full flex flex-col items-center justify-center">
-                   <span className="text-[9px] font-bold text-yellow-950 uppercase tracking-tighter opacity-70">Grau de</span>
-                   <span className="text-[14px] font-black text-yellow-950 uppercase leading-none mt-0.5">{proficiencyLevel}</span>
-                   <span className="text-[8px] font-bold text-yellow-950 uppercase mt-0.5">Proficiência</span>
+                {/* Container de Texto Centralizado no Círculo do Selo */}
+                <div className="absolute top-[28px] h-[68px] w-full flex flex-col items-center justify-center px-4 leading-tight">
+                   <span className="text-[10px] font-black text-yellow-950 uppercase tracking-tight opacity-80">Grau de Proficiência</span>
+                   <span className="text-[17px] font-black text-yellow-900 uppercase mt-0.5 drop-shadow-sm tracking-tighter">
+                     {proficiencyLevel.toUpperCase()}
+                   </span>
                 </div>
               </div>
             </div>
