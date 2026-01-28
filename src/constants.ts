@@ -1,3 +1,4 @@
+
 import { Island } from './types';
 
 export const MAIN_BACKGROUND_URL = 'https://i.imgur.com/0XH0wzI_d.png?maxwidth=520&shape=thumb&fidelity=high';
@@ -235,10 +236,11 @@ export const ISLANDS: Island[] = [
         "description": "Estude os materiais sobre a psicologia da resiliência e faça o quiz.",
         "points": 150,
         "resources": [
-          { "type": "article", "label": "Artigo Técnico", "url": "#" },
+          { "type": "article", "label": "Artigo Técnico", "url": "https://drive.google.com/file/d/1G4pW_8H_rY5pW_8H_rY5pW_8H_rY5pW_/view?usp=drive_link" },
           { "type": "audio", "label": "Áudio Artigo", "url": "#" },
           { "type": "podcast", "label": "PODCAST 1", "url": "#" }
-        ]
+        ],
+        "quizId": "island-3-challenge-1"
       },
       {
         "id": 2,
@@ -250,7 +252,8 @@ export const ISLANDS: Island[] = [
           { "type": "audio", "label": "Áudio Livro - Parte II", "url": "#" },
           { "type": "book", "label": "Livro", "url": "#" },
           { "type": "podcast", "label": "PODCAST 2", "url": "#" }
-        ]
+        ],
+        "quizId": "island-3-challenge-2"
       },
       {
         "id": 3,
@@ -261,7 +264,8 @@ export const ISLANDS: Island[] = [
           { "type": "video", "label": "TEDx", "url": "#" },
           { "type": "podcast", "label": "PODCAST 3", "url": "#" },
           { "type": "case_study", "label": "Estudo de Caso", "url": "#" }
-        ]
+        ],
+        "quizId": "island-3-challenge-3"
       },
       {
         "id": 4,
