@@ -88,7 +88,7 @@ export const ALL_QUIZZES: Quiz[] = [
         "rationale": "O texto menciona que um dos benefícios da IE no trabalho é a melhoria da Comunicação Clara e Eficaz, minimizando mal-entendidos."
       },
       {
-        "questionText": "O conceito de \"Otimismo Aprendido\" é descrito no material como a capacidade de manter uma atitude positiva e perseverar diante das adversidades. Qual exemplo prático é citado para ilustrar a importância dessa habilidade?",
+        "questionText": "O concept de \"Otimismo Aprendido\" é descrito no material como a capacidade de manter uma atitude positiva e perseverar diante das adversidades. Qual exemplo prático é citado para ilustrar a importância dessa habilidade?",
         "difficulty": "Fácil",
         "points": 5,
         "options": [
@@ -533,7 +533,7 @@ export const ALL_QUIZZES: Quiz[] = [
             "isCorrect": false
           },
           {
-            "text": "Como uma 'falsa alegria', uma emoção inadequada em intensidade e qualidade, treinada para mascarar sentimentos.",
+            "text": "Como uma 'falsa alegria', uma emoção inesperada em intensidade e qualidade, treinada para mascarar sentimentos.",
             "isCorrect": true
           },
           {
@@ -960,7 +960,7 @@ export const ALL_QUIZZES: Quiz[] = [
         "rationale": "O Capítulo 2 (\"Domine a Arte do Storytelling\") enfatiza que as histórias são a ferramenta mais poderosa para tocar o coração e a mente da plateia, criando conexão emocional antes mesmo da apresentação de dados."
       },
       {
-        "questionText": "Um gerente está prestes a fazer um pitch importante para investidores. Ele está nervoso, mas antes de entrar na sala, ele vai ao banheiro e fica por dois minutos em uma \"pose de poder\", com as mãos na cintura e o peito estufado. Qual é o objetivo dessa técnica, conforme as \"Dicas do Mentor\" do Capítulo 3?",
+        "questionText": "Um gerente está prestes a fazer um pitch importante para investidores. He está nervoso, mas antes de entrar na sala, ele vai ao banheiro e fica por dois minutos em uma \"pose de poder\", com as mãos na cintura e o peito estufado. Qual é o objetivo dessa técnica, conforme as \"Dicas do Mentor\" do Capítulo 3?",
         "difficulty": "Médio",
         "points": 25,
         "options": [
