@@ -1248,5 +1248,213 @@ export const ALL_QUIZZES: Quiz[] = [
         "rationale": "A abordagem correta integra a 'Fórmula para uma Boa Primeira Impressão' de Butman (contato visual, sorriso, inclinação, nome) e técnicas de rapport como linguagem corporal aberta e espelhamento, com a filosofia de Lena Souza sobre aceitar a autenticidade e usar a paixão como força para superar o medo, focando nos aspectos emocionais e lógicos da mensagem."
       }
     ]
+  },
+  {
+    "id": "island-3-challenge-1",
+    "name": "Desafio 1 - Resiliência",
+    "islandId": 3,
+    "challengeId": 1,
+    "questions": [
+      {
+        "questionText": "De acordo com o material, qual é a principal diferença conceitual entre um profissional apenas resistente e um profissional resiliente?",
+        "difficulty": "Fácil",
+        "points": 10,
+        "options": [
+          {
+            "text": "O resistente suporta a pressão, enquanto o resiliente aprende com a dificuldade para evoluir.",
+            "isCorrect": true
+          },
+          {
+            "text": "O resistente evita conflitos, enquanto o resiliente busca ativamente novos desafios técnicos.",
+            "isCorrect": false
+          },
+          {
+            "text": "O resistente foca em resultados, enquanto o resiliente prioriza o bem-estar da equipe de trabalho.",
+            "isCorrect": false
+          }
+        ],
+        "rationale": "O material destaca que a resiliência envolve o conceito de 'bounce forward', ou seja, usar o aprendizado para crescer, enquanto a resistência apenas suporta a carga sem necessariamente evoluir."
+      },
+      {
+        "questionText": "No Roteiro Prático para Superar Desafios, como é definida a 'Zona de Controle' em uma situação de adversidade corporativa?",
+        "difficulty": "Fácil",
+        "points": 10,
+        "options": [
+          {
+            "text": "Fatos que dependem de decisões externas e que o profissional deve apenas aceitar passivamente.",
+            "isCorrect": false
+          },
+          {
+            "text": "Ações diretas que o profissional pode realizar e cujos resultados ele consegue monitorar.",
+            "isCorrect": true
+          },
+          {
+            "text": "Situações em que o profissional utiliza sua rede de contatos para influenciar o resultado final.",
+            "isCorrect": false
+          }
+        ],
+        "rationale": "A Zona de Controle refere-se a tudo o que está sob ação direta do indivíduo, como atualizar o currículo ou buscar novos conhecimentos após um imprevisto."
+      },
+      {
+        "questionText": "Qual pilar da resiliência, segundo Roberto Orlando, refere-se à capacidade de ser gentil consigo mesmo e evitar a autocrítica excessiva?",
+        "difficulty": "Fácil",
+        "points": 10,
+        "options": [
+          {
+            "text": "Autorregulação Emocional.",
+            "isCorrect": false
+          },
+          {
+            "text": "Agilidade Cognitiva.",
+            "isCorrect": false
+          },
+          {
+            "text": "Autocompaixão.",
+            "isCorrect": true
+          }
+        ],
+        "rationale": "A autocompaixão é definida no material como a prática de ser gentil e bondoso consigo mesmo, perdoando falhas próprias para manter o equilíbrio."
+      },
+      {
+        "questionText": "Segundo o conceito de Inteligência Emocional (IE) apresentado, qual habilidade permite reconhecer e regular as próprias emoções?",
+        "difficulty": "Fácil",
+        "points": 10,
+        "options": [
+          {
+            "text": "Autogerenciamento Emocional.",
+            "isCorrect": true
+          },
+          {
+            "text": "Consciência Social.",
+            "isCorrect": false
+          },
+          {
+            "text": "Flexibilidade Estrutural.",
+            "isCorrect": false
+          }
+        ],
+        "rationale": "O autogerenciamento é a capacidade de reconhecer e regular as próprias emoções, sendo fortalecido por práticas como meditação e exercícios físicos."
+      },
+      {
+        "questionText": "Por que o material afirma que a resiliência humana difere da resiliência estudada na física de materiais tradicionais?",
+        "difficulty": "Fácil",
+        "points": 10,
+        "options": [
+          {
+            "text": "Porque a resiliência humana se desgasta conforme os desafios se tornam mais frequentes.",
+            "isCorrect": false
+          },
+          {
+            "text": "Porque o ser humano busca retornar exatamente ao estado original após sofrer uma deformação.",
+            "isCorrect": false
+          },
+          {
+            "text": "Porque a resiliência humana se fortalece com o uso, permitindo um crescimento contínuo.",
+            "isCorrect": true
+          }
+        ],
+        "rationale": "Diferente dos materiais físicos que podem sofrer fadiga, a resiliência humana funciona como um músculo que se torna mais forte quanto mais é praticado."
+      },
+      {
+        "questionText": "Durante uma reunião de feedback, um analista júnior recebe críticas sobre um relatório. Ele sente raiva imediata, mas decide avaliar se sua reação é proporcional ao fato antes de responder. Qual conceito ele aplicou?",
+        "difficulty": "Médio",
+        "points": 15,
+        "options": [
+          {
+            "text": "Autorregulação Emocional, ao reavaliar a reação antes de decidir como agir de forma assertiva.",
+            "isCorrect": true
+          },
+          {
+            "text": "Agilidade Cognitiva, ao mudar o foco do problema para uma solução técnica de forma imediata.",
+            "isCorrect": false
+          },
+          {
+            "text": "Autoeficácia, ao acreditar que possui as competências necessárias para refazer o relatório sozinho.",
+            "isCorrect": false
+          }
+        ],
+        "rationale": "A autorregulação envolve a capacidade de parar e reavaliar as reações emocionais antes de responder, garantindo um comportamento equilibrado."
+      },
+      {
+        "questionText": "Uma empresa de tecnologia anuncia uma reestruturação. Um colaborador decide focar em estudar novas ferramentas e ativar seu networking, em vez de se preocupar com a decisão final da diretoria. Essa postura demonstra:",
+        "difficulty": "Médio",
+        "points": 15,
+        "options": [
+          {
+            "text": "Foco nas Zonas de Controle e Influência, direcionando energia para o que pode ser alterado.",
+            "isCorrect": true
+          },
+          {
+            "text": "Uso da Zona de Descontrole, buscando aceitar que o mercado de tecnologia é instável e imprevisível.",
+            "isCorrect": false
+          },
+          {
+            "text": "Aplicação da Autocompaixão, evitando se culpar por uma crise econômica que afeta todo o setor.",
+            "isCorrect": false
+          }
+        ],
+        "rationale": "Estudar é uma ação direta (Controle) e networking é uma ação de impacto (Influência). A decisão da diretoria pertence à Zona de Descontrole."
+      },
+      {
+        "questionText": "Uma equipe teve suas metas dobradas no meio do trimestre. O líder rapidamente reorganiza os fluxos de trabalho e motiva o time a ver isso como uma chance de aprendizado. Qual característica foi priorizada?",
+        "difficulty": "Médio",
+        "points": 15,
+        "options": [
+          {
+            "text": "Flexibilidade e Adaptabilidade, ao ajustar planos sem perder a produtividade diante do novo cenário.",
+            "isCorrect": true
+          },
+          {
+            "text": "Inteligência Emocional, ao focar exclusivamente na redução do estresse causado pelo aumento da carga.",
+            "isCorrect": false
+          },
+          {
+            "text": "Otimismo Realista, ao ignorar os riscos da nova meta e focar apenas nos bônus financeiros futuros.",
+            "isCorrect": false
+          }
+        ],
+        "rationale": "A flexibilidade e adaptabilidade são definidas como a capacidade de se ajustar rapidamente a novas situações, modificando planos para manter a eficiência."
+      },
+      {
+        "questionText": "Após falhar na entrega de um projeto complexo, uma profissional se pergunta: 'Qual competência eu precisaria ter para que esse problema fosse evitado?'. Segundo o material, essa atitude caracteriza:",
+        "difficulty": "Médio",
+        "points": 15,
+        "options": [
+          {
+            "text": "A identificação de aprendizados, transformando a adversidade em preparação para o futuro.",
+            "isCorrect": true
+          },
+          {
+            "text": "O exercício da autocrítica excessiva, focando nos erros cometidos em vez de buscar soluções.",
+            "isCorrect": false
+          },
+          {
+            "text": "A prática do autogerenciamento, visando suprimir as emoções negativas geradas pelo fracasso.",
+            "isCorrect": false
+          }
+        ],
+        "rationale": "O Passo 3 do roteiro prático foca em perguntas reflexivas que transformam o desafio em uma oportunidade de identificar competências preventivas."
+      },
+      {
+        "questionText": "Uma startup passa por uma fusão e o novo RH implementa processos rígidos. Um gestor percebe sua equipe desmotivada e decide realizar sessões de escuta, incentiva cursos de atualização e orienta o time a focar apenas nos processos que podem melhorar internamente. Qual a análise correta dessa estratégia?",
+        "difficulty": "Difícil",
+        "points": 40,
+        "options": [
+          {
+            "text": "O gestor aplica a resiliência ao integrar suporte emocional, evolução técnica e foco na zona de controle para superar a resistência.",
+            "isCorrect": true
+          },
+          {
+            "text": "O gestor utiliza a autorregulação emocional para ignorar os conflitos culturais da fusão e focar exclusivamente na produtividade técnica.",
+            "isCorrect": false
+          },
+          {
+            "text": "O gestor foca na agilidade cognitiva para tomar decisões rápidas, priorizando a aceitação passiva da zona de descontrole da empresa.",
+            "isCorrect": false
+          }
+        ],
+        "rationale": "A estratégia é completa pois combina apoio psicossocial (escuta), aprendizado contínuo (cursos) e gestão das zonas de ação (foco interno), combatendo as barreiras do Capítulo 5."
+      }
+    ]
   }
 ];
