@@ -13,7 +13,6 @@ export let geminiInitializationError: string | null = null;
     const apiKey = process.env.API_KEY; 
     if (!apiKey) {
         geminiInitializationError = "A chave para o reino dos espíritos (API_KEY) não foi encontrada nos pergaminhos de configuração do ambiente.";
-        console.error(geminiInitializationError);
         return;
     }
     try {
@@ -21,7 +20,6 @@ export let geminiInitializationError: string | null = null;
     } catch (e) {
         const message = e instanceof Error ? e.message : 'Erro desconhecido ao inicializar o Gemini AI.';
         geminiInitializationError = `A chave para o reino dos espíritos (API_KEY) foi rejeitada ou é inválida. Detalhes: ${message}`;
-        console.error(geminiInitializationError, e);
     }
 })();
 
@@ -31,11 +29,11 @@ const handleApiError = (error: unknown, context: string): string => {
     console.error(`Erro na API Gemini durante ${context}:`, error);
     if (error instanceof Error) {
         if (error.message.includes('API key not valid')) {
-            return `A chave para o reino dos espíritos (API_KEY) foi rejeitada. Verifique se a chave é válida e possui as permissões necessárias.`;
+            return `A chave para o reino dos espíritos (API_KEY) foi rejeitada.`;
         }
-        return `Os ventos da magia estão turbulentos. Não foi possível completar a ação (${context}). Erro: ${error.message}`;
+        return `Os ventos da magia estão turbulentos. Erro: ${error.message}`;
     }
-    return `Os ventos da magia estão turbulentos. Ocorreu um erro desconhecido durante ${context}.`;
+    return `Os ventos da magia estão turbulentos. Ocorreu um erro desconhecido.`;
 };
 
 const generateQuizBase = async (context: string, challengeTitle: string, totalPoints: number, systemInstruction: string, schema: any): Promise<QuizQuestion[] | string> => {
@@ -45,23 +43,21 @@ const generateQuizBase = async (context: string, challengeTitle: string, totalPo
     try {
       const response = await geminiAiClient.models.generateContent({
         model: 'gemini-3-flash-preview',
-        contents: `Aqui está o material de estudo para o desafio "${challengeTitle}". A pontuação total para o quiz é ${totalPoints}. Crie um quiz a partir dele:\n\n---\n${context}\n---`,
+        contents: `Material de Estudo para "${challengeTitle}" (Pontuação Total: ${totalPoints}):\n\n---\n${context}\n---`,
         config: {
           systemInstruction,
           responseMimeType: 'application/json',
           responseSchema: schema,
-          temperature: 0.4, // Reduzido para garantir mais consistência e menos "alucinação" criativa nas opções
+          temperature: 0.5,
         },
       });
       
       const text = response.text;
-      if (!text) {
-        throw new Error("A IA retornou uma resposta JSON vazia.");
-      }
+      if (!text) throw new Error("IA retornou resposta vazia.");
       const jsonResponse = JSON.parse(text);
 
       if (!jsonResponse.questions || !jsonResponse.questions.length) {
-          throw new Error("A IA não retornou o número esperado de perguntas.");
+          throw new Error("IA não retornou perguntas suficientes.");
       }
       return jsonResponse.questions;
 
@@ -75,30 +71,24 @@ const baseQuizSchema = {
     properties: {
       questions: {
         type: Type.ARRAY,
-        description: 'Uma lista de perguntas para o quiz.',
         items: {
           type: Type.OBJECT,
           properties: {
-            questionText: { type: Type.STRING, description: 'O texto da pergunta.' },
-            difficulty: {
-              type: Type.STRING,
-              enum: ['Fácil', 'Médio', 'Difícil'],
-              description: "O nível de dificuldade da pergunta."
-            },
-            points: { type: Type.INTEGER, description: 'A quantidade de pontos que esta questão vale.' },
+            questionText: { type: Type.STRING },
+            difficulty: { type: Type.STRING, enum: ['Fácil', 'Médio', 'Difícil'] },
+            points: { type: Type.INTEGER },
             options: {
               type: Type.ARRAY,
-              description: 'Uma lista de exatamente 3 opções de resposta.',
               items: {
                 type: Type.OBJECT,
                 properties: {
-                  text: { type: Type.STRING, description: 'O texto da opção de resposta.' },
-                  isCorrect: { type: Type.BOOLEAN, description: 'Indica se esta é a resposta correta.' },
+                  text: { type: Type.STRING },
+                  isCorrect: { type: Type.BOOLEAN },
                 },
                 required: ['text', 'isCorrect'],
               },
             },
-            rationale: { type: Type.STRING, description: 'Uma breve justificativa técnica para a resposta correta.' },
+            rationale: { type: Type.STRING },
           },
           required: ['questionText', 'difficulty', 'points', 'options', 'rationale'],
         },
@@ -113,48 +103,41 @@ export const geminiService = {
     if (geminiInitializationError) return geminiInitializationError;
     if (!geminiAiClient) return "Cliente Gemini AI não inicializado.";
     try {
-      const systemInstruction = `Você é um mentor sábio e encorajador chamado Mestre Jin. Avalie o plano estratégico do guerreiro focado em "${softSkill}".
-      Estruture seu feedback em markdown:
-      - **### Pontos Fortes da Sua Abordagem**
-      - **### Áreas para Aprofundar a Sabedoria**`;
-
+      const systemInstruction = `Você é o Mestre Jin. Avalie o plano estratégico sobre "${softSkill}" em markdown.`;
       const response = await geminiAiClient.models.generateContent({
         model: "gemini-3-flash-preview",
         contents: plan,
-        config: {
-          systemInstruction: systemInstruction,
-          temperature: 0.7,
-        },
+        config: { systemInstruction, temperature: 0.7 },
       });
-
-      return response.text || "Os ventos da magia estão turbulentos.";
+      return response.text || "Erro na avaliação.";
     } catch (error) {
-      return handleApiError(error, "avaliação de plano");
+      return handleApiError(error, "avaliação");
     }
   },
 
   generateQuiz: async (context: string, challengeTitle: string, totalPoints: number): Promise<QuizQuestion[] | string> => {
-    const systemInstruction = `Você é um mestre examinador rigoroso. Sua missão é criar um quiz onde a resposta correta seja IMPOSSÍVEL de adivinhar apenas pela lógica de exclusão ou formato do texto.
+    const systemInstruction = `Você é um Consultor Sênior de RH e Mestre da Jornada. Sua missão é criar um quiz de ALTA QUALIDADE que misture interpretação de casos reais com conceitos técnicos.
 
-REGRAS DE OURO CONTRA TRAPAÇA (CRÍTICO):
-1. **SIMETRIA TOTAL**: As 3 alternativas DEVEM ter quase o mesmo número de palavras e a mesma estrutura gramatical. Nunca deixe a correta ser mais longa ou mais detalhada.
-2. **PLAUSIBILIDADE**: As erradas não podem ser absurdas. Devem ser opções que pareçam corretas para quem não estudou profundamente (falsos amigos).
-3. **SEM PISTAS**: Não use "sempre", "nunca", "apenas" ou "todos".
-4. **FOCO EM APLICAÇÃO**: Em vez de "O que é X?", use "No cenário Y, qual a melhor forma de aplicar X?".
+ESTRUTURA OBRIGATÓRIA (10 Questões):
+- 5 Fáceis: Conceitos, definições e fundamentos do material.
+- 4 Médias: Mini-cases corporativos (3-5 linhas) apresentando um dilema de trabalho onde o aluno deve aplicar o conhecimento.
+- 1 Difícil: Um "Grande Caso" complexo (6-8 linhas) que exige análise crítica de múltiplos fatores do material.
 
-ESTRUTURA:
-- 10 Perguntas (5 Fácil, 4 Médio, 1 Difícil).
-- Fácil: Definições técnicas.
-- Médio: Dilemas curtos (3-4 linhas).
-- Difícil: Caso complexo onde as 3 opções são planos de ação bem escritos, mas apenas um segue o material estritamente.`;
+PROTOCOLO ANTI-TRAPAÇA E QUALIDADE (ESSENCIAL):
+1. STORYTELLING CORPORATIVO: As perguntas médias e difíceis devem situar o aluno em um contexto (Ex: "Durante uma fusão de empresas...", "Ao liderar uma equipe remota...").
+2. SIMETRIA NAS OPÇÕES: As 3 alternativas DEVEM ter quase o mesmo número de palavras e a mesma complexidade gramatical. Não deixe a resposta correta ser a mais longa ou a mais detalhada.
+3. PLAUSIBILIDADE: Use distratores (respostas erradas) que pareçam escolhas profissionais sensatas para quem não estudou, mas que erram em detalhes técnicos específicos do material.
+4. SEM PISTAS: Jamais use termos como "sempre", "nunca", "apenas" ou "somente".
+5. INTERPRETAÇÃO: Evite perguntas de 'decoreba'. Foque em 'Como o conceito X resolve o problema do caso Y?'.`;
       
     return generateQuizBase(context, challengeTitle, totalPoints, systemInstruction, baseQuizSchema);
   },
 
   generateRedemptionQuiz: async (context: string, challengeTitle: string, totalPoints: number): Promise<QuizQuestion[] | string> => {
-    const systemInstruction = `Crie um Quiz de Redenção de alta complexidade. 
-    Não deve haver margem para adivinhação. As opções devem ser tecnicamente densas e simétricas.
-    Foque em 5 perguntas de nível Médio e 5 de nível Difícil.`;
+    const systemInstruction = `Crie um Quiz de Redenção. 
+    Foque 100% em interpretação de casos de alta complexidade. 
+    Todas as perguntas devem ser de nível Médio ou Difícil. 
+    Mantenha o protocolo de simetria absoluta nas opções para evitar adivinhação.`;
       
     return generateQuizBase(context, challengeTitle, totalPoints, systemInstruction, baseQuizSchema);
   },
@@ -170,7 +153,7 @@ ESTRUTURA:
       });
       return response.text || "Os espíritos estão confusos.";
     } catch (error) {
-      return handleApiError(error, "geração de feedback final");
+      return handleApiError(error, "feedback");
     }
   },
   
@@ -211,8 +194,7 @@ ESTRUTURA:
     };
 
     try {
-      const systemInstruction = `Você é um avaliador técnico. Calcule a soma dos pontos apenas dos acertos. Forneça feedback técnico para cada questão explicando o erro ou acerto com base no material original.`;
-
+      const systemInstruction = `Avalie as respostas comparando com o gabarito. Atribua pontos apenas para respostas corretas. Forneça feedback técnico-épico.`;
       const response = await geminiAiClient.models.generateContent({
         model: 'gemini-3-flash-preview',
         contents: `Corrija: ${JSON.stringify(promptPayload)}`,
@@ -223,7 +205,6 @@ ESTRUTURA:
           temperature: 0.2,
         },
       });
-
       return JSON.parse(response.text);
     } catch (error) {
        throw new Error("Erro na correção.");
@@ -233,7 +214,7 @@ ESTRUTURA:
   getStudentProgressAnalysis: async (playerName: string, currentIsland: Island, progress: PlayerProgress, taskFeedback?: PlayerData['taskFeedback']): Promise<string> => {
     if (geminiInitializationError) return geminiInitializationError;
     if (!geminiAiClient) return "Cliente Gemini AI não inicializado.";
-    const prompt = `Analise a evolução de ${playerName} na ilha ${currentIsland.name} (${currentIsland.softSkill}).`;
+    const prompt = `Analise a evolução de ${playerName} na ilha ${currentIsland.name}.`;
     try {
       const response = await geminiAiClient.models.generateContent({
         model: "gemini-3-flash-preview",
@@ -241,7 +222,7 @@ ESTRUTURA:
       });
       return response.text || "Sem análise.";
     } catch (error) {
-      return handleApiError(error, "análise de progresso");
+      return handleApiError(error, "análise");
     }
   },
   
@@ -262,7 +243,7 @@ ESTRUTURA:
     try {
         const response = await geminiAiClient.models.generateContent({
             model: 'gemini-3-flash-preview',
-            contents: `Crie uma afirmação sutilmente verdadeira ou falsa sobre ${island.softSkill}.`,
+            contents: `Crie uma afirmação sobre ${island.softSkill}.`,
             config: {
                 responseMimeType: 'application/json',
                 responseSchema: schema,
