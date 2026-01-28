@@ -1,4 +1,3 @@
-
 import { Island } from './types';
 
 export const MAIN_BACKGROUND_URL = 'https://i.imgur.com/0XH0wzI_d.png?maxwidth=520&shape=thumb&fidelity=high';
@@ -305,7 +304,8 @@ export const ISLANDS: Island[] = [
           { "type": "article", "label": "Artigo Técnico", "url": "#" },
           { "type": "audio", "label": "Áudio Artigo", "url": "#" },
           { "type": "podcast", "label": "PODCAST 1", "url": "#" }
-        ]
+        ],
+        "quizId": "island-4-challenge-1"
       },
       {
         "id": 2,
@@ -317,7 +317,8 @@ export const ISLANDS: Island[] = [
           { "type": "audio", "label": "Áudio Livro - Parte II", "url": "#" },
           { "type": "book", "label": "Livro", "url": "#" },
           { "type": "podcast", "label": "PODCAST 2", "url": "#" }
-        ]
+        ],
+        "quizId": "island-4-challenge-2"
       },
       {
         "id": 3,
@@ -328,7 +329,8 @@ export const ISLANDS: Island[] = [
           { "type": "video", "label": "TEDx", "url": "#" },
           { "type": "podcast", "label": "PODCAST 3", "url": "#" },
           { "type": "case_study", "label": "Estudo de Caso", "url": "#" }
-        ]
+        ],
+        "quizId": "island-4-challenge-3"
       },
       {
         "id": 4,
@@ -368,7 +370,8 @@ export const ISLANDS: Island[] = [
           { "type": "article", "label": "Artigo Técnico", "url": "#" },
           { "type": "audio", "label": "Áudio Artigo", "url": "#" },
           { "type": "podcast", "label": "PODCAST 1", "url": "#" }
-        ]
+        ],
+        "quizId": "island-5-challenge-1"
       },
       {
         "id": 2,
@@ -380,7 +383,8 @@ export const ISLANDS: Island[] = [
           { "type": "audio", "label": "Áudio Livro - Parte II", "url": "#" },
           { "type": "book", "label": "Livro", "url": "#" },
           { "type": "podcast", "label": "PODCAST 2", "url": "#" }
-        ]
+        ],
+        "quizId": "island-5-challenge-2"
       },
       {
         "id": 3,
@@ -391,7 +395,8 @@ export const ISLANDS: Island[] = [
           { "type": "video", "label": "TEDx", "url": "#" },
           { "type": "podcast", "label": "PODCAST 3", "url": "#" },
           { "type": "case_study", "label": "Estudo de Caso", "url": "#" }
-        ]
+        ],
+        "quizId": "island-5-challenge-3"
       },
       {
         "id": 4,
@@ -431,7 +436,8 @@ export const ISLANDS: Island[] = [
           { "type": "article", "label": "Artigo Técnico", "url": "#" },
           { "type": "audio", "label": "Áudio Artigo", "url": "#" },
           { "type": "podcast", "label": "PODCAST 1", "url": "#" }
-        ]
+        ],
+        "quizId": "island-6-challenge-1"
       },
       {
         "id": 2,
@@ -443,7 +449,8 @@ export const ISLANDS: Island[] = [
           { "type": "audio", "label": "Áudio Livro - Parte II", "url": "#" },
           { "type": "book", "label": "Livro", "url": "#" },
           { "type": "podcast", "label": "PODCAST 2", "url": "#" }
-        ]
+        ],
+        "quizId": "island-6-challenge-2"
       },
       {
         "id": 3,
@@ -454,7 +461,8 @@ export const ISLANDS: Island[] = [
           { "type": "video", "label": "TEDx", "url": "#" },
           { "type": "podcast", "label": "PODCAST 3", "url": "#" },
           { "type": "case_study", "label": "Estudo de Caso", "url": "#" }
-        ]
+        ],
+        "quizId": "island-6-challenge-3"
       },
       {
         "id": 4,
@@ -494,7 +502,8 @@ export const ISLANDS: Island[] = [
           { "type": "article", "label": "Artigo Técnico", "url": "#" },
           { "type": "audio", "label": "Áudio Artigo", "url": "#" },
           { "type": "podcast", "label": "PODCAST 1", "url": "#" }
-        ]
+        ],
+        "quizId": "island-7-challenge-1"
       },
       {
         "id": 2,
@@ -506,7 +515,8 @@ export const ISLANDS: Island[] = [
           { "type": "audio", "label": "Áudio Livro - Parte II", "url": "#" },
           { "type": "book", "label": "Livro", "url": "#" },
           { "type": "podcast", "label": "PODCAST 2", "url": "#" }
-        ]
+        ],
+        "quizId": "island-7-challenge-2"
       },
       {
         "id": 3,
@@ -517,7 +527,8 @@ export const ISLANDS: Island[] = [
           { "type": "video", "label": "TEDx", "url": "#" },
           { "type": "podcast", "label": "PODCAST 3", "url": "#" },
           { "type": "case_study", "label": "Estudo de Caso", "url": "#" }
-        ]
+        ],
+        "quizId": "island-7-challenge-3"
       },
       {
         "id": 4,
@@ -557,7 +568,8 @@ export const ISLANDS: Island[] = [
           { "type": "article", "label": "Artigo Técnico", "url": "#" },
           { "type": "audio", "label": "Áudio Artigo", "url": "#" },
           { "type": "podcast", "label": "PODCAST 1", "url": "#" }
-        ]
+        ],
+        "quizId": "island-8-challenge-1"
       },
       {
         "id": 2,
@@ -569,7 +581,8 @@ export const ISLANDS: Island[] = [
           { "type": "audio", "label": "Áudio Livro - Parte II", "url": "#" },
           { "type": "book", "label": "Livro", "url": "#" },
           { "type": "podcast", "label": "PODCAST 2", "url": "#" }
-        ]
+        ],
+        "quizId": "island-8-challenge-2"
       },
       {
         "id": 3,
@@ -580,7 +593,8 @@ export const ISLANDS: Island[] = [
           { "type": "video", "label": "TEDx", "url": "#" },
           { "type": "podcast", "label": "PODCAST 3", "url": "#" },
           { "type": "case_study", "label": "Estudo de Caso", "url": "#" }
-        ]
+        ],
+        "quizId": "island-8-challenge-3"
       },
       {
         "id": 4,
@@ -620,7 +634,8 @@ export const ISLANDS: Island[] = [
           { "type": "article", "label": "Artigo Técnico", "url": "#" },
           { "type": "audio", "label": "Áudio Artigo", "url": "#" },
           { "type": "podcast", "label": "PODCAST 1", "url": "#" }
-        ]
+        ],
+        "quizId": "island-9-challenge-1"
       },
       {
         "id": 2,
@@ -632,7 +647,8 @@ export const ISLANDS: Island[] = [
           { "type": "audio", "label": "Áudio Livro - Parte II", "url": "#" },
           { "type": "book", "label": "Livro", "url": "#" },
           { "type": "podcast", "label": "PODCAST 2", "url": "#" }
-        ]
+        ],
+        "quizId": "island-9-challenge-2"
       },
       {
         "id": 3,
@@ -643,7 +659,8 @@ export const ISLANDS: Island[] = [
           { "type": "video", "label": "TEDx", "url": "#" },
           { "type": "podcast", "label": "PODCAST 3", "url": "#" },
           { "type": "case_study", "label": "Estudo de Caso", "url": "#" }
-        ]
+        ],
+        "quizId": "island-9-challenge-3"
       },
       {
         "id": 4,
@@ -683,7 +700,8 @@ export const ISLANDS: Island[] = [
           { "type": "article", "label": "Artigo Técnico", "url": "#" },
           { "type": "audio", "label": "Áudio Artigo", "url": "#" },
           { "type": "podcast", "label": "PODCAST 1", "url": "#" }
-        ]
+        ],
+        "quizId": "island-10-challenge-1"
       },
       {
         "id": 2,
@@ -695,7 +713,8 @@ export const ISLANDS: Island[] = [
           { "type": "audio", "label": "Áudio Livro - Parte II", "url": "#" },
           { "type": "book", "label": "Livro", "url": "#" },
           { "type": "podcast", "label": "PODCAST 2", "url": "#" }
-        ]
+        ],
+        "quizId": "island-10-challenge-2"
       },
       {
         "id": 3,
@@ -706,7 +725,8 @@ export const ISLANDS: Island[] = [
           { "type": "video", "label": "TEDx", "url": "#" },
           { "type": "podcast", "label": "PODCAST 3", "url": "#" },
           { "type": "case_study", "label": "Estudo de Caso", "url": "#" }
-        ]
+        ],
+        "quizId": "island-10-challenge-3"
       },
       {
         "id": 4,
